@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    
+    <link rel="shortcut icon" th:href="@{/source/images/favicon.ico}"/>
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="stylesheet" th:href="@{/css/daemon.css}">
+    <link rel="stylesheet" th:href="@{/css/whole_article.css}">
+    <script th:src="@{/js/sweetalert2.all.min.js}"></script>
+    <script th:src="@{/js/sweetalert2.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/js/sweetalert2.min.css}">
+    <title>LeoBlog--article</title>
+    <style>
+        .whole {
+            /*margin: 3380px 0 0 0px;*/
+            width: 80%;
+        }
+        
+        .whole .Article .img {
+            width: 300px;
+            margin-left: 70px;
+            
+        }
+        
+        .whole .Article {
+            border-bottom: 0px solid #ccc;
+        }
+        
+        .change a, .delete a, .submit a {
+            height: 100%;
+            width: 100%;
+            display: block;
+            font-size: 20px;
+            color: #134857;
+        }
+        
+        div#comment {
+            margin-top: 10px;
+        }
+        
+        .title {
+            height: 60px;
+            line-height: 60px;
+            font-size: 20px;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .author {
+            height: 30px;
+            line-height: 30px;
+            font-size: 16px;
+            /* font-weight: 600; */
+            text-align: center;
+            background: #13485724
+        }
+        
+        .time {
+            height: 30px;
+            line-height: 30px;
+            font-size: 16px;
+            /* font-weight: 600; */
+            text-align: center;
+            color: #13485766;
+            background: #13485724
+        }
+        
+        .content {
+            line-height: 30px;
+            font-size: 16px;
+            /* font-weight: 600; */
+            margin-bottom: 20px;
+            color: #134857;
+            padding: 10px 60px;
+            text-align: left;
+        }
+        
+        .whole .headBg {
+            /*background: #134857;*/
+            /*height: calc(100% - 60px);*/
+            /*width: calc(60%);*/
+            /*line-height: 60px;*/
+            /*font-size: 20px;*/
+            /*font-weight: 600;*/
+            text-align: center;
+            background-color: #d8e3e7;
+            /*宽度为图片宽度的一半*/
+            width: calc(60%);
+            /*高度为图片高度的一半*/
+            height: calc(60%);
+            margin: 0 auto;
+        }
+        
+        .headBg img {
+            border-radius: 5px;
+            /*margin: 10px auto 10px auto;*/
+
+            
+        }
+        
+        .head {
+            /*float: left;*/
+            font-size: 18px;
+            font-weight: 600;
+            color: #134857;
+            height: 40px;
+            width: 200px;
+            line-height: 40px;
+            margin-left: 60px;
+        }
+        
+        .content1 {
+            float: left;
+            margin-left: 60px;
+            margin-bottom: 20px;
+            
+        }
+        
+        .commentBtn {
+            float: left;
+            text-align: center;
+            margin-top: 70px;
+            height: 40px;
+            width: 60px;
+            margin-left: 20px;
+        }
+        
+        .commentBtn button {
+            width: 100%;
+            height: 100%;
+            line-height: 30px;
+            font-size: 30px;
+            /* font-weight: 600; */
+            text-align: center;
+            background: #13485724;
+            border-radius: 10px;
+            border-width: 0;
+        }
+    
+    </style>
+    <script referrerpolicy="origin" th:src="@{/js/tinymce/js/tinymce/tinymce.min.js}"></script>
+    <script>
+        tinymce.init({
+            selector: '#mytextarea',
+            language: 'zh_CN',//注意大小写
+            menubar: false,
+            plugins: 'wordcount pagebreak autoresize', //字符串方式
+            width: 1100,
+            height: 532,
+            resize: false,
+            // statusbar: false,  // 状态栏显示
+            toolbar: false,
+            autoresize_overflow_padding: 20,
+            contextmenu_never_use_native: true,
+            toolbar_sticky: true,
+            br_in_pre: false,
+            readonly: true,
+            content_css_cors: true,
+            content_css: '../css/editor_font.css',
+            
+        });
+        tinymce.init({
+            selector: '#mycomment',
+            language: 'zh_CN',//注意大小写
+            menubar: false,
+            plugins: 'autoresize autolink link image', //字符串方式
+            width: 800,
+            height: 150,
+            resize: false,
+            statusbar: false,  // 状态栏显示
+            toolbar: false,
+            autoresize_overflow_padding: 20,
+            contextmenu_never_use_native: true,
+            toolbar_sticky: true,
+            br_in_pre: false,
+            // readonly: true,
+            content_css_cors: true,
+            content_css: '../css/editor_font.css',
+        });
+        tinymce.init({
+            selector: '#mycomment1',
+            language: 'zh_CN',//注意大小写
+            menubar: false,
+            plugins: 'autoresize autolink link image', //字符串方式
+            width: 800,
+            height: 150,
+            resize: false,
+            statusbar: false,  // 状态栏显示
+            toolbar: false,
+            autoresize_overflow_padding: 20,
+            contextmenu_never_use_native: true,
+            toolbar_sticky: true,
+            br_in_pre: false,
+            // readonly: true,
+            content_css_cors: true,
+            content_css: '../css/editor_font.css',
+        });
+    </script>
+    <style>
+        .whole .oneLevelComment{
+            margin-left: 60px;
+            /*height: 80px;*/
+            width: 85%;
+            padding-top: 5px;
+            border-top: 1px solid #1348573b;
+        }
+        #oneLevelComment,#twoLevelComment{
+            height: 80px;
+            width: 100%;
+            background: white;
+            
+        }
+        #twoLevelComment{
+            margin-left: 70px;
+            
+        }
+
+        #oneLevelComment .pic1 ,#twoLevelComment .pic1{
+            float: left;
+            height: 80px;
+            width: 60px;
+            margin-left: 10px;
+        }
+        #oneLevelComment .pic1 img,#twoLevelComment .pic1 img{
+            width: 50px;
+            height: 50px;
+            border-radius: 25px;
+            padding: 5px;
+        }
+        #oneLevelComment .pic1 .sender,#twoLevelComment .pic1 .sender{
+            height: 20px;
+            line-height: 20px;
+            width: 60px;
+            color: #134857;
+            font-size: 15px;
+            font-weight: bold;
+            
+        }
+        #oneLevelComment .comment1,#twoLevelComment .comment1{
+            float: left;
+            height: 70px;
+            width: 905px;
+            color: #134857;
+            font-size: 16px;
+            line-height: 20px;
+            padding: 10px;
+            text-align: left;
+            background: #1133440f;
+            border-radius: 10px;
+            overflow: auto;
+            border-width:0 ;
+            
+        }
+        #twoLevelComment .comment1{
+            width: 835px;
+        }
+        #oneLevelComment .comment1:hover,#twoLevelComment .comment1:hover{
+            cursor: pointer;
+        }
+        #oneLevelComment .edit,#twoLevelComment .edit{
+            float: left;
+            height: 100%;
+            width: 5%;
+
+        }
+        #oneLevelComment .edit .delete1,.change1,.reply1,#twoLevelComment .edit .delete1,.change1,.reply1{
+            color: #134857;
+            font-size: 14px;
+            margin: 0 0 5px 16px;
+            text-align: center;
+            /* border: 1px solid; */
+            border-radius: 15px;
+            width: 40px;
+            height: 20px;
+            line-height: 20px;
+            background: #dee5e7;
+    
+        }
+        #oneLevelComment .edit .delete1:hover,.change1:hover,.reply1:hover,#twoLevelComment .edit .delete1:hover,.change1:hover,.reply1:hover{
+            cursor: pointer;
+        }
+    
+    </style>
+</head>
+
+<body>
+<div class="musicbox" th:include="component/component::musicbox"></div>
+<div class="header" th:include="component/component::header"></div>
+
+<div class="whole" style="margin-left: 150px">
+    <div class="headBg">
+        <img alt="" src="" id="bg"
+             th:src="@{${article.getPicUrl().startsWith('h')?article.getPicUrl():'/'+article.getPicUrl()}}"/>
+    </div>
+    <div class="title" th:inline="text"><span class="iconfont">&#xe630;</span> [[${article.getTitle()}]]
+    </div>
+    <div class="author" th:inline="text"><span class="iconfont">&#xe6b3;</span> [[${article.getAuthor()}]]
+    </div>
+    <div class="time" th:text="${timeFormat}"><span class="iconfont">&#xe6fb;</span>
+    </div>
+    <div class="content">
+        <textarea id="mytextarea" name="content1" th:utext="${article.getComment()}"></textarea>
+    </div>
+    
+    <form class="createComment" action="javascript:void(0)" style="width: 100%;height: 180px;">
+        <div class="head">在此写下你的评论吧...</div>
+        <div class="content1">
+            <textarea id="mycomment" name="content"></textarea>
+        </div>
+        <div class="commentBtn">
+            <button class="bbb"><span class="iconfont">&#xec46;</span></button>
+        </div>
+    </form>
+    
+
+    <div class="oneLevelComment" th:each="oneLevelComment,oneStatus:${oneLevelComments}">
+        <div id="oneLevelComment">
+            <div class="pic1">
+                <img th:src="@{'/'+${oneLevelSenders.get(oneStatus.index).getUserPic()}}" alt="">
+                <div class="sender" th:text="${oneLevelSenders.get(oneStatus.index).getUserName()}"></div>
+            </div>
+            <div class="comment1"  contenteditable="false" th:utext="${oneLevelComment.getContent()}" ></div>
+            <div class="edit">
+                <div class="delete1" th:style="${oneLevelComment.getSenderId()==#session.getAttribute('user').getUserId()?'display:block':'display:none'}"><span class="iconfont">&#xe611;</span></div>
+                <div class="change1" th:style="${oneLevelComment.getSenderId()==#session.getAttribute('user').getUserId()?'display:block':'display:none'}"><span class="iconfont">&#xe60d;</span></div>
+                <div class="reply1"><span class="iconfont">&#xe609;</span></div>
+                <input type="hidden" name="commentId" th:value="${oneLevelComment.getCommentId()}">
+            </div>
+        </div>
+<!--        二级评论展示区-->
+        <div id="twoLevelComment"  th:each="twoLevelComment,twoStatus:${twoLevelComments.get(oneStatus.index)}">
+            <div class="pic1">
+                <img th:src="@{'/'+${twoLevelSenders.get(oneStatus.index).get(twoStatus.index).getUserPic()}}" alt="">
+                <div class="sender" th:text="${twoLevelSenders.get(oneStatus.index).get(twoStatus.index).getUserName()}"></div>
+            </div>
+            <div class="comment1"  contenteditable="false" th:utext="${twoLevelComment.getContent()}" ></div>
+            <div class="edit">
+                <div class="delete1" th:style="${twoLevelComment.getSenderId()==#session.getAttribute('user').getUserId()?'display:block':'display:none'}"><span class="iconfont">&#xe611;</span></div>
+                <div class="change1" th:style="${twoLevelComment.getSenderId()==#session.getAttribute('user').getUserId()?'display:block':'display:none'}"><span class="iconfont">&#xe60d;</span></div>
+                <div class="reply1"><span class="iconfont">&#xe609;</span></div>
+                <input type="hidden" name="commentId" th:value="${twoLevelComment.getCommentId()}">
+            </div>
+        </div>
+        
+<!--        回复编辑器模板-->
+        <div id="twoLevelComment" class="replyTemp" style="display: none;">
+            <div class="comment1"  contenteditable="plaintext-only" style="margin-left: 70px;overflow: auto"></div>
+            <div class="edit" >
+                <div class="delete1 delete2"><span class="iconfont">&#xe611;</span></div>
+                <div class="change1 save2" ><span class="iconfont">&#xe8c8;</span></div>
+                <div class="reply1" style="display: none"><span class="iconfont">&#xe609;</span></div>
+                <input type="hidden" name="commentId" th:value="${oneLevelComment.getCommentId()}">
+            </div>
+        </div>
+
+    </div>
+<!--    <div class="end" style="height: 20px;width: 100%;margin: 10px 0;color: #1133448f;">已经到底线了</div>-->
+    
+    
+    <script th:inline="javascript">
+
+        const submitBtu0 = document.getElementsByClassName("bbb")[0];
+        //新建一级评论
+        submitBtu0.onclick =  function () {
+            var content = tinymce.get('mycomment').getContent();
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/LeoBlog/comment/-1/new");
+            var formData = new FormData();
+            formData.set("content", content);
+            formData.set("articleId", [[${article.getArticleId()}]]);
+            formData.set("senderId", [[${#session.getAttribute("user").getUserId()}]]);
+            formData.set("oneLevel", 1);
+            xhr.send(formData);
+            xhr.onreadystatechange = function () {
+                var response = JSON.parse(xhr.responseText);
+                var code = response.code
+                var msg = response.msg;
+                if(code === 200){
+                    Swal.fire({
+                        title: msg,
+                        icon: 'success',
+                        confirmButtonText: '确定'
+                    }).then(function () {
+                        // tinymce.get('mycomment').setContent('');
+                        window.location.reload();
+                    })
+                }else{
+                   Swal.fire({
+                        title: msg,
+                        icon: 'error',
+                        confirmButtonText: '确定'
+                    })
+                }
+            }
+
+        }
+        //删除评论
+        var del=document.getElementsByClassName("delete1");
+        for (var i=0;i<del.length;i++){
+            
+            var deleteFunction=function () {
+                console.log("delete=============");
+                Swal.fire({
+                    title: '确定删除该评论吗？',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消'
+                }).then((result) => {
+                    if (result.value) {
+                        // 获取父节点的最后一个子节点
+                        var commentId = this.parentNode.childNodes[7].value;
+                        // console.log(this.parentNode.childNodes[7]);
+                        var xhr = new XMLHttpRequest();
+                        xhr.open("DELETE", "/LeoBlog/comment/" + commentId);
+                        var formData = new FormData();
+                        formData.set("commentId", commentId);
+                        xhr.send(formData);
+                        xhr.onreadystatechange = function () {
+                            var response = JSON.parse(xhr.responseText);
+                            var code = response.code
+                            var msg = response.msg;
+                            if (code === 200) {
+                                Swal.fire({
+                                    title: msg,
+                                    icon: 'success',
+                                    confirmButtonText: '确定'
+                                }).then(function () {
+                                    window.location.reload();
+                                })
+                            } else {
+                                Swal.fire({
+                                    title: msg,
+                                    icon: 'error',
+                                    confirmButtonText: '确定'
+                                })
+                            }
+                        }
+                    }
+
+                })
+            
+            }
+            del[i].onclick = deleteFunction;
+        }
+        
+        //修改评论
+        var edit=document.getElementsByClassName("change1");
+        for (var j=0;j<edit.length;j++){
+            edit[j].onclick=function () {
+                var btu = this.parentNode.parentNode.childNodes[3];
+                var text = btu.textContent;
+                btu.onfocus=function () {
+                    this.style.cursor="text";
+                }
+                console.log(btu);
+                //取消readonly属性
+                // 设置属性
+                btu.setAttribute("contenteditable","plaintext-only");
+                btu.focus();
+                var save = this.parentNode.childNodes[1];
+                save.innerHTML="<span class=\"iconfont\">&#xe8c8;</span></div>";
+                // btu失去焦点
+                btu.onblur=function () {
+                    if(this.textContent!==text){
+                        Swal.fire({
+                            title: '检测到评论已被修改',
+                            text: "修改后的评论尚未更新，要更新吗？",
+                            icon:'question',
+                            showCancelButton: true,
+                            confirmButtonText: '确定',
+                            cancelButtonText: '取消'
+                        }).then((result)=>{
+                            if(result.value){
+                                var commentId = this.parentNode.childNodes[5].childNodes[7].value;
+                                
+                                var commentContent = btu.textContent;
+                                var xhr = new XMLHttpRequest();
+                                xhr.open("PUT", "/LeoBlog/comment/" + commentId+"/change");
+                                var formData = new FormData();
+                                formData.set("commentId", commentId);
+                                formData.set("commentContent", commentContent);
+                                xhr.send(formData);
+                                xhr.onreadystatechange = function () {
+                                    var response = JSON.parse(xhr.responseText);
+                                    var code = response.code
+                                    var msg = response.msg;
+                                    if (code === 200) {
+                                        Swal.fire({
+                                            title: msg,
+                                            icon: 'success',
+                                            confirmButtonText: '确定'
+                                        }).then(function () {
+                                            window.location.reload();
+                                        })
+                                    } else {
+                                        Swal.fire({
+                                            title: msg,
+                                            icon: 'error',
+                                            confirmButtonText: '确定'
+                                        })
+                                    }
+                                }
+                            }else{
+                                this.textContent=text;
+                                btu.setAttribute("contenteditable","false");
+                                this.parentNode.childNodes[5].childNodes[1].innerHTML="<span class=\"iconfont\">&#xe611;</span>";
+                                // 取消save的点击发布功能
+                                save.onclick=deleteFunction;
+                            }
+                        })
+                    }
+                
+                save.onclick = publish;
+                     var publish =function () {
+                    Swal.fire({
+                        title:"确认发布吗？",
+                        icon:"question",
+                        showCancelButton:true,
+                        confirmButtonText:"确定",
+                        cancelButtonText:"取消"
+                    }).then((result)=>{
+                        if (result.value){
+                            var commentId = this.parentNode.childNodes[7].value;
+                            var commentContent = btu.textContent;
+                            var xhr = new XMLHttpRequest();
+                            xhr.open("PUT", "/LeoBlog/comment/" + commentId+"/change");
+                            var formData = new FormData();
+                            formData.set("commentId", commentId);
+                            formData.set("commentContent", commentContent);
+                            xhr.send(formData);
+                            xhr.onreadystatechange = function () {
+                                var response = JSON.parse(xhr.responseText);
+                                var code = response.code
+                                var msg = response.msg;
+                                if (code === 200) {
+                                    Swal.fire({
+                                        title: msg,
+                                        icon: 'success',
+                                        confirmButtonText: '确定'
+                                    }).then(function () {
+                                        window.location.reload();
+                                    })
+                                } else {
+                                    Swal.fire({
+                                        title: msg,
+                                        icon: 'error',
+                                        confirmButtonText: '确定'
+                                    })
+                                }
+                            }
+                        }
+                    })
+                    
+                }
+                
+            }
+            }
+        }
+        
+        //回复评论
+        var reply = document.getElementsByClassName("reply1");
+        for (let i = 0; i <reply.length; i++) {
+            reply[i].onclick=function () {
+                var parentNode = this.parentNode.parentNode;
+                var replyTemp = document.getElementsByClassName("replyTemp")[0];
+                // 在parentNode后面添加twoLevelComment
+                parentNode.parentNode.insertBefore(replyTemp,parentNode.nextSibling);
+                parentNode.nextSibling.style.display="block";
+                var replyEditor =parentNode.nextSibling.childNodes[1];
+                // console.log(replyEditor);
+                replyEditor.focus();
+                var delete2 = document.getElementsByClassName("delete2")[0];
+                delete2.onclick=function () {
+                    this.parentNode.parentNode.style.display="none";
+                }
+                var save2 = document.getElementsByClassName("save2")[0];
+                save2.onclick=function () {
+                    var commentContent = this.parentNode.parentNode.childNodes[1].textContent;
+                    if (commentContent === "") {
+                        Swal.fire({
+                            title: "评论不能为空",
+                            icon: 'error',
+                            confirmButtonText: '确定'
+                        })
+                        return;
+                    }
+                    
+                    var commentToId = this.parentNode.parentNode.parentNode.childNodes[1].childNodes[5].childNodes[7].value;
+                    
+                    
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("POST", "/LeoBlog/comment/"+commentToId+"/new");
+                    var formData = new FormData();
+                    // formData.set("commentToId", commentToId);
+                    formData.set("senderId", [[${#session.getAttribute("user").getUserId()}]]);
+                    // formData.set("commentId", commentId);
+                    formData.set("content", commentContent);
+                    formData.set("articleId", [[${article.getArticleId()}]]);
+                    formData.set("oneLevel",0);
+                    xhr.send(formData);
+                    xhr.onreadystatechange = function () {
+                        var response = JSON.parse(xhr.responseText);
+                        var code = response.code
+                        var msg = response.msg;
+                        if (code === 200) {
+                            Swal.fire({
+                                title: msg,
+                                icon: 'success',
+                                confirmButtonText: '确定'
+                            }).then(function () {
+                                window.location.reload();
+                            })
+                        } else {
+                            Swal.fire({
+                                title: msg,
+                                icon: 'error',
+                                confirmButtonText: '确定'
+                            })
+                        }
+                    }
+                }
+            }
+            
+        }
+        
+        
+        //监控整个页面的滑动
+        //获取rightSelf元素距离页面顶部的距离
+        // let wholeTop = document.querySelector(".whole").offsetTop;
+        // let rightSelf = document.querySelector(".rightSelf")
+        var headBg = document.getElementsByClassName("headBg")[0];
+        var bg = document.getElementById("bg");
+
+        // 监听rightSelf滚动的事件
+        // window.onscroll = function () {
+        //     let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        //     console.log(scrollTop);
+        //     if (135>scrollTop > 0) {
+        //         headBg.style = 'height: 135px;';
+        //     }else{
+        //         // bg.style.display = "block";
+        //         headBg.style = 'height: calc(60%);';
+        //     }
+        // }
+
+    </script>
+
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link rel="shortcut icon" th:href="@{/source/images/favicon.ico}"/>
+    
+    
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="stylesheet" th:href="@{/css/daemon.css}">
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+    <link rel="stylesheet" th:href="@{/css/whole_article.css}">
+    
+    <title>LeoBlog--comment</title>
+    <style>
+        .whole .Article{
+            height: 150px;
+        }
+        .whole #comment{
+            height: 70px;
+            padding-left: 10px;
+            width: 90%;
+            background: #1348571c; border-radius: 5px;float:left;
+        }
+        .edit{
+            float: left;
+            width: 80px;
+            height: 70px;
+            padding-top: 60px;
+        }
+        .edit .delete1,.change1{
+            
+            color: #134857;
+            font-size: 16px;
+            margin: 0 0 5px 16px;
+            text-align: center;
+            /* border: 1px solid; */
+            border-radius: 15px;
+            width: 40px;
+            height: 20px;
+            line-height: 20px;
+            background: #dee5e7;
+        }
+        .edit .delete1,.change1{
+            cursor: pointer;
+        }
+    </style>
+
+</head>
+
+<body>
+<div class="musicbox" th:include="component/component::musicbox"></div>
+<div class="header" th:include="component/component::header"></div>
+<div class="shell" th:include="component/component::shell"></div>
+
+<div class="whole">
+    
+    <div class="Article" th:each="comment,commentState:${myComments}">
+        <div class="right" style="width: 100%;padding: 5px 50px">
+            <div class="at" style="height: 50px;width: 890px;line-height: 40px;">
+                <a th:href="@{'/article/'+${comment.getArticleId()}}"
+                   th:utext="${articlesForComments.get(commentState.index).getTitle()}"></a>
+            </div>
+            <div class="user" style="width: 100%; height: 40px;padding-left: 15px;display: none">
+                <div class="userPPic"
+                     style="float: left;height: 40px;width: 40px;border-radius: 20px;box-shadow: 1px 2px 3px #134857">
+                    <img alt=""
+                         style="height: 100%;width: 100%;border-radius: 20px;" th:src="@{'/'+${#session.getAttribute('user').getUserPic()}}"></div>
+                <div class="user" style="float: left;height: 40px;padding-left: 30px;line-height: 40px"
+                     th:text="${#session.getAttribute('user').getUserName()}"></div>
+            </div>
+            
+            <div class="comment" id="comment"
+                 th:utext="${comment.getContent()}"></div>
+            <div class="edit">
+                <div class="delete1 delete2"><span class="iconfont">&#xe611;</span></div>
+                <input type="hidden" th:value="${comment.getCommentId()}" id="commentId"/>
+<!--                <div class="change1 save2" ><span class="iconfont">&#xe8c8;</span></div>-->
+            </div>
+            
+        </div>
+    </div>
+    
+    <a th:href="@{/articles/publish}" th:if="${myComments.size()==0}"><h3>暂无评论,点击看今日新文。</h3></a>
+
+
+</div>
+<script>
+    //删除评论
+    var del=document.getElementsByClassName("delete1");
+    for (var i=0;i<del.length;i++){
+        
+        var deleteFunction=function () {
+            console.log("delete=============");
+            Swal.fire({
+                title: '确定删除该评论吗？',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: '确定',
+                cancelButtonText: '取消'
+            }).then((result) => {
+                if (result.value) {
+                    // 获取父节点的最后一个子节点
+                    var commentId = this.nextSibling.value;
+                    // console.log(this.parentNode.childNodes[7]);
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("DELETE", "/LeoBlog/comment/" + commentId);
+                    var formData = new FormData();
+                    formData.set("commentId", commentId);
+                    xhr.send(formData);
+                    xhr.onreadystatechange = function () {
+                        var response = JSON.parse(xhr.responseText);
+                        var code = response.code
+                        var msg = response.msg;
+                        if (code === 200) {
+                            Swal.fire({
+                                title: msg,
+                                icon: 'success',
+                                confirmButtonText: '确定'
+                            }).then(function () {
+                                window.location.reload();
+                            })
+                        } else {
+                            Swal.fire({
+                                title: msg,
+                                icon: 'error',
+                                confirmButtonText: '确定'
+                            })
+                        }
+                    }
+                }
+                
+            })
+            
+        }
+        del[i].onclick = deleteFunction;
+    }
+</script>
+
+</body>
+
+</html>

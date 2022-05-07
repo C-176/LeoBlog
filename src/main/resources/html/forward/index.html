@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="" name="keywords">
+    <title>LeoBlog</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="stylesheet" th:href="@{/css/daemon.css}">
+    <link rel="shortcut icon" th:href="@{/source/images/favicon.ico}"/>
+    <link rel="stylesheet" th:href="@{/css/loading.css}">
+    <script th:src="@{/js/sweetalert2.all.min.js}"></script>
+    <script th:src="@{/js/sweetalert2.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/js/sweetalert2.min.css}">
+
+</head>
+
+<body style="height: 100vh;overflow: hidden;">
+
+
+<!--    预加载页面-->
+<div class="container" style="z-index: 4">
+    <div class="iron-man">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <img alt="" src="" th:src="@{/source/images/iron_man.png}">
+    </div>
+    <div class="lines">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <div class="loading-text">灭霸你给我等着，等我加载完</div>
+</div>
+<!--// 预加载页面-->
+<script>
+    if (document.cookie.indexOf("user=new") === -1) {
+        // 写入cookie,path=/
+        document.cookie = "user=new;path=/";
+        
+        setTimeout(function () {
+            document.getElementsByClassName("container")[0].style.display = "none";
+            // document.getElementsByClassName("container")[0].style.transition = "all 1s";
+            document.getElementsByTagName("body")[0].style.overflow = "auto";
+            document.getElementsByTagName("body")[0].style.height = "100%";
+            // document.getElementsByTagName("body")[0].style.transition="all 1s";
+        }, 3000);
+        
+    } else {
+        // setTimeout(function () {
+            document.getElementsByClassName("container")[0].style.display = "none";
+            document.getElementsByTagName("body")[0].style.overflow = "auto";
+            document.getElementsByTagName("body")[0].style.height = "100%";
+        // }, 500);
+    }
+
+</script>
+
+<!--header-->
+<div class="headerInsert" th:insert="component/component::header"></div>
+<!--whole-->
+<div class="whole">
+    <!--      头部滚动图-->
+    <div class="a">
+        <div><img alt="" class="b" src="" th:src="@{'/source/images/index/'+${randomList[0]}+'.jpg'}"></div>
+        <div class="c">
+            <div class="d"><img alt="" src="" th:src="@{'/source/images/index/'+${randomList[0]}+'.jpg'}"></div>
+            <div class="d"><img alt="" src="" th:src="@{'/source/images/index/'+${randomList[1]}+'.jpg'}"></div>
+            <div class="d"><img alt="" src="" th:src="@{'/source/images/index/'+${randomList[2]}+'.jpg'}"></div>
+            <div class="d"><img alt="" src="" th:src="@{'/source/images/index/'+${randomList[3]}+'.jpg'}"></div>
+            <div class="d"><img alt="" src="" th:src="@{'/source/images/index/'+${randomList[4]}+'.jpg'}"></div>
+        </div>
+    </div>
+    <!--      文章展示-->
+    <div class="Article" th:each="article:${articleList}">
+        <div class="img">
+            <img alt="" src=""
+                 th:src="@{${article.getPicUrl().startsWith('h')?article.getPicUrl():'/'+article.getPicUrl()}}"/>
+        </div>
+        <div class="right">
+            <div class="at"><a th:href="@{'/article/'+${article.getArticleId()}}" th:inline="text"><span
+                    class="iconfont">&#xead9;</span> [[${article.getTitle()}]]</a>
+            </div>
+            <div class="author" th:inline="text"><span class="iconfont">&#xe6b3;</span> [[${article.getAuthor()}]]</div>
+            <div class="comment" th:utext="${article.getComment()}"><%=comment%></div>
+        </div>
+    </div>
+
+</div>
+
+<!--滚动图-->
+<script th:inline="javascript">
+    
+    const random = [[${randomList}]];
+    console.log(random);
+    let b = document.querySelector(".b")
+    let d = document.getElementsByClassName("d")
+    
+    let index = 0
+    
+    function a() {
+        for (let i = 0; i < d.length; i++) {
+            d[i].className = "d"
+        }
+    }
+    
+    function aa() {
+        a()
+        d[index].className = "d dd"
+    }
+    
+    // 设置启动轮播图的时间函数
+    function time() {
+        setInterval(function () {
+            aa()
+            b.src = 'source/images/index/' + random[index] + '.jpg';
+            index = index++ === 4 ? 0 : index++;
+        }, 2000);
+    }
+    
+    for (let i = 0; i < d.length; i++) {
+        d[i].onmousemove = function () {
+            a()
+            b.src = 'source/images/index/' + random[i] + '.jpg';
+            clearInterval(time)
+            index = i;
+        }
+    }
+    // 执行轮播图
+    time();
+
+</script>
+<!--登陆/注册弹窗-->
+<script th:inline="javascript">
+    // 获取session中的info
+    const flag = document.cookie.indexOf("loginOrRegister=true") === -1;
+    
+    window.onload = function () {
+        if (flag) {
+            // 弹窗提示登陆成功
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
+            })
+            
+            Toast.fire({
+                icon: 'success',
+                title: 'Signed in successfully'
+            })
+            // 写入path为/的cookie
+            document.cookie = "loginOrRegister=true;path=/";
+            
+            
+        }
+    }
+</script>
+
+<div class="musicInsert" th:insert="component/component::musicbox"></div>
+<div class="rightInsert" th:insert="component/component::rightSelf"></div>
+<div class="footInsert" th:insert="component/component::foot"></div>
+
+</body>
+
+
+</html>

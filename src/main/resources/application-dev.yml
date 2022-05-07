@@ -1,0 +1,57 @@
+server:
+  port: 8080
+
+  servlet:
+    context-path: /LeoBlog
+
+
+
+  #  静态资源
+#  Path: src/main/resources/static
+spring:
+  #  模板
+  thymeleaf:
+    cache: false
+    prefix: classpath:/html/
+    encoding: UTF-8 #编码
+    suffix: .html #模板后缀
+    mode: HTML #模板
+    check-template: true #检查模板
+
+  #热部署相关
+  devtools:
+    restart:
+      enabled: true
+      poll-interval: 3000
+      quiet-period: 1000
+      additional-paths: src/main/java
+
+  datasource:
+#    type:
+    url: jdbc:mysql://localhost:3306/leoblog?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=True
+    username: root
+    password: chenle123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+
+  servlet:
+    multipart:
+      max-file-size: 2MB #单个文件最大为20M
+      max-request-size: 2MB #单次请求文件总数大小为20M
+
+mybatis:
+  mapper-locations: classpath:/mapper/*.xml
+  #      下划线转驼峰配置
+  #    configuration:map-underscore-to-camel-case:true
+
+
+
+  logging:
+    level:
+      com:
+        chen:
+          LeoBlog: dao:debug
+
+
+pagehelper:
+  helper-dialect: mysql

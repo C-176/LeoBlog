@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> <!--约束文件-->
+
+
+<mapper namespace="com.chen.LeoBlog.dao.UserDao">
+
+    <select id="getUserByName" resultType="com.chen.LeoBlog.po.User">
+        select *
+        from leoblog.userinfo
+        where username = #{username}
+    </select>
+    <select id="getUserByEmail" resultType="com.chen.LeoBlog.po.User">
+        select *
+        from leoblog.userinfo
+        where userEmail = #{userEmail}
+    </select>
+    <select id="getUserById" resultType="com.chen.LeoBlog.po.User">
+        select *
+        from leoblog.userinfo
+        where userId = #{userId}
+    </select>
+    <select id="deleteUserByUserId">
+        DELETE
+        FROM leoblog.userinfo
+        WHERE userId = #{userId}
+        limit 1
+    </select>
+    <!--    <select id="" resultType="">-->
+    <!--        select sql语句-->
+    <!--    </select>-->
+    <!--    <insert id="insertUser">-->
+    <!--        INSERT INTO leoblog.userinfo(userId,userName,userEmail,userIntroduction,userPassword,userSex,userPic,userPos,userBirthday)-->
+    <!--        VALUES (#{userId},#{userName},#{userEmail},#{userIntroduction},#{userPassword},#{userSex},#{userPic},#{userPos},#{userBirthday});-->
+    <!--    </insert>-->
+    <insert id="insertUser">
+        INSERT INTO leoblog.userinfo(userId, userName, userEmail, userPassword)
+        VALUES (#{userId}, #{userName}, #{userEmail}, #{userPassword});
+    </insert>
+
+    <update id="updateUser">
+        UPDATE leoblog.userinfo
+        SET userName         = #{userName},
+            userEmail        = #{userEmail},
+            userPic= #{userPic},
+            userSex=#{userSex},
+            userIntroduction=#{userIntroduction},
+            userPos=#{userPos},
+            userBirthday=#{userBirthday},
+            userIndustry=#{userIndustry},
+            userEducation=#{userEducation},
+            userCertification=#{userCertification}
+        WHERE userId = #{userId}
+        limit 1
+    </update>
+
+</mapper>

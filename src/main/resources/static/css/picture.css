@@ -1,0 +1,273 @@
+@font-face {
+    font-family: 'iconfont';
+    src: url('../iconfont/iconfont.ttf?t=1635858700112') format('truetype');
+}
+
+@font-face {
+    font-family: 'cyberpunk';
+    src: url('../js/fonts/Cyberpunk-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'ruixian';
+    src: url('../js/fonts/RuiZiRuiXianNuFangHeiJian1-0-1.ttf');
+}
+
+/*@font-face {*/
+/*    font-family: '';*/
+/*    src: url('');*/
+/*}*/
+@font-face {
+    font-family: 'eng';
+    src: url('../js/fonts/Corna-3.ttf');
+}
+
+.iconfont {
+    font-family: "iconfont" !important;
+    /*font-size: 16px;*/
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+
+}
+
+body {
+    font-family: ruixian !important;
+    /*font-weight: 600 !important;*/
+    /*background-color: #0e0f25;*/
+    /*background: url("https://pic3.zhimg.com/v2-a31ab493692b90d88a36a63a90ceb9f2_r.jpg") no-repeat fixed ;*/
+    background: url("../source/images/cyber/Cyberpunk (3).png") no-repeat fixed;
+    background-size: 100% 100%;
+    text-align: center;
+
+}
+
+.white {
+    color: #ffffff;
+    text-shadow: 0 0 30px;
+}
+
+.pink {
+    color: #ff5edb;
+    text-shadow: 0 0 30px;
+}
+
+#totop {
+    height: 60px;
+    width: 60px;
+    position: fixed;
+    bottom: 80px;
+    right: 80px;
+    color: white;
+    font-size: 60px;
+    background-color: transparent;
+    border-radius: 5px;
+}
+
+#totop a {
+    text-decoration: none;
+    color: white;
+}
+
+body > audio {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 250px;
+    transition: all 0.5s 2s;
+}
+
+.header {
+    z-index: 1;
+    position: fixed;
+    width: 2025px;
+    margin: 0 auto;
+    top: 0;
+    left: 0;
+    height: 100px;
+    background: #0e0f25;
+    line-height: 100px;
+
+}
+
+.header #cyber {
+    position: absolute;
+    top: 0;
+    left: 160px;
+    color: #0e0f25;
+    height: 100px;
+    width: 200px;
+    text-align: center;
+    font-size: 35px;
+
+}
+
+.header > span {
+    width: 50px;
+    height: 100px;
+    margin-left: 100px;
+    float: left;
+    color: #f5237c;
+    font-size: 60px;
+    margin-right: 150px;
+    transition: width 0.5s;
+}
+
+
+/*.header >span:hover .header #cyber{*/
+/*    padding-right: 60px;*/
+/*    color: #ffffff;*/
+/*    transition: all 1s;*/
+/*}*/
+.header #cyber:hover {
+    padding-right: 60px;
+    color: #f5237c;
+    transition: all 1s;
+}
+
+.header > a {
+    margin-left: 60px;
+    color: #ffffff;
+    float: left;
+    height: 70px;
+    padding: 0 20px;
+    font-size: 40px;
+    text-shadow: 10px 10px 50px #ffffff;
+    transition: all 0.5s;
+}
+
+.header > a:hover {
+    margin: 0 40px;
+    transition: all 0.5s;
+}
+
+.header > a > span {
+    font-size: 40px;
+}
+
+.whole {
+    overflow: hidden;
+    margin: 0 auto;
+    width: 100%;
+    /*width: 1450px;*/
+}
+
+.whole > div {
+    margin: 0 auto;
+    margin-bottom: 200px;
+    width: 1450px;
+}
+
+.whole .nav {
+    position: relative;
+    margin-top: 125px;
+    height: 800px;
+
+}
+
+.nav span {
+    font-size: 120px;
+    color: #e0e0e0;
+    font-weight: 400;
+
+}
+
+.nav .pre {
+    position: absolute;
+    top: 50%;
+    margin-top: -40px;
+    left: 30px;
+}
+
+.nav .next {
+    position: absolute;
+    top: 50%;
+    margin-top: -40px;
+    right: 30px;
+}
+
+.nav img {
+    width: 100%;
+    height: 100%;
+}
+
+.whole .introduction {
+    padding: 50px 0;
+    height: 500px;
+    width: 100%;
+    background-color: #0e0f25;
+    margin-bottom: 200px;
+
+}
+
+.whole .introduction > div {
+
+    margin: 0 auto;
+    height: 450px;
+    width: 1450px;
+    font-size: 40px;
+    color: #ffffff;
+}
+
+.whole .introduction > div .pink {
+    font-family: eng, ruixian;
+
+
+}
+
+.picture > div {
+
+    overflow: hidden;
+    width: 100%;
+    /*height: 800px;*/
+    margin: 30px 0;
+    /*border: 5px solid #ff5edb;*/
+    /*box-shadow: 0 0 20px;*/
+}
+
+.picture > div img {
+    width: 100%;
+    height: 100%;
+}
+
+/*.picture >div >div{*/
+
+/*    float: left;*/
+/*    width: 600px;*/
+/*    height: 1200px;*/
+/*    margin: 0 60px;*/
+/*}*/
+/*.picture >div >div img{*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*}*/
+.foot {
+    width: 100%;
+    height: 120px;
+    margin: 0 auto;
+    background-color: #0e0f25;
+}
+
+.foot a span {
+    font-size: 80px !important;
+    line-height: 120px;
+    color: #ff5edb;
+    text-shadow: #ff5edb 0 0 40px;
+    margin: 0 50px;
+}
+
+.foot span {
+    font-size: 50px;
+    color: #ffffff;
+    text-shadow: 0 0 30px #ffffff;
+}

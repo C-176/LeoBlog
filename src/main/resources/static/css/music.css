@@ -1,0 +1,200 @@
+#prev-btn, #fold, #start, #next-btn, #stop {
+    display: block;
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    top: 40px;
+    float: left;
+    z-index: 1;
+    transition: all .3s;
+    margin: 80px 13px;
+    font-size: 45px;
+    line-height: 60px;
+    color: #fff;
+    text-align: center;
+    text-shadow: 1px 2px 3px #134857;
+}
+
+#start, #stop {
+    left: 33%;
+}
+
+#fold {
+    position: fixed;
+    /* bottom: 209px; */
+    right: 4px;
+    /* left: 82%; */
+    display: block;
+    top: 550px;
+}
+
+#prev-btn:hover, #fold:hover, #start:hover, #next-btn:hover, #stop:hover {
+    font-size: 60px;
+    color: #fff;
+    /*transition: all .3s;*/
+}
+
+#stop {
+    top: -89px;
+    left: -17px;
+    font-size: 50px;
+}
+
+#prev-btn {
+    right: 66%;
+}
+
+#next-btn {
+    left: 60%;
+    /* margin-left: -20px; */
+}
+
+.musicbox {
+    width: 300px;
+    height: 430px;
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    background-color: transparent;
+    border-radius: 10px;
+    /*box-shadow: 0 0 10px #134857;*/
+    /*transition: all .3s;*/
+    z-index: 4;
+}
+
+#pic {
+    width: 300px;
+    height: 300px;
+
+}
+
+#pic img {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}
+
+#musicintro {
+    width: 100%;
+    height: 130px;
+    /*position: relative;*/
+    /*top: -100px;*/
+    background-color: #134857;
+    padding: 10px;
+    color: #fff;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+
+#pic #title {
+    /*display: none;*/
+    width: 100%;
+    /* height: 40px; */
+    position: absolute;
+    top: 0px;
+    float: left;
+    z-index: 1;
+    padding: 0 5px 0 33px;
+    font-size: 15px;
+    line-height: 40px;
+    color: #fff;
+
+    overflow: hidden;
+}
+
+.track-row > div {
+    float: left;
+    height: 30px;
+}
+
+.track-row {
+    width: 100%;
+    height: 30%;
+}
+
+.track-row :hover {
+    cursor: pointer;
+}
+
+.play-list {
+    width: 100%;
+    height: 130px;
+    overflow: auto;
+    font-size: 13px;
+    color: #fff;
+
+}
+
+.play-list-header {
+    margin-top: 10px;
+    width: 100%;
+    height: 30px;
+}
+
+.track-track {
+    width: 75%;
+}
+
+.track-time {
+    width: 20%;
+
+}
+
+#video-progress {
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    font-family: Roboto, sans-serif;
+    font-size: 1.6em;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #24292e;
+    box-sizing: border-box;
+    width: 100%;
+    background-color: red;
+    cursor: pointer;
+    position: relative;
+    z-index: 15;
+    height: 3px;
+    bottom: 40px;
+}
+
+.visualizer {
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    font-family: Roboto, sans-serif;
+    font-size: 1.6em;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #24292e;
+    box-sizing: border-box;
+    width: 320px;
+    position: absolute;
+    bottom: -1px;
+    pointer-events: none;
+    height: 90px;
+}
+
+.play-list::-webkit-scrollbar { /*滚动条整体样式*/
+    width: 5px; /*高宽分别对应横竖滚动条的尺寸*/
+    height: 1px;
+}
+
+.play-list::-webkit-scrollbar-thumb { /*滚动条里面小方块*/
+    position: absolute;
+    min-height: 30px;
+    top: 0px;
+    display: block;
+    height: 5px;
+    max-height: 80px;
+    background: #cf0f0f;
+    width: 5px;
+}
+
+.play-list::-webkit-scrollbar-track { /*滚动条里面轨道*/
+    width: 2px;
+    height: 100%;
+    margin: 0 auto;
+    border-radius: 16px;
+}
+

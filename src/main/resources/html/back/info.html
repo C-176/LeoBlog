@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link rel="shortcut icon" th:href="@{/source/images/favicon.ico}"/>
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+    <link rel="stylesheet" th:href="@{/css/daemon.css}">
+    
+    
+    <title>LeoBlog--info</title>
+    <style>
+        .whole {
+            margin-left: 260px;
+        }
+        
+        .whole .change {
+            display: block;
+            height: 40px;
+            width: 64px;
+            background: #869d9d;
+            position: relative;
+            bottom: 500px;
+            left: 980px;
+            line-height: 40px;
+            text-align: center;
+            border-radius: 5px;
+            color: #134857;
+            font-size: 20px;
+            font-weight: 600;
+        }
+        
+        .css-9y3xzf:hover {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+<div class="musicbox" th:include="component/component::musicbox"></div>
+<div class="header" th:include="component/component::header"></div>
+<div class="shell" th:include="component/component::shell"></div>
+
+<div class="whole">
+    <div class="pic">
+        <img alt="" src="" th:src="@{/source/images/index/109.jpg}">
+        
+        <div class="head"><img alt="" src="" th:src="@{'/'+${#session.getAttribute('user').getUserPic()}}"></div>
+        <div class="head" style="display: none">
+            <label class="UploadPicture-wrapper css-1kx6s1g">
+                <input accept=".jpeg, .jpg, .png" class="UploadPicture-input" id="picUrl" style="display: none"
+                       type="file" value="">
+                <input id="userPic" type="hidden" value="">
+                <img alt="" id="myImg"
+                     src="" style="width: 100%;height: 100%;display: none" th:src="@{'/'+${#session.getAttribute('user').getUserPic()}}">
+                <script>
+                    //input上传文件后，打印文件名，然后将文件名赋值给img的src，不使用JQuery
+                    var file = document.querySelector('.UploadPicture-input');
+                    file.onchange = function () {
+                        var reader = new FileReader();
+                        reader.readAsDataURL(file.files[0]);
+                        reader.onload = function (e) {
+                            document.getElementById('myImg').src = this.result;
+                            document.getElementById('myImg').style = "z-index:1;display:block";
+                            document.getElementsByClassName("css-9y3xzf")[0].style = "display:none";
+                        }
+                    }
+                
+                </script>
+                <div class="css-9y3xzf">
+                    <svg class="Zi Zi--Plus css-15ro776" data-new-api="PlusFill24" data-old-api="Plus" fill="currentColor" height="14"
+                         viewBox="0 0 24 24" width="14">
+                        <path clip-rule="evenodd"
+                              d="M13.25 3.25a1.25 1.25 0 10-2.5 0v7.5h-7.5a1.25 1.25 0 100 2.5h7.5v7.5a1.25 1.25 0 102.5 0v-7.5h7.5a1.25 1.25 0 000-2.5h-7.5v-7.5z" fill-rule="evenodd"></path>
+                    </svg>
+                    修改头像
+                </div>
+            </label>
+            <!--                <%&#45;&#45;                <div class="css-uip80e">图片上传格式支持 JPEG、JPG、PNG</div>&#45;&#45;%>-->
+        </div>
+        <div class="name" id="userName" th:inline="text">[[${#session.getAttribute('user').getUserName()}]]</div>
+    </div>
+    
+    
+    <div class="comment">
+        <div class="q"><span class="iconfont">&#xe642;</span> 性别</div>
+        <div class="s"><label>
+            <input id="sex" readonly th:value="${#session.getAttribute('user').getUserSex()==0?'女':'男'}" type="text"/>
+            <select style="display: none">
+                <option name="userSex" th:selected="${#session.getAttribute('user').getUserSex()==1}" value="1">男</option>
+                <option name="userSex" th:selected="${#session.getAttribute('user').getUserSex()==0}" value="0">女</option>
+            </select>
+        
+        </label></div>
+    
+    </div>
+    <div class="comment">
+        <div class="q"><span class="iconfont">&#xe63d;</span> 居住地</div>
+        <div class="s"><label>
+            <input name="userPos" readonly th:value="${#session.getAttribute('user').getUserPos()}" type="text">
+        </label></div>
+    
+    </div>
+    <div class="comment">
+        <div class="q"><span class="iconfont">&#xe73b;</span> 所在行业</div>
+        <div class="s"><label>
+            <input name="userIndustry" readonly th:value="${#session.getAttribute('user').getUserIndustry()}"
+                   type="text">
+        </label></div>
+    </div>
+    <div class="comment">
+        <div class="q"><span class="iconfont">&#xe80f;</span> 生日</div>
+        <div class="s"><label>
+            <input name="userBirthday" readonly th:value="${#session.getAttribute('user').getUserBirthday()}"
+                   type="date">
+        </label></div>
+    </div>
+    <div class="comment">
+        <div class="q"><span class="iconfont">&#xe624;</span> 教育经历</div>
+        <div class="s"><label>
+            <input name="userEducation" readonly th:value="${#session.getAttribute('user').getUserEducation()}"
+                   type="text">
+        </label></div>
+    </div>
+    <div class="comment">
+        <div class="q"><span class="iconfont">&#xe7c0;</span> 个人认证</div>
+        <div class="s"><label>
+            <input name="userCertification" readonly
+                   th:value="${#session.getAttribute('user').getUserCertification()}" type="text">
+        </label></div>
+    </div>
+    <div class="comment">
+        <div class="q"><span class="iconfont">&#xe78b;</span> 个人简介</div>
+        <div class="s"><label>
+            <input class="userIntroduction" name="userIntroduction" readonly
+                   th:value="${#session.getAttribute('user').getUserIntroduction()}" type="text">
+        </label></div>
+    </div>
+    <a class="change" href="javascript:void(0)">修改</a>
+
+
+</div>
+
+<script>
+    //input上传文件后，打印文件名，然后将文件名赋值给img的src，不使用JQuery
+    var file = document.querySelector('.UploadPicture-input');
+    file.onchange = function () {
+        var reader = new FileReader();
+        reader.readAsDataURL(file.files[0]);
+        reader.onload = function (e) {
+            document.getElementById('myImg').src = this.result;
+            document.getElementById('myImg').style = "z-index:1;display:block";
+            document.getElementsByClassName("css-9y3xzf")[0].style = "display:none";
+        }
+        var xhr = new XMLHttpRequest();
+        xhr.open("post", "/LeoBlog/articlePicUpload");
+        //设置允许跨域
+        xhr.withCredentials = true;
+        var formData = new FormData();
+        formData.set("picUrl", file.files[0]);
+        xhr.send(formData);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var response = xhr.response;
+                console.log(response);
+                //将响应体作为form表单picUrl的提交元素
+                document.getElementById("userPic").value = response;
+            }
+        }
+    }
+
+</script>
+
+<script th:inline="javascript">
+    var changeBtu = document.getElementsByClassName("change")[0];
+    
+    var modeChange = function (mode) {
+        console.log("modeChange");
+        if (changeBtu.textContent=="修改"){
+            console.log("修改");
+            changeBtu.textContent="保存";
+            var inputs = document.getElementsByTagName("input");
+            for (let i = 0; i < inputs.length; i++) {
+                inputs[i].readOnly = false;
+            }
+            document.getElementsByTagName("select")[0].style.display = "block";
+            document.getElementById("sex").style.display = "none";
+            // 弹窗提示可以修改了
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top',
+                showConfirmButton: false,
+                timer: 1500
+            })
+    
+            Toast.fire({
+                icon: 'success',
+                title: '现在可以修改信息了'
+            })
+            document.getElementsByClassName("head")[0].style.display = "none";
+            document.getElementsByClassName("head")[1].style.display = "block";
+            changeBtu.onclick=submit;
+        }
+        if (mode==="查看"){
+            changeBtu.textContent="修改";
+            var inputs = document.getElementsByTagName("input");
+            for (let i = 0; i < inputs.length; i++) {
+                inputs[i].readOnly = true;
+            }
+            document.getElementsByTagName("select")[0].style.display = "none";
+            document.getElementById("sex").style = "display:block;margin-top: 10px;";
+            document.getElementsByClassName("head")[0].style.display = "block";
+            document.getElementsByClassName("head")[1].style.display = "none";
+            changeBtu.onclick=modeChange;
+        }
+    }
+    changeBtu.onclick = modeChange;
+    var submit = function () {
+        var xhr = new XMLHttpRequest();
+        xhr.open("PUT", "/LeoBlog/info/" + [[${#session.getAttribute('user').getUserId()}]] + "/change");
+        var formData = new FormData();
+        var userName = document.getElementById("userName").innerText;
+        if (userName !== [[${#session.getAttribute('user').getUserName()}]]) {
+            formData.set("userName", userName);
+        }
+        var userSex = document.getElementsByName("userSex");
+        for (let i = 0; i < userSex.length; i++) {
+            if (userSex[i].selected) {
+                if (userSex[i].value != [[${#session.getAttribute('user').getUserSex()}]]) {
+                    formData.set("userSex", userSex[i].value);
+                }
+                break;
+            }
+        }
+        var userBirthday = document.getElementsByName("userBirthday")[0].value;
+        if (userBirthday !== [[${#session.getAttribute('user').getUserBirthday()}]]) {
+            formData.set("userBirthday", userBirthday);
+        }
+        var userEducation = document.getElementsByName("userEducation")[0].value;
+        if (userEducation !== [[${#session.getAttribute('user').getUserEducation()}]]) {
+            formData.set("userEducation", userEducation);
+        }
+        var userCertification = document.getElementsByName("userCertification")[0].value;
+        if (userCertification !== [[${#session.getAttribute('user').getUserCertification()}]]) {
+            formData.set("userCertification", userCertification);
+        }
+        var userIntroduction = document.getElementsByName("userIntroduction")[0].value;
+        if (userIntroduction !== [[${#session.getAttribute('user').getUserIntroduction()}]]) {
+            formData.set("userIntroduction", userIntroduction);
+        }
+        var userPos = document.getElementsByName("userPos")[0].value;
+        if (userPos !== [[${#session.getAttribute('user').getUserPos()}]]) {
+            formData.set("userPos", userPos);
+        }
+        var userIndustry = document.getElementsByName("userIndustry")[0].value;
+        if (userIndustry !== [[${#session.getAttribute('user').getUserIndustry()}]]) {
+            formData.set("userIndustry", userIndustry);
+        }
+        var userPic = document.getElementById("userPic").value;
+        if (userPic !== [[${#session.getAttribute('user').getUserPic()}]] && userPic !== "") {
+            formData.set("userPic", userPic);
+        }
+        if (formData.keys().next().value == undefined) {
+            modeChange("查看");
+            return;
+        }
+
+        xhr.send(formData);
+        xhr.onreadystatechange = function () {
+            var result = JSON.parse(xhr.responseText);
+            var code = result.code;
+            var msg = result.msg;
+            if (code === 200) {
+                Swal.fire({
+                    title: msg,
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                }).then(function () {
+                    window.location.href = "/LeoBlog/info/" + [[${#session.getAttribute('user').getUserId()}]];
+                })
+            } else {
+                Swal.fire({
+                    title: msg,
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                })
+            }
+        }
+        
+        
+    }
+
+</script>
+
+</body>
+
+</html>

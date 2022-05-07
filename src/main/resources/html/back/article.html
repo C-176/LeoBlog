@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link rel="shortcut icon" th:href="@{/source/images/favicon.ico}"/>
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="stylesheet" th:href="@{/css/daemon.css}">
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+    <link rel="stylesheet" th:href="@{/css/whole_article.css}">
+    
+    
+    <title>LeoBlog--article</title>
+
+</head>
+
+<body>
+
+<div class="musicbox" th:include="component/component::musicbox"></div>
+<div class="header" th:include="component/component::header"></div>
+<div class="shell" th:include="component/component::shell"></div>
+<div class="whole">
+    
+    <div class="Article" th:each="article:${myArticles}">
+        <div class="img">
+            <img alt="" src=""
+                 th:src="@{${article.getPicUrl().startsWith('h')?article.getPicUrl():'/'+article.getPicUrl()}}"/>
+        </div>
+        
+        <div class="right">
+            <div class="at"><a th:href="@{'/article/'+${article.getArticleId()}}" th:text="${article.getTitle()}"></a>
+            </div>
+            <div class="comment" id="comment" th:utext="${article.getComment()}"></div>
+            <div class="change"><a th:href="@{'/article/'+${article.getArticleId()}+'/change'}">修改</a></div>
+            <div class="delete"><a href="javascript:void(0)">删除</a></div>
+        </div>
+    </div>
+    
+    <script>
+        
+        var deleteBtn = document.getElementsByClassName('delete');
+        
+        for (let i = 0; i < deleteBtn.length; i++) {
+            deleteBtn[i].onclick = function () {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#275585',
+                    cancelButtonColor: '#851f1f',
+                    confirmButtonText: 'Delete it!',
+                    cancelButtonText: 'Just a error!'
+                }).then((result) => {
+                    if (result.value) {
+                        // 利用xhr进行异步请求
+                        var xhr = new XMLHttpRequest();
+                        // 设置请求方法和请求地址
+                        var url = '/LeoBlog/article/' + this.parentNode.childNodes[1].firstChild.getAttribute('href').split('/')[3];
+                        console.log(url);
+                        xhr.open('DELETE', url);
+                        xhr.send();
+                        // 设置回调函数
+                        xhr.onreadystatechange = function () {
+                            var result = xhr.responseText;
+                            console.log(result);
+                            result = JSON.parse(result);
+                            var code = result.code;
+                            var msg = result.msg;
+                            if (code === 200) {
+                                // 获取删除按钮的父节点
+                                Swal.fire({
+                                    title: '删除成功',
+                                    icon: 'success',
+                                    confirmButtonText: 'OK'
+                                }).then(function () {
+                                        window.location.reload();
+                                });
+                            } else {
+                                Swal.fire({
+                                    title: msg,
+                                    icon: 'error',
+                                    confirmButtonText: 'OK'
+                                });
+                            }
+                            
+                            
+                        }
+                    }
+                })
+            }
+        }
+    
+    </script>
+    
+    
+    <a th:href="@{/article/0/new}" th:if="${myArticles.size()==0}"><h3>暂无文章,点击新建。</h3></a>
+
+
+</div>
+
+</body>
+
+</html>

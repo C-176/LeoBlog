@@ -1,0 +1,63 @@
+.shell {
+    text-align: left;
+}
+
+.whole {
+    margin-left: 260px;
+    width: 70%;
+    /* top: 0px; */
+    /* position: absolute; */
+}
+
+.whole .Article .img {
+    width: 300px;
+    margin-left: 20px;
+}
+
+.change, .delete, .submit {
+    height: 35px;
+    width: 70px;
+    position: relative;
+    left: 610px;
+    line-height: 35px;
+    border: 1px solid #134857;
+    border-radius: 5px;
+    /* bottom: 100px; */
+}
+
+.change, .delete, .submit {
+    height: 30px;
+    width: 65px;
+    position: relative;
+    left: 610px;
+    line-height: 30px;
+    border: 1px solid #134857;
+    border-radius: 5px;
+    /* bottom: 100px; */
+}
+
+div#comment {
+    margin-top: 10px;
+    margin-left: 0;
+    height: 140px;
+}
+
+.change a, .delete a, .submit a {
+    height: 100%;
+    width: 100%;
+    display: block;
+    font-size: 20px;
+    color: #134857;
+}
+
+.change {
+    bottom: 85px;
+}
+
+.delete {
+    bottom: 70px;
+}
+
+.submit {
+    bottom: 190px;
+}

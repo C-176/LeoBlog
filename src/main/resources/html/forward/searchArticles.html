@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    
+    <link rel="shortcut icon" th:href="@{/source/images/favicon.ico}"/>
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="stylesheet" th:href="@{/css/daemon.css}">
+    <link rel="stylesheet" th:href="@{/css/whole_article.css}">
+    
+    
+    <title>LeoBlog--article</title>
+
+</head>
+
+<body>
+<div class="musicInsert" th:insert="component/component::musicbox"></div>
+<div class="headerInsert" th:insert="component/component::header"></div>
+<div class="shellInsert" th:insert="component/component::shell"></div>
+
+
+<div class="whole">
+    
+    <div class="Article" th:each="article:${relativeArticles}">
+        <div class="img">
+            <img alt="" src="" th:src="@{${article.getPicUrl()}}"/>
+        </div>
+        <div class="right">
+            <div class="at"><a th:href="@{'/article/'+${article.getArticleId()}}" th:text="${article.getTitle()}"><span
+                    class="iconfont">&#xead9;</span> <%=title%></a></div>
+            <div class="comment" id="comment" th:utext="${article.getComment()}"></div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+
+</html>

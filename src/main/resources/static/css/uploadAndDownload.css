@@ -1,0 +1,166 @@
+@font-face {
+    font-family: 'ruixian';
+    src: url('../js/fonts/RuiZiRuiXianNuFangHeiJian1-0-1.ttf');
+}
+
+@font-face {
+    font-family: 'iconfont';
+    src: url('../iconfont/iconfont.ttf?t=1635858700112') format('truetype');
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.iconfont {
+    font-family: "iconfont" !important;
+    /*font-size: 16px;*/
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    font-family: ruixian;
+    margin: 0 auto;
+    background-image: linear-gradient(to top, #f43b47 0%, #453a94 100%);
+}
+
+.header {
+    overflow: hidden;
+    z-index: 1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 1200px;
+    margin: 0 auto;
+    height: 100px;
+    line-height: 100px;
+}
+
+.header #cyber {
+    float: left;
+    color: #f5237c;
+    height: 100px;
+    width: 200px;
+    text-align: center;
+    font-size: 45px;
+
+}
+
+.header > span {
+    float: left;
+    width: 50px;
+    height: 100px;
+    color: #f5237c;
+    margin-left: 900px;
+    font-size: 60px;
+    margin-right: 20px;
+    transition: width 1s;
+}
+
+
+.main {
+    position: relative;
+    overflow: hidden;
+    height: 750px;
+    width: 1200px;
+    box-shadow: #753b7f 0 0 30px;
+    border-radius: 15px;
+    margin: 100px auto;
+}
+
+.right form {
+    outline: none;
+}
+
+.left {
+    float: left;
+    height: 100%;
+    width: 400px;
+    background-color: white;
+}
+
+.left img {
+    height: 100%;
+    width: 100%;
+}
+
+.right {
+    position: relative;
+    background-image: linear-gradient(to top, #f43b47 0%, #453a94 100%);
+    float: left;
+    height: 100%;
+    width: 800px;
+    background-color: transparent;
+    text-align: center;
+    padding-top: 50px;
+}
+
+.right form h3 {
+    margin: auto;
+    height: 80px;
+    width: 600px;
+    text-align: center;
+    line-height: 100px;
+    color: #ff6700;
+    font-weight: 500;
+    font-size: 40px;
+}
+
+.right form input {
+    height: 60px;
+    width: 600px;
+    border-radius: 5px;
+    text-align: center;
+    line-height: 60px;
+    background-color: transparent;
+    font-size: 20px;
+    font-family: ruixian;
+    border-width: 0;
+    border-bottom: #e73945 solid 5px;
+    transition: background-color 0.6s;
+}
+
+.right form input:hover, input:focus {
+    /*background-color: rgba(167, 29, 93,0.3);*/
+    transition: all 0.6s;
+    outline: none;
+}
+
+input[name=myFile] {
+
+}
+
+button {
+    position: absolute;
+    bottom: 50px;
+    display: block;
+    height: 80px;
+    width: 120px;
+    background-color: #9f3b6c;
+    font-size: 35px;
+    font-family: 'ruixian';
+    border-width: 0;
+    box-shadow: #813a79 0 0 20px;
+    /*margin-right: -60px;*/
+}
+
+.right .upload {
+    left: 200px;
+}
+
+/*.right .upload:hover{*/
+/*    background-color: transparent;*/
+/*    transition: background-color 0.5s;*/
+/*}*/
+.right .download {
+    right: 200px;
+}
+
+.right .download:hover {
+    background-color: #c43b5c;
+    transition: background-color 0.5s;
+}

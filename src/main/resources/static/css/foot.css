@@ -1,0 +1,27 @@
+
+.foot {
+    /*position: absolute;*/
+    overflow: hidden;
+    bottom: 0px;
+    width: 100%;
+    height: 50px;
+    margin: 0 auto;
+    background-color: #fff;
+    line-height: 50px;
+    z-index: 1;
+}
+
+.foot a span {
+    font-size: 25px !important;
+    line-height: 50px;
+    color: #132c33;
+    /* text-shadow: #ff5edb 0 0 40px; */
+    margin: 0px 30px;
+}
+
+.foot span {
+    font-size: 25px;
+    color: #134857;
+    /* text-shadow: 0 0 30px #ffffff; */
+    font-weight: 500;
+}

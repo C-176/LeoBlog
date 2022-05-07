@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+
+<head>
+    <meta charset="UTF-8">
+    <title>LeoBlog-editor</title>
+    <link rel="shortcut icon" th:href="@{/source/images/favicon.ico}"/>
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="stylesheet" th:href="@{/css/editor.css}">
+    <link rel="stylesheet" th:href="@{/css/daemon.css}">
+    <script referrerpolicy="origin" th:src="@{/js/tinymce/js/tinymce/tinymce.min.js}"></script>
+
+</head>
+
+<body>
+<div class="musicbox" th:include="component/component::musicbox"></div>
+<div class="header" th:include="component/component::header"></div>
+<div class="shell" th:include="component/component::shell"></div>
+
+<div class="whole">
+    <form action="javascript:void(0)" method="post">
+        <input name="editorMode" th:value="${editorMode}" type="hidden">
+        <input name="articleId" th:value="${article.getArticleId()}" type="hidden">
+        
+        <label th:if="${article!=null}">
+            <input class="title" name="title" th:value="${article.getTitle()}" type="text" autocomplete="off">
+            <input class="radio" name="original" th:checked="${article.getOriginal()==0?false:true}" type="radio"
+                   value="1">原创
+            <input class="radio" name="original" th:checked="${article.getOriginal()==1?false:true}" type="radio"
+                   value="0">搬运
+        </label>
+        <textarea id="mytextarea1" name="content" th:if="${article!=null}"
+                  th:utext="${article.getComment()}"></textarea>
+        
+        <div class="head">
+            <label class="UploadPicture-wrapper css-1kx6s1g">
+                <input accept=".jpeg, .jpg, .png" class="UploadPicture-input" name="articlePic" type="file">
+                <input name="picUrl" style="display: none" type="text">
+                <img alt="" id="myImg" src="" style="width: 100%;height: 100%">
+                <script>
+                    //input上传文件后，打印文件名，然后将文件名赋值给img的src，不使用JQuery
+                    var file = document.querySelector('.UploadPicture-input');
+                    file.onchange = function () {
+                        var reader = new FileReader();
+                        reader.readAsDataURL(file.files[0]);
+                        reader.onload = function (e) {
+                            document.getElementById('myImg').src = this.result;
+                            document.getElementById('myImg').style = "z-index:1;display:block";
+                            document.getElementsByClassName("css-9y3xzf")[0].style = "display:none";
+                        }
+                        
+                        var xhr = new XMLHttpRequest();
+                        xhr.open("post", "/LeoBlog/articlePicUpload");
+                        var formData = new FormData();
+                        formData.set("picUrl", file.files[0]);
+                        xhr.send(formData);
+                        xhr.onreadystatechange = function () {
+                            if (xhr.readyState === 4 && xhr.status === 200) {
+                                var response = xhr.response;
+                                console.log(response);
+                                //将响应体作为form表单picUrl的提交元素
+                                document.getElementsByName("picUrl")[0].value = response;
+                            }
+                        }
+                    }
+                
+                </script>
+                <script>
+                    tinymce.init({
+                        selector: '#mytextarea1',
+                        language: 'zh_CN',//注意大小写
+                        font_formats: '微软雅黑=Microsoft YaHei,Helvetica Neue,PingFang SC,sans-serif;苹果苹方=PingFang SC,Microsoft YaHei,sans-serif;宋体=simsun,serif',
+                        fontsize_formats: '12px 14px 16px 18px 24px 36px 48px',
+                        plugins: 'toc fullpage codesample hr imagetools media nonbreaking noneditable print quickbars searchreplace table wordcount autosave pagebreak autoresize advlist autolink link image lists preview code kityformula-editor bdmap', //字符串方式
+                        menubar: false,
+                        content_style: 'body { font-family:"Arial","PingFang SC",sans-serif;font-size:16px; }',
+                        advlist_bullet_styles: 'square',
+                        advlist_number_styles: 'lower-alpha,lower-roman,upper-alpha,upper-roman',
+                        styleselect_font_size: '12px',
+                        toolbar: ' redo toc table hr indent outdent lineheight styleselect fontselect fontsizeselect bold italic underline blockquote bullist numlist codesample code  alignleft aligncenter alignright alignjustify subscript superscript kityformula-editor link image media searchreplace restoredraft print',
+                        width: 1100,
+                        height: 532,
+                        min_height: 532,
+                        resize: false,
+                        // noneditable_editable_class: "mceEditable",
+                        fullpage_default_font_family: "'Times New Roman', Georgia, Serif;",
+                        pagebreak_separator: "----------",
+                        nonbreaking_force_tab: true,
+                        autosave_interval: "20s",
+                        autosave_prefix: "tinymce-autosave-{path}{query}-{id}-",
+                        autosave_restore_when_empty: true,
+                        autosave_retention: "20m",
+                        pagebreak_split_block: true,
+                        autoresize_on_init: false,
+                        autoresize_overflow_padding: 10,
+                        // statusbar: false,  // 状态栏显示
+                        content_css_cors: true,
+                        content_css: '/LeoBlog/css/editor_font.css',
+                        convert_urls: false,
+                        images_upload_url: '/LeoBlog/imageUpload',  // 此参数用于指定一个接受上传文件的后端处理程序地址
+                        // images_upload_base_path: '/LeoBlog/', // 如果返回的地址是相对路径，还有一个参数images_upload_base_path，可以给相对路径指定它所相对的基本路径。
+                        // images_upload_handler: function (blobInfo, succFun, failFun) {
+                        //     var xhr, formData;
+                        //     var file = blobInfo.blob();//转化为易于理解的file对象
+                        //     xhr = new XMLHttpRequest();
+                        //     xhr.withCredentials = false;
+                        //     xhr.open('POST', '/demo/upimg.php');
+                        //     xhr.onload = function() {
+                        //         var json;
+                        //         if (xhr.status != 200) {
+                        //             failFun('HTTP Error: ' + xhr.status);
+                        //             return;
+                        //         }
+                        //         json = JSON.parse(xhr.responseText);
+                        //         if (!json || typeof json.location != 'string') {
+                        //             failFun('Invalid JSON: ' + xhr.responseText);
+                        //             return;
+                        //         }
+                        //         succFun(json.location);
+                        //     };
+                        //     formData = new FormData();
+                        //     formData.set('file', file, file.name );//此处与源文档不一样
+                        //     xhr.send(formData);
+                        // },
+                        placeholder: '请输入内容',
+                        images_reuse_filename: true,
+                        auto_focus: true,
+                        contextmenu_never_use_native: true,
+                        // inline: true,
+                        fixed_toolbar_container: '#mytoolbar',
+                        toolbar_sticky: true,
+                    });
+                </script>
+                <div class="css-9y3xzf">
+                    <svg class="Zi Zi--Plus css-15ro776" data-new-api="PlusFill24" data-old-api="Plus" fill="currentColor" height="14"
+                         viewBox="0 0 24 24" width="14">
+                        <path clip-rule="evenodd"
+                              d="M13.25 3.25a1.25 1.25 0 10-2.5 0v7.5h-7.5a1.25 1.25 0 100 2.5h7.5v7.5a1.25 1.25 0 102.5 0v-7.5h7.5a1.25 1.25 0 000-2.5h-7.5v-7.5z" fill-rule="evenodd"></path>
+                    </svg>
+                    添加文章封面
+                </div>
+            </label>
+            <!--            <%&#45;&#45;                <div class="css-uip80e">图片上传格式支持 JPEG、JPG、PNG</div>&#45;&#45;%>-->
+        </div>
+        <button name="submitMode" type="submit" value="asArticle">发布</button>
+        <button name="submitMode" type="submit" value="asScript">存为草稿</button>
+    
+    </form>
+
+</div>
+<script th:inline="javascript">
+    var articleId = document.getElementsByName("articleId")[0].value;
+    const submit = document.getElementsByName("submitMode");
+    for (let i = 0; i < submit.length; i++) {
+        submit[i].onclick = function () {
+            var submitMode = this.value;
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/LeoBlog/contentUpload");
+            var form = new FormData();
+            var title = document.getElementsByName("title")[0].value;
+            if (title !== [[${article.getTitle()}]]) {
+                form.set("title", title);
+            }
+            var content = tinymce.get('mytextarea1').getContent();
+            if (content !== [[${article.getComment()}]]) {
+                form.set("content", content);
+            }
+            var picUrl = document.getElementsByName("picUrl")[0].value;
+            if (picUrl !== [[${article.getPicUrl()}]]) {
+                form.set("picUrl", picUrl);
+            }
+            form.set("submitMode", submitMode);
+            form.set("editorMode", [[${editorMode}]]);
+            form.set("articleId", articleId);
+            var original = document.getElementsByName("original");
+            for (let j = 0; j < original.length; j++) {
+                if (original[j].checked && original[j].value !== [[${article.getOriginal()}]]) {
+                    form.set("original", original[j].value);
+                    break;
+                }
+                
+            }
+            
+            xhr.send(form);
+            xhr.onreadystatechange = function () {
+                var response = JSON.parse(xhr.responseText);
+                var code = response.code;
+                var msg = response.msg;
+                if (code === 200) {
+                    Swal.fire({
+                        title: msg,
+                        icon: 'success',
+                        showCancelButton: false,
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'OK'
+                    }).then((result) => {
+                        if (result.value) {
+                            if (submitMode === "asArticle") {
+                                window.location.href = "/LeoBlog/articles/mine/" + [[${#session.getAttribute('user').getUserId()}]];
+                            } else {
+                                window.location.href = "/LeoBlog/scripts/mine/" + [[${#session.getAttribute('user').getUserId()}]];
+                            }
+                        }
+                    })
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: msg,
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                }
+            }
+        }
+        
+    }
+
+</script>
+
+</body>
+</html>

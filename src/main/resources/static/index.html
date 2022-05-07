@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>LeoBlog</title>
+    <link href="css/LR.css" rel="stylesheet">
+    <link href="css/daemon.css" rel="stylesheet">
+    <link href="source/images/favicon.ico" rel="shortcut icon"/>
+    <link href="css/loading.css" rel="stylesheet">
+    <script defer src="https://unpkg.com/spacingjs"></script>
+    <script src="js/sweetalert2.all.min.js"></script>
+    <script src="js/sweetalert2.min.js"></script>
+    <script src="js/crypto-js.js"></script>
+    <style>
+        .word {
+            width: 500px;
+            height: 80px;
+            line-height: 80px;
+            font-size: 40px;
+            color: #134857;
+            font-weight: bold;
+            /* text-align: center; */
+        
+            z-index: 2;
+            margin: 0 auto; /* display: block; */
+            top: 160px;
+            right: calc(50% - 250px);
+            position: fixed;
+        }
+        .login, .register {
+            position: absolute;
+            height: 55px;
+            top: calc(50% - 0px);
+            width: 110px;
+            font-size: 25px;
+            line-height: 55px;
+            z-index: 2;
+            border-radius: 5px;
+        }
+    
+        .login a, .register a {
+            display: block;
+            height: 100%;
+            width: 100%;
+            text-decoration: none;
+            color: #134857;
+        
+        }
+    
+        .login:hover, .register:hover {
+            text-decoration: none;
+            color: #134857;
+            background-color: #13485729;
+            transition: all 0.5s;
+            box-shadow: 1px 3px 3px #13485729;
+        
+        }
+    
+        .login {
+            right: calc(50% - -420px);
+        }
+    
+        .register {
+            right: calc(50% - 460px);
+        }
+    </style>
+
+
+</head>
+
+<body style="height: 100vh;overflow: hidden;">
+
+<div class="header">
+    <span class="iconfont">&#xe614;</span>
+    <div id="cyber">LeoBlog</div>
+</div>
+
+<div class="container">
+    <div class="iron-man">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <img alt="" src="source/images/iron_man.png">
+    </div>
+    <div class="lines">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <div class="loading-text">灭霸你给我等着，等我登陆了就来收拾你</div>
+</div>
+
+<div class="word">So，Sign in or Sign up ?</div>
+<div class="login"><a href="LR.html?mode=login">登录</a></div>
+<div class="register"><a href="LR.html?mode=register">注册</a></div>
+<script>
+    // var aseKey = CryptoJS.MD5("12345678").toString().substr(0,8);     //秘钥必须为：8/16/32位
+    // var upwdStr = CryptoJS.AES.encrypt("userPassword", CryptoJS.enc.Utf8.parse(aseKey), {
+    //     mode: CryptoJS.mode.ECB,
+    //     padding: CryptoJS.pad.Pkcs7
+    // }).toString();
+    //
+    // var unameStr = CryptoJS.AES.encrypt("userName", CryptoJS.enc.Utf8.parse(aseKey), {
+    //     mode: CryptoJS.mode.ECB,
+    //     padding: CryptoJS.pad.Pkcs7
+    // }).toString();
+    // console.log(unameStr);
+    // // 计算unameStr倒序遍历
+    // var unameStrArr = unameStr.split('');
+    // var unameStrArrReverse = unameStrArr.reverse();
+    // var unameStrReverse = unameStrArrReverse.join('').split('');
+    // console.log(unameStrReverse);
+    // var num = 0;
+    // for (let i = 0; i < unameStrReverse.length; i++) {
+    //     if (unameStrReverse[i]!=='='){
+    //         num = i;
+    //         break;
+    //     }
+    // }
+    // console.log(num);
+    //
+    // var a = CryptoJS.AES.decrypt(unameStr, CryptoJS.enc.Utf8.parse(aseKey), {
+    //     mode: CryptoJS.mode.ECB,
+    //     padding: CryptoJS.pad.Pkcs7
+    // }).toString(CryptoJS.enc.Utf8);
+    // console.log(a);
+    //     // 查看cookie中是否有userName
+    // function getCookie(cookieName) {
+    //     const strCookie = document.cookie
+    //     const cookieList = strCookie.split(';')
+    //     // console.log(cookieList);
+    //     for(let i = 0; i < cookieList.length; i++) {
+    //         const arr = cookieList[i].split('=')
+    //         if (cookieName === arr[0].trim()) {
+    //             var index = cookieList[i].indexOf('=');
+    //             if (num!==0){
+    //                 return cookieList[i].substring(index+1).substring(num);
+    //             }
+    //             return cookieList[i].substring(index+1);
+    //         }
+    //     }
+    //
+    //     return ''
+    // }
+    // var  key = '';
+    // if (num!==0){
+    //     key = unameStr.substring(0,unameStr.split('').length()-num);
+    // }else{
+    //     key = unameStr;
+    // }
+    //
+    // console.log(key)
+    // var item = getCookie(key);
+    // // var item = localStorage.getItem("userName");
+    // console.log(item);
+    // if (item) {
+    //     var userName = CryptoJS.AES.decrypt(item, CryptoJS.enc.Utf8.parse(aseKey), {
+    //         mode: CryptoJS.mode.ECB,
+    //         padding: CryptoJS.pad.Pkcs7
+    //     }).toString(CryptoJS.enc.Utf8);
+    //     var userPassword = CryptoJS.AES.decrypt(getCookie(upwdStr), CryptoJS.enc.Utf8.parse(aseKey), {
+    //         mode: CryptoJS.mode.ECB,
+    //         padding: CryptoJS.pad.Pkcs7
+    //     }).toString(CryptoJS.enc.Utf8);
+    //
+    //     var xhr = new XMLHttpRequest();
+    //     xhr.open('POST', "/LeoBlog/login");
+    //     var formData = new FormData();
+    //     formData.set("userPassword", userPassword);
+    //     formData.set("userName", userName);
+    //     xhr.send(formData);
+    //     xhr.onreadystatechange = function () {
+    //         var result = xhr.responseText;
+    //         result = JSON.parse(result);
+    //         var code = result.code;
+    //         var msg = result.msg;
+    //         if (code === 200) {
+    //             window.location.href = "/LeoBlog/ToIndex";
+    //         } else {
+    //             Swal.fire({
+    //                 title: msg,
+    //                 icon: 'error',
+    //                 showCancelButton: false,
+    //                 confirmButtonText: 'OK'
+    //             })
+    //         }
+    //     }
+    }
+</script>
+
+</body>
+</html>

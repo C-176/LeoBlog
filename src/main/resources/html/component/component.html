@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<body>
+<!--header-->
+<div class="header" th:fragment="header">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <script th:src="@{/js/sweetalert2.all.min.js}"></script>
+    <script th:src="@{/js/sweetalert2.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/js/sweetalert2.min.css}">
+    
+    <span class="iconfont">&#xe614;</span>
+    <div id="cyber">LeoBlog</div>
+    <a th:href="@{/ToIndex}"><span class="iconfont">&#xe60f;</span> 首页</a>
+    <a th:href="@{/articles/publish}"><span class="iconfont">&#xe610;</span> 文章</a>
+    <a href="https://wallpapers.microsoft.design"><span class="iconfont">&#xe8d3;</span> 图片</a>
+    <a href="https://www.volf.club/"><span class="iconfont">&#xec46;</span> 导航</a>
+    <div class="msg">
+        <a th:href="@{/msg}"><span class="iconfont">&#xe607;</span></a>
+        <a th:href="@{/comment}"><span class="iconfont">&#xe6ff;</span></a>
+    </div>
+    
+    <div class="search">
+        <form action="javascript:void(0)">
+            <input class="searchInput" name="keywords" type="text" autocomplete="off">
+            <button class="searchImg">
+                <span class="iconfont">&#xe644;</span>
+            </button>
+        </form>
+    </div>
+    
+    <div class="login"><a th:href="'javascript:void(0)'"><span class="iconfont">&#xe78c;</span> 退出</a></div>
+    
+    <div class="userPic"><a th:href="@{'/info/'+${#session.getAttribute('user').getUserId()}}"><img
+            alt="x" src="" th:src="@{'/'+${#session.getAttribute('user').getUserPic()}}"></a></div>
+    <script>
+        var searchBtu = document.getElementsByClassName("searchImg")[0];
+        var form = document.querySelector('.search form');
+        var searchInput = document.getElementsByClassName("searchInput")[0];
+        searchBtu.onclick = function () {
+            window.location.href = "/LeoBlog/articles/publish/" + searchInput.value;
+        }
+        
+        
+        
+        searchBtu.onmouseover = function () {
+            searchInput.style = "width: 200px;padding: 0 6px;";
+        }
+        
+        // 绑定输入框的正在输入事件
+        searchInput.oninput = function () {
+            searchInput.style = "width: 200px;padding: 0 6px;";
+            if (searchInput.value.length > 0) {
+                searchInput.style = "width: 200px;padding: 0 6px;";
+            }
+        }
+        // 绑定输入框的失去焦点事件
+        searchInput.onblur = function () {
+            searchInput.style = "width: 0px;padding: 0;";
+        }
+        searchInput.onmouseout = function () {
+            searchInput.style = "width: 0px;padding: 0;";
+        }
+        
+        document.getElementsByClassName("login")[0].onclick = function () {
+            //选择框
+            Swal.fire({
+                title: '确定退出吗?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: '确认',
+                cancelButtonText: '取消',
+            }).then((result) => {
+                if (result.value) {
+                    window.location.href = '/LeoBlog/loginOut';
+                }
+            })
+        }
+    </script>
+
+</div>
+
+<!--musicbox-->
+<div class="musicbox" th:fragment="musicbox">
+    <link rel="stylesheet" th:href="@{/css/music.css}">
+    <link rel="stylesheet" th:href="@{/css/daemon.css}">
+    
+    <a href="javascript:void(0)" id="fold"><span class="iconfont">&#xe617;</span></a>
+    
+    <div id="pic">
+        <div id="title"></div>
+        <img alt=""
+             src="https://linkstorage.linkfire.com/medialinks/images/7b8fa8d7-7248-4bf4-983e-91c172305df4/artwork-440x440.jpg">
+        <a href="javascript:void(0)" id="prev-btn"><span class="iconfont">&#xe63b;</span></a>
+        <a href="javascript:void(0)" id="start"><span class="iconfont">&#xec61;</span></a>
+        <a href="javascript:void(0)" id="stop"><span class="iconfont">&#xe679;</span></a>
+        <a href="javascript:void(0)" id="next-btn"><span class="iconfont">&#xe63c;</span></a>
+    
+    </div>
+    
+    <div class="play-list">
+        <audio id="music" src="" style="width: 1px; height: 1px;" ></audio>
+        <audio id="testaudio" muted src="" style="display: none"></audio>
+        <div class="play-list-header">
+            <div class="track-row">
+                <div class="track-track">Track</div>
+                <div class="track-time">Time</div>
+            </div>
+        </div>
+        <div class="play-list-columns">
+            <div class="track-row">
+                <div class="track-track">Track</div>
+                <div class="track-time">Time</div>
+            </div>
+            <div class="track-row">
+                <div class="track-track">Track</div>
+                <div class="track-time">Time</div>
+            </div>
+            <div class="track-row">
+                <div class="track-track">Track</div>
+                <div class="track-time">Time</div>
+            </div>
+            <div class="track-row">
+                <div class="track-track">Track</div>
+                <div class="track-time">Time</div>
+            </div>
+            <div class="track-row">
+                <div class="track-track">Track</div>
+                <div class="track-time">Time</div>
+            </div>
+        </div>
+        <div data-test="music-player-progress-wrapper" id="video-progress" style="height: 3px;">
+            <div class="progressbar-value" data-test="music-player-progress-value"
+                 style="background-color: rgb(255, 48, 0); width: 0%;"></div>
+            <div class="progressbar-load" style="width: 100%;"></div>
+        </div>
+    
+    </div>
+    <script>
+        
+        //读取文件夹，并将文件夹中的文件名和文件路径存入数组
+        var musicList = [
+            {
+                "name": "Brooklyn - The Midnight",
+                "path": "/LeoBlog/source/audios/Brooklyn - The Midnight.mp3",
+                "time": "04:15"
+            },
+            {
+                "name": "Hyper.mp3",
+                "path": "/LeoBlog/source/audios/Hyper.mp3",
+                "time": "04:32"
+            },
+            {
+                "name": "Los Angeles - The Midnight.mp3",
+                "path": "/LeoBlog/source/audios/Los Angeles - The Midnight.mp3",
+                "time": "03:00"
+            },
+            {
+                "name": "Lost Boy - The Midnight.mp3",
+                "path": "/LeoBlog/source/audios/Lost Boy - The Midnight.mp3",
+                "time": "04:10"
+            },
+            {
+                "name": "Sunset - The Midnight.mp3",
+                "path": "/LeoBlog/source/audios/Sunset - The Midnight.mp3",
+                "time": "03:00"
+            }];
+        var toolbar = document.getElementById('video-progress');
+        var prev = document.getElementById('prev-btn');
+        var next = document.getElementById('next-btn');
+        var start = document.getElementById('start');
+        var fold = document.getElementById('fold');
+        
+        var music = document.getElementById('music');
+        
+        var paused = document.getElementById('stop');
+        var musicintro = document.getElementById('musicintro');
+        var playlist = document.getElementsByClassName('play-list')[0];
+        var title = document.getElementById('title');
+        var box = document.getElementsByClassName('musicbox')[0];
+        var pic = document.getElementById('pic');
+        var index11 = 0;
+        var foldTimes = 0;
+        var times = 0;
+        if (localStorage.getItem('fold_music') == 1) {
+            localStorage.setItem('foldTimes', 0);
+            playlist.style = "display:none;";
+            pic.style = "display:none;";
+            box.style = 'background-color: transparent;width: 0px;height: 0px;';
+            foldTimes++;
+            localStorage.setItem('fold_music', 1);
+        }
+        
+        if (localStorage.getItem('bgm_gds') !== null) {
+            index11 = parseInt(localStorage.getItem('bgm_gds'));
+            music.src = musicList[index11].path;
+            title.innerHTML = musicList[index11].name;
+        } else {
+            localStorage.setItem('bgm_gds', 0);
+            music.src = musicList[0].path;
+            title.innerHTML = musicList[0].name;
+        }
+        
+        fold.onclick = function () {
+            if (foldTimes % 2 === 0) {
+                playlist.style = "display:none;";
+                pic.style = "display:none;";
+                box.style = 'background-color: transparent;width: 0px;height: 0px;';
+                foldTimes++;
+                localStorage.setItem('fold_music', 1);
+            } else {
+                playlist.style = "display:block;";
+                pic.style = 'display:block;';
+                box.style = 'background-color: #134857;width: 300px;height: 430px;';
+                foldTimes++;
+                localStorage.setItem('fold_music', 0);
+            }
+        };
+        var trackrow = document.getElementsByClassName('track-row');
+        
+        setInterval(function () {
+            for (let i = 0; i < trackrow.length && i + 1 < trackrow.length; i++) {
+                if (i === index11) {
+                    trackrow[i + 1].style = 'color: red;';
+                } else {
+                    trackrow[i + 1].style = 'color: white;';
+                }
+            }
+            
+        }, 100);
+        
+        
+        for (let i = 1; i < trackrow.length; i++) {
+            trackrow[i].addEventListener('click', function () {
+                index11 = i - 1;
+                music.src = musicList[i - 1].path;
+                start.click();
+            });
+        }
+        var testaudio = document.getElementById('testaudio');
+        
+        for (let i = 1; i <= musicList.length; i++) {
+            //获取音频的时长
+            
+            testaudio.src = musicList[i - 1].path;
+            // console.log(testaudio);
+            //tstaudio没有加载完成的话一直加载
+            // testaudio.load();
+            // while (!testaudio.readyState) {
+            //     console.log(testaudio.readyState);
+            // }
+            // testaudio.oncanplay=function () {
+            
+            var duration = testaudio.duration;
+            // console.log(music.duration);
+            // 将duration转换为分钟和秒
+            var minute = parseInt(duration / 60);
+            let second = parseInt(duration % 60);
+            // // 将分钟和秒转换为字符串
+            minute = minute < 10 ? '0' + minute : minute;
+            second = second < 10 ? '0' + second : second;
+            // 将字符串拼接成时间格式
+            var time = minute + ':' + second;
+            trackrow[i].getElementsByTagName('div')[0].innerHTML = musicList[i - 1].name;
+            trackrow[i].getElementsByTagName('div')[1].innerHTML = musicList[i - 1].time;
+            // trackrow[i].getElementsByTagName('div')[2].innerHTML = time;
+            
+            // };
+        }
+        // 记录鼠标点击进度条的位置
+        var progress = 0;
+        
+        toolbar.onmousemove = function (e) {
+            toolbar.style.cursor = 'pointer';
+        }
+        toolbar.onclick = function (e) {
+            var value = e.offsetX / this.offsetWidth * 100;
+            music.currentTime = music.duration * (value / 100);
+            //点击位置之后的进度条颜色为灰色
+            
+            music.play();
+            
+        };
+        start.onclick = function () {
+            
+            
+            prev.style.display = 'none';
+            next.style.display = 'none';
+            start.style.display = 'none';
+            start.style = 'top: -89px;left: -17px;';
+            // stop.style.display = 'block';
+            paused.style = 'top: 40px;left: 33%; ';
+            // musicintro.style.display = 'none';
+            playlist.style.display = 'block';
+            music.play();
+            localStorage.setItem('paused', 0);
+            
+            
+        }
+        
+        paused.onclick = function () {
+            // 音乐暂停
+            music.pause();
+            localStorage.setItem('paused', 1);
+            // console.log('music.paused');
+            prev.style.display = 'block';
+            next.style.display = 'block';
+            start.style.display = 'block';
+            start.style = 'top: 40px;left: 33%;';
+            paused.style = 'top: -89px;left: -17px;';
+        }
+        
+        
+        pic.onmousemove = function () {
+            prev.style.display = 'block';
+            next.style.display = 'block';
+            paused.style.display = 'block';
+        }
+        pic.onmouseleave = function () {
+            prev.style.display = 'none';
+            next.style.display = 'none';
+            paused.style.display = 'none';
+        }
+        next.onclick = function () {
+            
+            index11++;
+            index11 = index11 === musicList.length ? 0 : index11;
+            music.src = musicList[index11].path;
+            music.play();
+            
+            title.innerHTML = musicList[index11].name;
+            localStorage.setItem('bgm_gds', index11);
+        }
+        prev.onclick = function () {
+            // music.pause();
+            index11--;
+            index11 = index11 < 0 ? musicList.length - 1 : index11;
+            music.src = musicList[index11].path;
+            music.play();
+            
+            title.innerHTML = musicList[index11].name;
+            localStorage.setItem('bgm_gds', index11);
+        }
+        
+        music.onended = function () {
+            next.click();
+        };
+        
+        //切换或刷新页面音轨补偿,1s后开始补偿
+        setTimeout(function () {
+            //如果发现本地有存储，则进行音轨补偿
+            if (localStorage.getItem('bgm_time') != null && localStorage.getItem('paused') != 1) {
+                music.play();
+                music.currentTime = localStorage.getItem('bgm_time');
+                start.click();
+                
+                setInterval(function () {
+                    if (music.paused && times === 0) {
+                        music.play();
+                        
+                        clearInterval(this);
+                        times++;
+                    }
+                }, 100);
+                
+                clearInterval(this.timer);
+                
+                
+                // // 如果music播放的话
+                // setInterval( function () {
+                //     if (music.paused) {
+                //         music.play();
+                //         clearInterval(this);
+                //     }
+                // },100);
+                /*音量逐渐增大*/
+                music.volume = 0;
+                v = 0;
+                var t = setInterval(function () {
+                    v += 0.005;
+                    if (v <= 0.6) {
+                        music.volume = v;
+                    } else {
+                        clearInterval(t);
+                    }
+                }, 25);
+            }
+            //每100ms周期执行播放进度记录
+            window.setInterval(function () {
+                //检查浏览器是否支持本地存储
+                if (typeof (Storage) !== 'undefined') {
+                    localStorage.setItem('bgm_time', music.currentTime);
+                } else {
+                    var doc_body = document.querySelector('body');
+                    Swal.fire({
+                        title: '您的浏览器不支持本地存储',
+                        text: '请更换浏览器',
+                        type: 'warning',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            }, 100);
+            
+        }, 1000);
+        
+        if (localStorage.getItem('paused') != 1 && localStorage.getItem('bgm_time') != null) {
+            music.play();
+        }
+    
+    
+    </script>
+</div>
+
+<!--rightSelf-->
+<div class="rightSelf" th:fragment="rightSelf">
+    <link rel="stylesheet" th:href="@{/css/rightSelf.css}">
+    <link rel="stylesheet" th:href="@{/css/daemon.css}">
+    <div class="script"><span class="iconfont">&#xe823;</span> 创作中心<a th:href="@{'/scripts/mine/'+${user.getUserId()}}"
+                                                                      th:text="'草稿箱('+${myScriptsSize}+')'"><span
+            class="iconfont">&#xe7c4;</span>草稿箱(0)</a></div>
+    <div class="user">
+        <img alt="" src="" th:src="@{'/'+${#session.getAttribute('user').getUserPic()}}">
+        <div class="intro">
+            <div class="name" th:inline="text"><span class="iconfont">&#xe6b3;</span>
+                [[${#session.getAttribute('user').getUserName()}]]
+            </div>
+            <div class="intro1" th:inline="text"><span class="iconfont">&#xe78b;</span>
+                [[${#session.getAttribute('user').getUserIntroduction()}]]
+            </div>
+        </div>
+    </div>
+    
+    <div class="read">
+        <a th:href="@{'/articles/mine/'+${#session.getAttribute('user').getUserId()}}">
+            <div class="artSum"><span class="iconfont">&#xe610;</span> 文章 <h3 th:text="${myArticlesSize}"></h3></div>
+        </a>
+        <a th:href="@{'/comments/mine/'+${#session.getAttribute('user').getUserId()}}">
+            <div class="comSum"><span class="iconfont">&#xe654;</span> 评论 <h3 th:text="${myCommentsSize}"></h3></div>
+        </a>
+    </div>
+    <div class="news" th:inline="text">
+        <span class="iconfont">&#xe6db;</span>今日话题: <br>[[${articleList.get(0).getTitle()}]]
+    </div>
+    <div class="go">
+        <a id="go" th:href="@{/article/0/new}">开始创作 <span class="iconfont">&#xe823;</span></a>
+    </div>
+    
+    <script>
+        //获取rightSelf元素距离页面顶部的距离
+        let whole = document.querySelector(".whole")
+        let wholeTop = whole.offsetTop
+        let rightSelf = document.querySelector(".rightSelf")
+        
+        // 监听rightSelf滚动的事件
+        window.onscroll = function () {
+            let scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+            if (scrollTop >= 0) {
+                rightSelf.style = 'position:fixed;top:55px;right:83px;float:none;margin-top:0'
+            } else {
+                rightSelf.style = 'margin-top: 55px;float: left;margin-left: 30px;';
+            }
+        }
+    </script>
+</div>
+
+<!--shell-->
+<div class="shell" th:fragment="shell">
+    <link rel="stylesheet" th:href="@{/css/shell.css}">
+    <link rel="stylesheet" th:href="@{/css/daemon.css}">
+    
+    <a class="box" th:href="@{'/info/'+${#session.getAttribute('user').getUserId()}}"><i class="iconfont"><span
+            class="iconfont">&#xe78b;</span></i><span>个人信息</span></a>
+    <a class="box" th:href="@{'/articles/mine/'+${#session.getAttribute('user').getUserId()}}"><i
+            class="iconfont "><span class="iconfont">&#xe610;</span></i><span> 文章</span></a>
+    <a class="box" th:href="@{'/scripts/mine/'+${#session.getAttribute('user').getUserId()}}"><i class="iconfont"><span
+            class="iconfont">&#xe7c4;</span></i><span>草稿</span></a>
+    <a class="box" th:href="@{'/comments/mine/'+${#session.getAttribute('user').getUserId()}}"><i class="iconfont"><span
+            class="iconfont">&#xe654;</span></i><span>评论</span></a>
+    <a class="box" th:href="@{'/pictures/mine/'+${#session.getAttribute('user').getUserId()}}"><i class="iconfont"><span
+            class="iconfont">&#xe8d3;</span></i><span>图片</span></a>
+    <a class="box" href="#"><i class="iconfont"><span class="iconfont">&#xe642;</span></i><span>QR码</span></a>
+    <a class="box" href="#"><i class="iconfont"><span class="iconfont">&#xe642;</span></i><span>安全</span></a>
+    <a class="box" href="#"><i class="iconfont"><span class="iconfont">&#xe642;</span></i><span>导航</span></a>
+</div>
+
+<!--foot-->
+<div class="foot" th:fragment="foot">
+    <link rel="stylesheet" th:href="@{/css/foot.css}">
+    <link rel="stylesheet" th:href="@{/css/daemon.css}">
+    <a href=""><span class="iconfont">&#xe78d;</span></a>
+    <a href=""><span class="iconfont">&#xe78e;</span></a>
+    <a href=""><span class="iconfont">&#xe89e;</span></a>
+    <a href=""><span class="iconfont">&#xe89f;</span></a>
+    <span>--Leo Chen</span>
+</div>
+
+
+</body>
+
+</html>

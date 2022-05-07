@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> <!--约束文件-->
+
+
+<mapper namespace="com.chen.LeoBlog.dao.ArticleDao">
+
+    <select id="getArticleById" resultType="com.chen.LeoBlog.po.Article">
+        select *
+        from leoblog.article
+        where articleId = #{articleId}
+    </select>
+    <select id="getArticleByKeyword" resultType="com.chen.LeoBlog.po.Article">
+        select *
+        from leoblog.article
+        where title like '%${keyword}%'
+    </select>
+    <select id="getArticleByUserId" resultType="com.chen.LeoBlog.po.Article">
+        select *
+        from leoblog.article
+        where userId = #{userId}
+        order by changedTime desc
+    </select>
+    <select id="getAllArticle" resultType="com.chen.LeoBlog.po.Article">
+        select *
+        from leoblog.article
+        order by changedTime desc
+        limit 30
+    </select>
+
+    <insert id="insertArticle">
+        INSERT INTO leoblog.article(articleId, comment, changedTime, title, picUrl, articleUrl, original, author,
+                                    userId)
+        VALUES (#{articleId}, #{comment}, #{changedTime}, #{title}, #{picUrl}, #{articleUrl}, #{original}, #{author},
+                #{userId});
+    </insert>
+    <delete id="deleteArticleById">
+        DELETE
+        FROM leoblog.article
+        WHERE articleId = #{articleId}
+        limit 1
+    </delete>
+    <update id="changeArticle">
+        UPDATE leoblog.article
+        SET changedTime = #{changedTime},
+            articleUrl=#{articleUrl},
+            comment     = #{comment},
+            picUrl= #{picUrl},
+            title=#{title},
+            author=#{author},
+            original=#{original}
+        WHERE articleId = #{articleId}
+        limit 1
+    </update>
+</mapper>

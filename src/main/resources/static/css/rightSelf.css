@@ -1,0 +1,189 @@
+.rightSelf {
+    margin-top: 55px;
+    float: left;
+    background: #fff;
+    height: auto;
+    box-shadow: 1px 3px 11px #869d9d;
+    border-radius: 5px;
+    margin-left: 30px;
+    width: 360px;
+}
+
+
+.rightSelf .script {
+    width: 100%;
+    height: 30px;
+    /*background-color: #ff6700;*/
+    margin: 5px;
+    position: relative;
+    /*left: 260px;*/
+    line-height: 30px;
+    font-size: 20px;
+    font-weight: 600;
+
+}
+
+.rightSelf .script a {
+    /* display: block; */
+    height: 100%;
+    width: 100%;
+    color: #9ca29d;
+    font-size: 15px;
+    margin-left: 150px;
+    font-weight: 400;
+}
+
+.rightSelf .user {
+    height: 140px;
+    width: 100%;
+    /*background: #fff;*/
+    padding: 20px 10px;
+    background-color: rgba(216, 227, 231, 0.39);
+}
+
+.user img {
+
+    height: 100px;
+
+    width: 100px;
+
+    border-radius: 5px;
+
+    float: left;
+
+    margin-right: 20px;
+
+    /* border: 7px solid #fff; */
+}
+
+.rightSelf .creat {
+    margin-top: 0px;
+    width: 100%;
+    height: 62px;
+    /* background-color: #0086b3; */
+    line-height: 62px;
+}
+
+.intro {
+    float: left;
+    width: 62%;
+    /*background: #f64534;*/
+    height: 120px;
+    line-height: 40px;
+}
+
+.intro .name {
+    height: 40px;
+    width: 100%;
+    color: #134857;
+    font-size: 25px;
+    font-weight: 600;
+    line-height: 40px;
+}
+
+.intro .intro1 {
+    height: 70px;
+    width: 100%;
+    color: #134857;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.creat > span {
+    width: 0px;
+    height: 50px;
+    margin-left: 35px;
+    float: left;
+    color: #f5237c;
+    font-size: 35px;
+    margin-right: 140px;
+    transition: width 0.5s;
+    line-height: 50px;
+}
+
+.creat > a {
+    display: block;
+    margin: 0px 21px;
+    color: #7f8590;
+    float: left;
+    height: 100%;
+    padding: 0px 0px;
+    /* font-size: 15px; */
+    /* text-shadow: 10px 10px 50px #ffffff; */
+    transition: all 0.5s;
+    line-height: 62px;
+    font-weight: 600;
+}
+
+/*.creat > a:hover {*/
+/*    margin: 0 20px;*/
+/*    transition: all 0.5s;*/
+/*}*/
+
+.creat > a > span {
+    font-size: 30px;
+}
+
+.read {
+    height: 100px;
+    width: 100%;
+    /* background-color: rgba(216, 227, 231, 0.39); */
+    color: black;
+    font-size: 15px;
+    padding: 10px;
+    line-height: 30px;
+}
+
+.news {
+    margin-top: 7px;
+    height: auto;
+    width: 100%;
+    /*background-color: #ff6700;*/
+    color: black;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 10px;
+    line-height: 30px;
+    border-top: 1px solid #7f859061;
+}
+
+.go {
+    margin: 20px auto 20px auto;
+    width: 60%;
+    height: 50px;
+    line-height: 50px;
+    background-color: rgba(134, 157, 157, 0.19);
+    border-radius: 5px;
+    border: 0px solid #134857;
+    box-shadow: 1px 1px 5px #134857;
+}
+
+.go a {
+    display: block;
+    height: 100%;
+    width: 100%;
+
+    color: #134857;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.rightSelf .script a:hover {
+    color: #134857;
+    transition: all .2s;
+}
+
+.read .artSum, .read .comSum {
+    float: left;
+    height: 100%;
+    width: 45%;
+    font-size: 20px;
+    color: #134857;
+    border-radius: 10px;
+    background: #f0f4f6;
+    line-height: 35px;
+}
+
+.read .comSum {
+    margin-left: 30px;
+}

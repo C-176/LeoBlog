@@ -1,0 +1,12 @@
+@font-face {
+    font-family: "PingFang SC";
+    src: url("../js/fonts/PingFang Medium.ttf")
+}
+
+body {
+    font-family: "Arial", "PingFang SC", sans-serif;
+    font-size: 15px;
+    color: #134857;
+}
+
+

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> <!--约束文件-->
+
+
+<mapper namespace="com.chen.LeoBlog.dao.CommentDao">
+
+
+    <!--根据id查找comment-->
+    <select id="getCommentById" resultType="com.chen.LeoBlog.po.Comment">
+        select * from leoblog.comment where commentId=#{commentId} limit 1
+    </select>
+
+    <select id="getCommentsBySenderId" resultType="com.chen.LeoBlog.po.Comment">
+        select * from leoblog.comment where senderId=#{senderId} and oneLevel=1 order by changedTime desc
+    </select>
+
+    <select id="getCommentsByReceiverId" resultType="com.chen.LeoBlog.po.Comment">
+        select * from leoblog.comment where receiverId=#{receiverId} and oneLevel=1 order by changedTime desc
+    </select>
+    <!--    文章中的级评论：查询所有评论中receiverId等于receiverId以及senderId等于senderId或者两者相反的评论-->
+    <select id="getOneLevelCommentsByArticleId0" resultType="com.chen.LeoBlog.po.Comment">
+        select * from leoblog.comment where articleId=#{articleId} and oneLevel = 0 order by changedTime desc
+    </select>
+    <!--    文章中的一级评论-->
+    <select id="getOneLevelCommentsByArticleId" resultType="com.chen.LeoBlog.po.Comment">
+        select * from leoblog.comment where articleId=#{articleId} and oneLevel = 1 order by changedTime desc
+    </select>
+<!--    二级评论：查询所有评论中receiverId等于receiverId以及senderId等于senderId或者两者相反的评论-->
+    <select id="getTwoLevelCommentsBySenderIdAndReceiverId" resultType="com.chen.LeoBlog.po.Comment">
+        select * from leoblog.comment where ((receiverId=#{receiverId} and senderId=#{senderId}) or (receiverId=#{senderId} and senderId=#{receiverId}) or (receiverId=#{senderId} and senderId=#{senderId}) or (receiverId=#{receiverId} and senderId=#{receiverId})) and oneLevel = 0 and articleId=#{articleId}
+    </select>
+
+   <select id="getCommentsByToId" resultType="com.chen.LeoBlog.po.Comment">
+           select * from leoblog.comment where commentToId=#{commentToId}
+       </select>
+
+    <insert id="insertComment">
+        INSERT INTO leoblog.comment(content,changedTime,articleId,senderId,commentId,receiverId,oneLevel,commentToId)
+        VALUES(#{content},#{changedTime},#{articleId},#{senderId},#{commentId},#{receiverId},#{oneLevel},#{commentToId})
+
+    </insert>
+    <delete id="deleteComment">
+        DELETE FROM leoblog.comment WHERE commentId=#{commentId} or commentToId=#{commentId}
+    </delete>
+
+<!--    根据articleId删除评论-->
+    <delete id="deleteCommentByArticleId">
+        DELETE FROM leoblog.comment WHERE articleId=#{articleId}
+    </delete>
+<!--    根据senderId删除评论-->
+    <delete id="deleteCommentBySenderId">
+        DELETE FROM leoblog.comment WHERE senderId=#{senderId}
+    </delete>
+<!--    根据receiverId删除评论-->
+    <delete id="deleteCommentByReceiverId">
+        DELETE FROM leoblog.comment WHERE receiverId=#{receiverId}
+    </delete>
+
+    <update id="changeComment">
+        UPDATE leoblog.comment SET content=#{content},changedTime=#{changedTime} WHERE commentId=#{commentId}
+    </update>
+
+
+</mapper>

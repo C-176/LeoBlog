@@ -1,0 +1,127 @@
+.header {
+    overflow: hidden;
+    z-index: 1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    margin: 0 auto;
+    height: 50px;
+    line-height: 50px;
+}
+
+.header #cyber {
+    float: left;
+    color: #132c33;
+    height: 60px;
+    width: 145px;
+    text-align: center;
+    font-size: 30px;
+}
+
+.header > span {
+    float: left;
+    width: 40px;
+    height: 60px;
+    color: #132c33;
+    margin-left: 700px;
+    font-size: 35px;
+    transition: width 1s;
+}
+
+
+.main {
+    position: relative;
+    overflow: hidden;
+    height: 624px;
+    width: 65%;
+    /* box-shadow: #753b7f 0 0 30px; */
+    border-radius: 15px;
+    margin: 60px auto;
+}
+
+.right form {
+    outline: none;
+}
+
+.left {
+    float: left;
+    height: 100%;
+    width: 400px;
+    background-color: white;
+}
+
+.left img {
+    height: 100%;
+    width: 100%;
+}
+
+.right {
+    position: relative;
+    /* background-image: linear-gradient(to top, #f43b47 0%, #453a94 100%); */
+    background: #5cb3cc;
+    float: left;
+    height: 100%;
+    width: 587px;
+    /* background-color: transparent; */
+    text-align: center;
+    padding-top: 10px;
+}
+
+
+.right form h3 {
+    margin: auto;
+    height: 60px;
+    width: 600px;
+    text-align: center;
+    line-height: 80px;
+    color: #134857;
+    font-weight: 500;
+    font-size: 35px;
+}
+
+.right form input {
+    height: 60px;
+    width: 500px;
+    border-radius: 5px;
+    text-align: center;
+    background-color: transparent;
+    font-size: 30px;
+    font-family: ruixian;
+    border-width: 0;
+    border-bottom: #d8e3e7 solid 5px;
+    transition: background-color 0.6s;
+    color: #132c33;
+}
+
+.right form input:hover, input:focus {
+    background-color: rgba(167, 29, 93, 0.3);
+    transition: all 0.6s;
+    outline: none;
+}
+
+button {
+    position: absolute;
+    bottom: 33px;
+    display: block;
+    height: 65px;
+    width: 150px;
+    background-color: #134857;
+    font-size: 35px;
+    font-family: 'ruixian';
+    border-width: 0;
+    /* box-shadow: #813a79 0 0 20px; */
+    /*margin-right: -60px;*/
+    border-radius: 10px;
+    color: #5cb3cc;
+}
+
+.right .register {
+    right: 219px;
+    margin: 0 auto;
+}
+
+.right .register:hover {
+    background-color: #132c33;
+    transition: background-color 0.5s;
+}
