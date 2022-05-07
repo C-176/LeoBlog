@@ -17,7 +17,7 @@
 
 .whole .pic {
 
-    height: 350px;
+    height: 400px;
     width: 100%;
     margin-bottom: 100px;
     /*margin-top: 100px;*/
@@ -67,7 +67,7 @@
 .whole .comment {
     width: 80%;
     height: 60px;
-    margin-left: 200px;
+    margin-left: 20%;
     color: #134857;
 }
 
@@ -88,7 +88,7 @@
 
 .comment .s {
     text-align: left;
-    width: 40%;
+    width: 50%;
     margin-right: 300px;
     padding-left: 20px;
 }

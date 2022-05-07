@@ -22,10 +22,10 @@
 #fold {
     position: fixed;
     /* bottom: 209px; */
-    right: 4px;
+    right: 1%;
     /* left: 82%; */
     display: block;
-    top: 550px;
+    top: 80%;
 }
 
 #prev-btn:hover, #fold:hover, #start:hover, #next-btn:hover, #stop:hover {
@@ -53,8 +53,8 @@
     width: 300px;
     height: 430px;
     position: fixed;
-    bottom: 50px;
-    right: 50px;
+    top: 46%;
+    right: 3%;
     background-color: transparent;
     border-radius: 10px;
     /*box-shadow: 0 0 10px #134857;*/

@@ -1,12 +1,17 @@
 .rightSelf {
-    margin-top: 55px;
-    float: left;
+    /*margin-top: 55px;*/
+    /*float: left;*/
     background: #fff;
     height: auto;
     box-shadow: 1px 3px 11px #869d9d;
     border-radius: 5px;
     margin-left: 30px;
     width: 360px;
+    position:fixed;
+    top:55px;
+    right:5%;
+    float:none;
+    margin-top:0
 }
 
 
@@ -20,6 +25,7 @@
     line-height: 30px;
     font-size: 20px;
     font-weight: 600;
+
 
 }
 

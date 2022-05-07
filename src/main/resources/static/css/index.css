@@ -55,14 +55,14 @@ body > audio {
 
 .a {
     position: relative;
-    width: 650px;
+    width: 100%;
     display: flex;
     justify-content: space-evenly;
     margin: 5px 0 25px 0;
 }
 
 .b {
-    width: 770px;
+    width: 100%;
     height: 434px;
     transition: .4s;
     background-size: cover;
@@ -72,7 +72,7 @@ body > audio {
 }
 
 .c {
-    width: 240px;
+    width: 30%;
     height: 434px;
     display: flex;
     /* 纵向布局 */
@@ -82,22 +82,22 @@ body > audio {
 
 .d {
     position: relative;
-    width: 197px;
-    height: 128px;
+    width: 100%;
+    height: 100%;
     right: 0;
-    transition: .5s;
+    transition: .3s;
     overflow: hidden;
     border-radius: 5px;
 }
 
 .d img {
     position: absolute;
-    width: 190px;
+    /*width: 100%;*/
     /* 小图片上移 */
-    transform: translate(0, -50px);
-    transition: .5s;
+    /*transform: translate(0, -50px);*/
+    transition: .3s;
     right: 0;
-    height: 199px;
+    /*height: 100%;*/
 }
 
 .d.dd {
@@ -123,8 +123,8 @@ body > audio {
 .whole .Article .img {
     float: left;
     margin: 13px 20px;
-    height: 170px;
-    width: 30%;
+    height: 85%;
+    width: 300px;
     border-radius: 10px;
     box-shadow: 1px 3px 11px #134857;
 }
@@ -139,7 +139,7 @@ body > audio {
     margin: auto 10px;
     float: left;
     height: 100%;
-    width: 600px;
+    width: 65%;
     padding: 5px 10px;
     /* background: #d8e3e7; */
 }

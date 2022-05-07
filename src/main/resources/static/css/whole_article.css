@@ -29,7 +29,7 @@
     height: 30px;
     width: 65px;
     position: relative;
-    left: 610px;
+    left: 95%;
     line-height: 30px;
     border: 1px solid #134857;
     border-radius: 5px;
@@ -40,7 +40,7 @@ div#comment {
     margin-top: 10px;
     margin-left: 0;
     height: 140px;
-}
+/* width: 35%; */}
 
 .change a, .delete a, .submit a {
     height: 100%;

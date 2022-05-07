@@ -17,7 +17,7 @@
 <body>
 <div class="musicbox" th:include="component/component::musicbox"></div>
 <div class="header" th:include="component/component::header"></div>
-<div class="shell" th:include="component/component::shell"></div>
+<!--<div class="shell" th:include="component/component::shell"></div>-->
 
 <div class="whole">
     <form action="javascript:void(0)" method="post">
@@ -88,9 +88,9 @@
                         advlist_number_styles: 'lower-alpha,lower-roman,upper-alpha,upper-roman',
                         styleselect_font_size: '12px',
                         toolbar: ' redo toc table hr indent outdent lineheight styleselect fontselect fontsizeselect bold italic underline blockquote bullist numlist codesample code  alignleft aligncenter alignright alignjustify subscript superscript kityformula-editor link image media searchreplace restoredraft print',
-                        width: 1100,
-                        height: 532,
-                        min_height: 532,
+                        width: '100%',
+                        height: 600,
+                        min_height: 600,
                         resize: false,
                         // noneditable_editable_class: "mceEditable",
                         fullpage_default_font_family: "'Times New Roman', Georgia, Serif;",
@@ -99,10 +99,10 @@
                         autosave_interval: "20s",
                         autosave_prefix: "tinymce-autosave-{path}{query}-{id}-",
                         autosave_restore_when_empty: true,
-                        autosave_retention: "20m",
+                        autosave_retention: "10m",
                         pagebreak_split_block: true,
                         autoresize_on_init: false,
-                        autoresize_overflow_padding: 10,
+                        autoresize_overflow_padding: 5,
                         // statusbar: false,  // 状态栏显示
                         content_css_cors: true,
                         content_css: '/LeoBlog/css/editor_font.css',
