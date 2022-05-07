@@ -53,8 +53,8 @@
     width: 300px;
     height: 430px;
     position: fixed;
-    top: 46%;
-    right: 3%;
+    bottom: 50px;
+    right: 1px;
     background-color: transparent;
     border-radius: 10px;
     /*box-shadow: 0 0 10px #134857;*/

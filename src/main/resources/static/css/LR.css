@@ -2,8 +2,12 @@ body {
     margin: 0 auto;
     background: #134857;
     font-weight: 600;
-margin-top: 50px;}
+/* margin-top: 50px; */}
 
+#whole{
+    height: 85vh;
+    width: 100%;
+}
 .header {
     overflow: hidden;
     z-index: 1;
@@ -22,7 +26,7 @@ background: #d8e3e7;}
     color: #132c33;
     color: #134857;
     height: 50px;
-    width: 145px;
+    width: 140px;
     text-align: center;
     font-size: 25px;
     margin: 0 auto;
@@ -34,7 +38,7 @@ background: #d8e3e7;}
     width: 40px;
     height: 50px;
     color: #134857;
-    margin-left: 700px;
+    margin-left: calc(50% - 90px);
     font-size: 25px;
     text-align: center;
     /* margin-right: 20px; */

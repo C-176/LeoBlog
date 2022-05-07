@@ -62,9 +62,9 @@ body > audio {
 }
 
 .b {
-    width: 100%;
+    width: 95%;
     height: 434px;
-    transition: .4s;
+    transition: .3s;
     background-size: cover;
     border-radius: 10px 5px 5px 10px;
     margin-left: 10px;
@@ -72,7 +72,7 @@ body > audio {
 }
 
 .c {
-    width: 30%;
+    width: 19%;
     height: 434px;
     display: flex;
     /* 纵向布局 */
@@ -124,7 +124,7 @@ body > audio {
     float: left;
     margin: 13px 20px;
     height: 85%;
-    width: 300px;
+    width: 27%;
     border-radius: 10px;
     box-shadow: 1px 3px 11px #134857;
 }
@@ -188,5 +188,5 @@ body > audio {
     /*white-space:wrap;*/
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 5;
+    -webkit-line-clamp: 4;
 }

@@ -63,6 +63,10 @@ public class ScriptService {
 
 
     public ModelAndView editor(ModelAndView modelAndView, Integer scriptId, String editorMode, HttpSession session) {
+        if ("new".equals(editorMode)) {
+            modelAndView.setViewName("back/newEditor");
+            return modelAndView;
+        }
         Script script = getScriptById(scriptId);
         Article article = new Article();
         article.setComment(script.getComment());
@@ -77,8 +81,6 @@ public class ScriptService {
         modelAndView.addObject("editorMode", editorMode);
         if ("change".equals(editorMode)) {
             modelAndView.setViewName("back/changeEditor");
-        } else if ("new".equals(editorMode)) {
-            modelAndView.setViewName("back/newEditor");
         }
         return modelAndView;
     }

@@ -58,51 +58,55 @@
     <span class="iconfont">&#xe614;</span>
     <div id="cyber">LeoBlog</div>
 </div>
-<div class="main">
-    <div class="right">
-        <form action="javascript:void(0)" method="post">
-            <h3>用户名/邮箱</h3>
-            <label>
-                <input autocomplete="off" autofocus name="userName" placeholder="" required type="text" value="a">
-            </label>
-            <h3>密码</h3>
-            <label>
-                <input autocomplete="new-password" name="userPassword" placeholder="" required type="password"
-                       value="111">
-            </label>
-            <h3>记住密码</h3>
-            <label>
-                <input  name="rememberMe" placeholder="" required type="checkbox" value=0>
-            </label>
-            <button class="login1" name="mode" type="submit" value="login">登陆</button>
-        </form>
+<div id="whole">
+    <div class="main">
+        <div class="right">
+            <form action="javascript:void(0)" method="post">
+                <h3>用户名/邮箱</h3>
+                <label>
+                    <input autocomplete="off" autofocus name="userName" placeholder="" required type="text" value="a">
+                </label>
+                <h3>密码</h3>
+                <label>
+                    <input autocomplete="new-password" name="userPassword" placeholder="" required type="password"
+                           value="111">
+                </label>
+                <h3>记住密码</h3>
+                <label>
+                    <input  name="rememberMe" placeholder="" required type="checkbox" value=0>
+                </label>
+                <button class="login1" name="mode" type="submit" value="login">登陆</button>
+            </form>
+        </div>
+    
     </div>
-
-</div>
-<div class="main" style="display: none">
-    <div class="right" style="    padding-top: 0;">
-        <form action="javascript:void(0)" method="post">
-            <h3>用户名</h3>
-            <label>
-                <input autocomplete="off" autofocus  name="userName" placeholder="" required type="text">
-            </label>
-            <h3>邮箱</h3>
-            <label>
-                <input autocomplete="off"  name="userEmail" placeholder="" required type="email">
-            </label>
-            <h3>密码</h3>
-            <label>
-                <input autocomplete="new-password" id="userPassword" name="userPassword" required type="password">
-            </label>
-            <h3>确认密码</h3>
-            <label>
-                <input autocomplete="new-password" id="reUserPassword" required type="password">
-            </label>
-            <button class="register1" name="mode" value="register">注册</button>
-        </form>
+    <div class="main" style="display: none">
+        <div class="right" style="    padding-top: 0;">
+            <form action="javascript:void(0)" method="post">
+                <h3>用户名</h3>
+                <label>
+                    <input autocomplete="off" autofocus  name="userName" placeholder="" required type="text">
+                </label>
+                <h3>邮箱</h3>
+                <label>
+                    <input autocomplete="off"  name="userEmail" placeholder="" required type="email">
+                </label>
+                <h3>密码</h3>
+                <label>
+                    <input autocomplete="new-password" id="userPassword" name="userPassword" required type="password">
+                </label>
+                <h3>确认密码</h3>
+                <label>
+                    <input autocomplete="new-password" id="reUserPassword" required type="password">
+                </label>
+                <button class="register1" name="mode" value="register">注册</button>
+            </form>
+        </div>
+    
     </div>
-
 </div>
+
+
 <script src="js/crypto-js.js">
     </script>
 <script type="module">
