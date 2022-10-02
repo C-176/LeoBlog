@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>LeoBlog-chat</title>
+    <link rel="stylesheet" th:href="@{/css/daemon.css}"/>
+    <link rel="stylesheet" th:href="@{/css/chat.css}"/>
+    <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/js/chat.js}"></script>
+    <script  th:src="@{/js/tinymce/js/tinymce/tinymce.min.js}"></script>
+<!--    <script th:src="@{/js/tools.js}"></script>-->
+    
+
+</head>
+<body>
+<div class="header" th:include="component/component::header"></div>
+<div id="myId" style="display: none"  th:text="${#session.getAttribute('user').getUserId()}"></div>
+<div class="whole">
+    <div class="userInfo"></div>
+    <div class="chatWindow">
+        <div class="logo">Chat</div>
+        <div class="chat">
+            <div id="list">
+                <div class="search_container">
+                    <input type="text" id="search" placeholder="搜索用户...">
+                    <div id="searchButton"><span class="iconfont">&#xe644;</span></div>
+                </div>
+<!--                <div class="user" data="selected">-->
+<!--                    <div class="up" id="datetime">Mar 3</div>-->
+<!--                    <div class="down">-->
+<!--                        <div id="userPic"><img th:src="@{/source/images/default_pic.png}" alt=""></div>-->
+<!--                        <div class="right">-->
+<!--                            <div id="uname">Contiti</div>-->
+<!--                            <div id="uId" style="display: none"></div>-->
+<!--                            <div id="content"></div>-->
+<!--                            -->
+<!--                        </div>-->
+<!--                        <div id="redPoint">11</div>-->
+
+<!--                    </div>-->
+<!--                </div>-->
+            </div>
+
+            <div class="chatMessage">
+                <div class="userIntro">
+<!--                    <img src="" alt="">-->
+                    <div class="uname">STEPHEN</div>
+<!--                    <div class="address">USA</div>-->
+                </div>
+                <div class="chatting">
+<!--                    <div id="myMessage"></div>-->
+<!--                    <div id="updateTime"></div>-->
+<!--                    <div id="yourMessage"></div>-->
+
+                </div>
+                <script>
+                    tinymce.init({
+                        selector: '#in', //容器，可使用css选择器
+                        language:'zh_CN', //调用放在langs文件夹内的语言包
+                        toolbar: false, //隐藏工具栏
+                        menubar: false, //隐藏菜单栏
+                        inline: true, //开启内联模式`
+                        content_style: 'body { font-family:"Arial","PingFang SC",sans-serif;font-size:16px; }',
+                        // resize: false,
+                        content_css_cors: true,
+                        content_css: '/LeoBlog/css/editor_font.css',
+                        toolbar: ' image emoticons',
+                        fixed_toolbar_container: '.chatting',
+                        // width: '80%',
+                        // height: '100%',
+                        // min_height: 532,
+                        plugins: 'image emoticons', //字符串方式
+                        //选中时出现的快捷工具，与插件有依赖关系
+                        quickbars_selection_toolbar: '',
+                        autoresize_overflow_padding: 10,
+                        statusbar: false,
+                    });
+                </script>
+<!--                <div id="toolbar">-->
+                    <div id="input">
+                        <div id="in" contentEditable="true"></div>
+                        <div id="emoji"><span class="iconfont">&#xe78e;</span></div>
+                        <div id="send"><span class="iconfont">&#xec46;</span></div>
+                    </div>
+<!--                </div>-->
+                
+            </div>
+        </div>
+    </div>
+
+</div>
+<script th:inline="javascript">
+    // import * as sweetalert2 from "sweetalert2";
+    
+    var selected;
+
+    function getRecords(uId) {
+        $.ajax({
+            url: "/LeoBlog/chat/record/"+uId,
+            type: "Get",
+            success: function(data) {
+                let result = JSON.parse(data);
+                
+                let records = "";
+                for (let i = 0; i < result.length; i++) {
+                    var record = result[i];
+                    if(record.senderId==uId){
+                        records += '<div id="yourMessage" data="'+record.id+'">'+record.content+'</div>';
+                    }else{
+                        records += '<div id="myMessage" data="'+record.id+'">'+record.content+'</div>';
+                    }
+                }
+                
+                $('.chatting').append(records);
+                $('.chatting').scrollTop($('.chatting')[0].scrollHeight);
+    
+    
+            }
+        });
+    }
+    
+    
+    function select(user) {
+        user.style.width = '90%';
+        user.style.height = '13%';
+        user.style.boxShadow = ' #134857 1px 1px 10px';
+        var uname = $(user).find('#uname').html();
+        $('.userIntro .uname').text(uname);
+        var uId = $(user).find('#uId').html();
+        selected = uId;
+        $('.chatting').text('');
+        getRecords(uId);
+        
+    }
+    
+
+    function initUserList() {
+        let userId = [[${#session.getAttribute('user').getUserId()}]]
+        // let username = $('#user_name').text();
+        $.ajax({
+            url: "/LeoBlog/getChatUserList/"+userId,
+            type: "POST",
+            success: function(data) {
+                let result = JSON.parse(data);
+                // let html = "<option value=''>---请选择---</option>";
+                // for (let i = 0; i < result.length; i++) {
+                //     html += "<option value='" + result[i].userName + "'>" + result[i].userName + "</option>";
+                // }
+                let userList = "";
+                for (let i = 0; i < result.length; i++) {
+                    var userPic = result[i].userPic.startsWith('http')?result[i].userPic:'/LeoBlog/'+result[i].userPic;
+                    var datetime = result[i].create_datetime;
+                    var record = result[i].content;
+                    if (i === 0) {
+                        userList += '<div class="user" data="selected"><div class="up" id="datetime">'+datetime+'</div><div class="down"><div id="userPic"><img src="'+userPic+'" alt=""></div><div class="right"><div id="uname">'+result[i].userName+'</div><div id="uId" style="display: none">'+result[i].userId+'</div><div id="content">'+record+'</div></div><div id="redPoint">0</div></div></div>';
+                    } else {
+                        userList += '<div class="user" ><div class="up" id="datetime">'+datetime+'</div><div class="down"><div id="userPic"><img src="'+userPic+'" alt=""></div><div class="right"><div id="uname">'+result[i].userName+'</div><div id="uId" style="display: none">'+result[i].userId+'</div><div id="content">'+record+'</div></div><div id="redPoint">0</div></div></div>';
+    
+                    }
+                }
+                
+                // $("#list").html(html);
+                // $("#message_user_count").text(result.length + "人");
+                $("#list").append(userList);
+                select($('.user')[0]);
+                $("#list").find(".user").on("click", function() {
+                    $(".user").each(function() {
+                        $(this).removeAttr("style");
+                        $(this).removeAttr("data");
+                    });
+                    $(this).attr("data", "selected");
+                    
+                    select(this);
+                    $(this).find('#redPoint').css('display','none');
+
+                    
+                    
+                });
+            }
+        });
+    }
+    initUserList();
+    window.onload=function(){
+        document.onkeydown=function(ev){
+            var event=ev ||event
+            if(event.keyCode===13){
+                $('#send').click();
+            }
+        }
+    }
+
+
+
+    $(document).ready(function() {
+        // 初始化聊天对象列表
+        // initUserList();
+    
+        let urlPrefix = 'ws://localhost:8080/LeoBlog/net/websocket/';
+        let userId = $('#myId').text();
+        let ws = initMsg(urlPrefix, userId);
+    
+        // 客户端发送对某一个客户的消息到服务器
+        $('#send').click(function() {
+            // var a = $('#send');
+            // a.style = ''
+            // setTimeout(function() {
+            //     console.log(a)
+            //     this.style.height = '40px';
+            //     this.style.width = '40px';
+            //     this.style.radius = '20px';
+            //     this.style.fontSize = '16px';
+            // },300)
+
+            
+            let selectUser = null;
+            // 获取左侧聊天对象
+            $(".user").each(function() {
+                if ($(this).attr("data") === "selected") {
+                    selectUser = $(this).find('#uId').html();
+                }
+            });
+            if (!selectUser) {
+                simpleToast("请选择聊天对象",'question');
+                return;
+            }
+        
+            // // 获取图片对象
+            // let fileList = document.getElementById("file").files;
+            // let msg_content;
+            // // 发送图片信息
+            // if(fileList.length > 0) {
+            //     let fileReader = new FileReader();
+            //     fileReader.readAsDataURL(fileList[0]);
+            //     fileReader.onload = function (e) {
+            //         let msg_content1 = {
+            //             msg: e.target.result,       // 消息内容
+            //             acceptUser: selectUser, // 接收消息方
+            //             sendUser: username,         // 发送消息方
+            //             sendType: "0",              // 发送类型：0私聊；1群聊
+            //             msgType: 0                  // 消息类型：0文本；1图片
+            //         };
+            //         if (ws) {
+            //             ws.send(JSON.stringify(msg_content1));
+            //             //服务端发送的消息
+            //             $('#message_chat').append('<div style="width: 100%; float: right;"><span style="float: right;">' + username + '&nbsp;&nbsp;</span><br/>');
+            //             $('#message_chat').append('<span style="float: right; font-size: 18px; font-weight: bolder;"><img style="width: 150px; height: auto;" src="' + e.target.result + '" /></span></div>');
+            //             $("#chat_msg").val('');
+            //             $("#error_select_msg").empty();
+            //             // 让滚动条跟随消息一直在最底部
+            //             $('#message_chat').scrollTop($('#message_chat')[0].scrollHeight);
+            //             $("#chat_msg").focus();
+            //         }
+            //     }
+            // }
+            // // 发送文本消息
+            // else {
+            let msg = $("#in").text();
+            const file = $("#in img").attr('src');
+            
+            if (!msg && !file) {
+                simpleToast('发送内容不可为空','error');
+                return;
+            }
+            // msg = msg + "[" + selectUser + "]" + "----------" + username;
+            let msg_content = {
+                msg: msg,                   // 消息内容
+                acceptUser: selectUser, // 接收消息方
+                sendUser: userId,         // 发送消息方
+                sendType: "0",              // 发送类型：0 私聊；1 群聊
+                msgType: 0                  // 消息类型：0 文本；1 图片
+            };
+            if (ws) {
+                ws.send(JSON.stringify(msg_content));
+                //服务端发送的消息
+                $('.chatting').append('<div id="myMessage" class="temp">'+msg+'</div>');
+                // setTimeout(getRecords(selected),1000);
+    
+                $("#in").text('');
+                // 让滚动条跟随消息一直在最底部
+                $('.chatting').scrollTop($('.chatting')[0].scrollHeight);
+                $("#in").focus();
+                $.ajax({
+                    url: "/LeoBlog/chat/record/"+selected,
+                    type: "Get",
+                    success: function(data) {
+                        let result = JSON.parse(data);
+                        var record = result[result.length-1];
+                        $('.temp').attr('data',record.id);
+                        // $('.chatting').append(records);
+                        // $('.chatting').scrollTop($('.chatting')[0].scrollHeight);
+                        
+                    }
+                });
+                
+            }
+            // }
+        });
+    
+        // 客户端群发消息到服务器
+        // $('#send_all').click(function() {
+        //     let msg = $('#in').text();
+        //     if (!msg) {
+        //         alert("请输入聊天内容！");
+        //         return;
+        //     }
+        //     // msg = msg + "[allUsers]" + "----------" + username;
+        //     let msg_content = {
+        //         msg: msg,           // 消息内容
+        //         acceptUser: null,   // 接收消息方
+        //         sendUser: userId, // 发送消息方
+        //         sendType: "1",      // 发送类型：0 私聊；1 群聊
+        //         msgType: "0"        // 消息类型：0 文本；1 图片
+        //     }
+        //     if (ws) {
+        //         ws.send(JSON.stringify(msg_content));
+        //         //服务端发送的消息
+        //         $('#message_chat').append('<div style="width: 100%; float: right;"><span style="float: right;">' + username + ' 的群发消息&nbsp;&nbsp;</span><br/>');
+        //         $('#message_chat').append('<span style="float: right; font-size: 18px; font-weight: bolder;">' + msg + '</span></div>');
+        //         $("#chat_msg").val('');
+        //         $("#error_select_msg").empty();
+        //         $('#message_chat').scrollTop($('#message_chat')[0].scrollHeight);
+        //         $("#chat_msg").focus();
+        //     }
+        // });
+    
+        // 退出聊天室
+        // $('#user_exit').click(function() {
+        //     if (ws) {
+        //         $('#message_chat').append('<div style="width: 100%; float: left;">用户[' + userId + '] 已经离开聊天室!' + '</div>');
+        //         console.log("用户：[" + userId + "]已关闭 websocket 连接...");
+        //         ws.close();
+        //     }
+        //     //TODO:关闭弹窗，断开连接
+        //     // window.location.href = "/chat/login";
+        // });
+    });
+
+
+
+
+    var simpleToast = function (msg,type){
+        // 弹窗提示可以修改了
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top',
+            showConfirmButton: false,
+            timer: 1500
+        })
+    
+        Toast.fire({
+            icon: type,
+            title: msg
+        })
+    
+    }
+
+
+
+    function initMsg(urlPrefix, userId){
+        var url = urlPrefix+userId;
+        let ws = new WebSocket(url);
+        ws.onopen = function () {
+            simpleToast("建立 websocket 连接成功",'success');
+        };
+        // 收到消息
+        ws.onmessage = function(event) {
+            var type = event.data.split("|")[0];
+            var senderId = event.data.split("|")[1];
+            var data = event.data.split("|")[2];
+            if(type=="notice"){
+                simpleToast(data,'success')
+                return;
+            }
+            if(senderId==selected){
+                addMessage(data);
+                $('.chatting').scrollTop($('.chatting')[0].scrollHeight);
+            }else{
+                $(".user").each(function() {
+                    if (senderId == $(this).find('#uId').html()) {
+                        $(this).find('#redPoint').html(parseInt($(this).find('#redPoint').html())+1);
+                        $(this).find('#redPoint').css('display','block');
+                    }
+                });
+            }
+        
+        };
+        // 关闭webSocket
+        ws.onclose = function() {
+            simpleToast(userId+"已离线",'info')
+        }
+        return ws;
+    }
+
+
+</script>
+
+
+</body>
+</html>

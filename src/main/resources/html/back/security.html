@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>LeoBlog--security</title>
+    <link rel="stylesheet" th:href="@{/css/daemon.css}">
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+    <script th:src="@{/js/sweetalert2.all.min.js}"></script>
+    <script th:src="@{/js/sweetalert2.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/js/sweetalert2.min.css}">
+    <link rel="stylesheet" th:href="@{/css/whole_article.css}">
+    <style>
+        .whole{
+            margin-top: 50px;
+        }
+        h1{
+            margin-top: 12px;
+            font-size: 20px;
+        }
+        .s a{
+            display: inline-block;
+            width: 45px;
+            height: 25px;
+            color: #134857;
+            background: #d8e3e7;
+            border-radius: 2px;
+            text-align: center;
+            line-height: 25px;
+        }
+        .s a:hover{
+            background: #869d9d;
+            transition: all .3s;
+        }
+    </style>
+</head>
+<body>
+<div class="header" th:include="component/component::header"></div>
+<div class="musicbox" th:include="component/component::musicbox"></div>
+<div class="shell" th:include="component/component::shell"></div>
+
+<div class="whole">
+    <h1 class="head">账号与密码</h1>
+
+        <div class="comment">
+            <div class="q"><span class="iconfont">&#xe604;</span> 用户名</div>
+            <div class="s"><label>
+                <input name="userName" readonly autocomplete="false" th:value="${#session.getAttribute('user').getUserName()}"
+                       type="text">
+            </label><a id="userNameChange" href="javascript:void(0)">修改</a> </div>
+        </div>
+        <div class="comment">
+            <div class="q"><span class="iconfont">&#xe908;</span> 邮箱</div>
+            <div class="s"><label>
+                <input name="userEmail" readonly autocomplete="false" th:value="${#session.getAttribute('user').getUserEmail()}"
+                       type="text">
+            </label><a id="userEmailChange" href="javascript:void(0)">修改</a></div>
+        </div>
+        <div class="comment">
+            <div class="q"><span class="iconfont">&#xe64b;</span> 密码</div>
+            <div class="s"><label>
+                <input name="userPassword"  readonly th:value="${#session.getAttribute('user').getUserPassword()}"
+                       type="password">
+            </label><a id="userPasswordChange" href="javascript:void(0)">修改</a></div>
+        </div>
+        <div class="comment" style="display: none">
+            <div class="q"><span class="iconfont">&#xe65b;</span> 确认密码</div>
+            <div class="s"><label>
+                <input name="userPasswordConfirm" placeholder="请确认密码..."   type="password">
+            </label></div>
+        </div>
+    <script th:inline="javascript">
+        function change(para1,para2){
+            var oldName = document.getElementsByName(para1)[0].value;
+            var userName = document.getElementsByName(para1)[0];
+            var userNameChange = document.getElementById(para2);
+            userNameChange.onclick  = function (){
+                if(this.innerHTML==="修改"){
+                    userName.removeAttribute("readonly");
+                    // console.log(userName)
+                    // userName.display.background="#d8e3e7";
+                    // userName.display.borderRadius="5px";
+                    userName.focus();
+                    this.innerHTML = "保存";
+                    if (para1 === "userPassword"){
+                        var confirmFather = document.getElementsByClassName("comment")[3];
+                        var confirm = document.getElementsByName("userPasswordConfirm")[0];
+                        confirmFather.style.display="block";
+                        confirmFather.style.marginBottom = "10px";
+                        confirm.removeAttribute("readonly");
+                        // confirm.display.background="#d8e3e7";
+                        // confirm.display.borderRadius="5px";
+                        
+        
+                    }
+                }else if(this.innerHTML==="保存"){
+                    if (userName.value===oldName){
+                        userName.readonly = true;
+                        userName.blur();
+                        userNameChange.innerHTML = "修改";
+                        var confirmFather = document.getElementsByClassName("comment")[3];
+                        // var confirm = document.getElementsByName("userPasswordConfirm")[0];
+                        // confirmFather.style.marginBottom = "0px";
+                        // confirm.readonly = true;
+                        confirmFather.style.display="none";
+                        
+                    }else{
+                        //确认密码部分
+                        if (para1 === "userPassword"){
+                            var confirm = document.getElementsByName("userPasswordConfirm")[0];
+                            console.log(confirm.value);
+                            // 判断confirm的value是否为空
+                            if (confirm.value.trim() === '') {
+                                Swal.fire({
+                                    title: "确认密码不可为空",
+                                    icon: 'error',
+                                    confirmButtonText: 'OK'
+                                })
+                                return;
+                            }
+                            else if(confirm.value!==userName.value){
+                                Swal.fire({
+                                    title: "两次密码不一致",
+                                    icon: 'error',
+                                    confirmButtonText: 'OK'
+                                })
+                                return;
+                            }
+                        }
+                        var xhr = new XMLHttpRequest();
+                        xhr.open("PUT", "/LeoBlog/info/" + [[${#session.getAttribute('user').getUserId()}]] + "/change");
+                        var data = new FormData();
+                        data.set(para1,userName.value);
+                        xhr.send(data);
+                        xhr.onreadystatechange = function () {
+                            var result = JSON.parse(xhr.responseText);
+                            var code = result.code;
+                            var msg = result.msg;
+                            if (code === 200) {
+                                Swal.fire({
+                                    title: msg,
+                                    icon: 'success',
+                                    confirmButtonText: 'OK'
+                                }).then(function () {
+                                    window.location.href = "/LeoBlog/security/" + [[${#session.getAttribute('user').getUserId()}]];
+                                })
+                            } else {
+                                Swal.fire({
+                                    title: msg,
+                                    icon: 'error',
+                                    confirmButtonText: 'OK'
+                                })
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        change("userName","userNameChange");
+        change("userEmail","userEmailChange");
+        change("userPassword","userPasswordChange");
+
+    </script>
+        
+
+</div>
+</body>
+</html>

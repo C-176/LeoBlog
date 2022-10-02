@@ -22,15 +22,14 @@ public class GlobalException implements HandlerExceptionResolver {
     public ModelAndView resolveException(HttpServletRequest req, HttpServletResponse resp, Object handler, Exception e) {
         //未登录异常
         if (e instanceof NoLoginException) {
-            ModelAndView mav = new ModelAndView("redirect:index.html");
-            return mav;
+            return new ModelAndView("redirect:index.html");
         }
         //实例化对象
         ModelAndView mav = new ModelAndView();
         //默认视图
         mav.setViewName("");
         mav.addObject("code", 400);
-        mav.addObject("msg", "系统异常，稍后访问...");
+        mav.addObject("msg", "系统异常，请稍后访问...");
         //判断ResponseBody
         if (handler instanceof HandlerMethod) {
             HandlerMethod handlerMethod = (HandlerMethod) handler;

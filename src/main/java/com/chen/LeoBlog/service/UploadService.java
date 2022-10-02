@@ -1,6 +1,9 @@
 package com.chen.LeoBlog.service;
 
 
+import cn.hutool.core.img.ImgUtil;
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.StrUtil;
 import com.chen.LeoBlog.base.ResultInfo;
 import com.chen.LeoBlog.po.Article;
 import com.chen.LeoBlog.po.Script;
@@ -34,11 +37,7 @@ public class UploadService {
 
 
     /**
-     * 上传文件至指定目录
-     *
-     * @param file
-     * @param path
-     * @return 上传后的文件名
+     * 上传文件至指定目录,return上传后的文件名
      */
     public String uploadFile(MultipartFile file, String path) {
         //设置上传文件大小上限为2M
@@ -47,10 +46,10 @@ public class UploadService {
         String filename = file.getOriginalFilename();
         // 获取文件扩展名
         assert filename != null;
-        String extensionName = filename.substring(filename.lastIndexOf(".") + 1);
+        String suffix = FileUtil.getSuffix(filename);
 
-        // 设置上传文件的文件名，防止命名冲突导致覆盖
-        String uploadFilename = UUID.randomUUID() + "." + extensionName;
+        // UUID，防止命名冲突导致覆盖
+        String uploadFilename = UUID.randomUUID() + "." + suffix;
         //TODO:实现图片与文章或者草稿绑定，使删除文章时图片一并删掉，当然要考虑：文章与草稿相互转换的情况。
 
         File uploadDir = new File(path);
@@ -58,15 +57,14 @@ public class UploadService {
         if (!uploadDir.exists()) {
             // 设置可读权限，因为启用 tomcat 的用户可能没有写文件的权限
             uploadDir.setWritable(true);
-            uploadDir.mkdirs();
+            FileUtil.mkdir(uploadDir);
         }
 
         File targetFile = new File(path, uploadFilename);
 
         try {
-
-
             file.transferTo(targetFile);
+//            ImgUtil.flip(FileUtil.file(targetFile), FileUtil.file("d:/result.png"));
         } catch (IOException e) {
             AssertUtil.isTrue(true, "文章中图片上传失败");
             return null;
@@ -75,55 +73,41 @@ public class UploadService {
     }
 
     /**
-     * 文章中的图片上传
-     *
-     * @param file
-     * @param request
-     * @return location：图片在服务器上的存储路径
+     * 文章中的图片上传,location：图片在服务器上的存储路径
      */
     public Map<String, String> uploadImage(MultipartFile file, HttpServletRequest request) {
         String realPath = PathUtil.getUploadPath(request) + "images";
-        //        System.out.println(realPath);
 
 //        将文件上传至指定目录
         String imageUrl = uploadFile(file, realPath);
         imageUrl = IMAGE_URL_PREFIX + imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
 //        System.out.println(imageUrl);
+
         //  TinyMCE 要求图片上传后，需要返回一个 json 对象，这个对象必须有 location 属性，此处硬编码
         Map<String, String> map = new HashMap<>();
         map.put("location", imageUrl);
-        System.out.println("loca:" + map.get("location"));
+        System.out.println("local:" + map.get("location"));
         return map;
 
     }
 
     /**
      * 发布文章，无论新建还是修改后发布，都会调用此方法
-     *
-     * @param editorMode
-     * @param title
-     * @param content
-     * @param original
-     * @param picUrl
-     * @param articleId
-     * @param request
-     * @return
      */
     public ResultInfo articlePublish(String editorMode, String title, String content, Integer original, String picUrl, Integer articleId, HttpServletRequest request) {
-        ResultInfo resultInfo = new ResultInfo();
         int i = 0;
-        if (!picUrl.contains("/") && StringUtils.isNotBlank(picUrl)) {
+        if (!StrUtil.contains(picUrl,"/") && StrUtil.isNotBlank(picUrl)) {
             picUrl = "source/upload/images/" + picUrl;
         }
         if ("new".equals(editorMode)) {
             //先从session中得到当前用户对象
             User user = (User) request.getSession().getAttribute("user");
-            AssertUtil.isTrue(user == null, "请先登录...");
+            AssertUtil.isTrue(user == null, "请先登录");
 
             Article article = new Article();
             article.setArticleId(Util.getId());
             article.setTitle(title);
-            picUrl = StringUtils.isBlank(picUrl) ? "https://pic2.zhimg.com/80/v2-29c63c3b7adb27988d6b4b808eb4b59d_400x224.png" : picUrl;
+            picUrl = StrUtil.isBlank(picUrl) ? "https://pic2.zhimg.com/80/v2-29c63c3b7adb27988d6b4b808eb4b59d_400x224.png" : picUrl;
 
             article.setPicUrl(picUrl);
             article.setUserId(user.getUserId());
@@ -131,21 +115,22 @@ public class UploadService {
             article.setChangedTime(new Date());
             article.setComment(content);
             article.setOriginal(original);
-            System.out.println(article);
+//            System.out.println(article);
+            if (StrUtil.isBlank(content)) return new ResultInfo(300,"内容不可为空!");
             i = articleService.insertArticle(article);
 
-        } else if (Objects.equals(editorMode, "change")) {
+        } else if (StrUtil.equals(editorMode, "change")) {
             Article article = new Article();
             if (articleService.getArticleById(articleId) != null) {
 
                 article = articleService.getArticleById(articleId);
-                if (StringUtils.isNotBlank(title)) {
+                if (StrUtil.isNotBlank(title)) {
                     article.setTitle(title);
                 }
-                if (StringUtils.isNotBlank(content)) {
+                if (StrUtil.isNotBlank(content)) {
                     article.setComment(content);
                 }
-                if (StringUtils.isNotBlank(picUrl)) {
+                if (StrUtil.isNotBlank(picUrl)) {
                     article.setPicUrl(picUrl);
                 }
                 if (original != null) {
@@ -158,21 +143,21 @@ public class UploadService {
             } else {
                 Script script = scriptService.getScriptById(articleId);
 
-                AssertUtil.isTrue(script == null, "文章不存在,请新建文章...");
+                AssertUtil.isTrue(script == null, "文章不存在,请新建文章");
                 assert script != null;
                 //先从session中得到当前用户对象
                 User user = (User) request.getSession().getAttribute("user");
                 AssertUtil.isTrue(user == null, "请先登录...");
                 article.setArticleId(Util.getId());
-                title = StringUtils.isBlank(title) ? script.getTitle() : title;
+                title = StrUtil.isBlank(title) ? script.getTitle() : title;
                 article.setTitle(title);
-                picUrl = StringUtils.isBlank(picUrl) ? script.getPicUrl() : picUrl;
-                picUrl = StringUtils.isBlank(picUrl) ? "https://pic2.zhimg.com/80/v2-29c63c3b7adb27988d6b4b808eb4b59d_400x224.png" : picUrl;
+                picUrl = StrUtil.isBlank(picUrl) ? script.getPicUrl() : picUrl;
+                picUrl = StrUtil.isBlank(picUrl) ? "https://pic2.zhimg.com/80/v2-29c63c3b7adb27988d6b4b808eb4b59d_400x224.png" : picUrl;
                 article.setPicUrl(picUrl);
                 article.setUserId(user.getUserId());
                 article.setAuthor(user.getUserName());
                 article.setChangedTime(new Date());
-                content = StringUtils.isBlank(content) ? script.getComment() : content;
+                content = StrUtil.isBlank(content) ? script.getComment() : content;
                 article.setComment(content);
                 original = original == null ? script.getOriginal() : original;
                 article.setOriginal(original);
@@ -181,28 +166,16 @@ public class UploadService {
             }
         }
         AssertUtil.isTrue(i < 1, "文章发布失败,请重试");
-        resultInfo.setCode(200);
-        resultInfo.setMsg("文章发布成功");
 
-        return resultInfo;
+        return new ResultInfo(200,"文章发布成功");
     }
 
     /**
      * 保存草稿，无论新建还是修改都会调用
-     *
-     * @param editorMode
-     * @param title
-     * @param content
-     * @param original
-     * @param picUrl
-     * @param articleId
-     * @param request
-     * @return
      */
     public ResultInfo scriptPublish(String editorMode, String title, String content, Integer original, String picUrl, Integer articleId, HttpServletRequest request) {
-        ResultInfo resultInfo = new ResultInfo();
         int i = 0;
-        if (!picUrl.contains("/") && StringUtils.isNotBlank(picUrl)) {
+        if (!picUrl.contains("/") && StrUtil.isNotBlank(picUrl)) {
             picUrl = "source/upload/images/" + picUrl;
         }
 
@@ -214,7 +187,7 @@ public class UploadService {
             script.setScriptId(Util.getId());
             script.setUserId(user.getUserId());
             script.setChangedTime(new Date());
-            picUrl = StringUtils.isBlank(picUrl) ? "https://pic2.zhimg.com/80/v2-29c63c3b7adb27988d6b4b808eb4b59d_400x224.png" : picUrl;
+            picUrl = StrUtil.isBlank(picUrl) ? "https://pic2.zhimg.com/80/v2-29c63c3b7adb27988d6b4b808eb4b59d_400x224.png" : picUrl;
             script.setPicUrl(picUrl);
             System.out.println(script.getPicUrl());
             script.setTitle(title);
@@ -227,33 +200,31 @@ public class UploadService {
             Script script = new Script();
             if (scriptService.getScriptById(articleId) != null) {
                 script = scriptService.getScriptById(articleId);
-                if (StringUtils.isNotBlank(title)) {
+                if (StrUtil.isNotBlank(title)) {
                     script.setTitle(title);
                 }
-                if (StringUtils.isNotBlank(content)) {
+                if (StrUtil.isNotBlank(content)) {
                     script.setComment(content);
                 }
-                if (StringUtils.isNotBlank(picUrl)) {
+                if (StrUtil.isNotBlank(picUrl)) {
                     script.setPicUrl(picUrl);
                 }
                 if (original != null) {
                     script.setOriginal(original);
                 }
                 script.setChangedTime(new Date());
-                System.out.println("-----------------" + script);
                 i = scriptService.changeScript(script);
-                System.out.println("-----------------" + i);
             } else {
                 Article articleById = articleService.getArticleById(articleId);
                 User user = (User) request.getSession().getAttribute("user");
                 script.setScriptId(Util.getId());
                 script.setUserId(user.getUserId());
                 script.setChangedTime(new Date());
-                picUrl = StringUtils.isBlank(picUrl) ? articleById.getPicUrl() : picUrl;
+                picUrl = StrUtil.isBlank(picUrl) ? articleById.getPicUrl() : picUrl;
                 script.setPicUrl(picUrl);
-                title = StringUtils.isBlank(title) ? articleById.getTitle() : title;
+                title = StrUtil.isBlank(title) ? articleById.getTitle() : title;
                 script.setTitle(title);
-                content = StringUtils.isBlank(content) ? articleById.getComment() : content;
+                content = StrUtil.isBlank(content) ? articleById.getComment() : content;
                 script.setComment(content);
                 original = original == null ? articleById.getOriginal() : original;
                 script.setOriginal(original);
@@ -266,9 +237,7 @@ public class UploadService {
         }
         AssertUtil.isTrue(i < 1, "草稿保存失败,请重试");
 
-        resultInfo.setCode(200);
-        resultInfo.setMsg("草稿保存成功");
-        return resultInfo;
+        return new ResultInfo(200,"草稿保存成功");
     }
 
 
@@ -285,10 +254,7 @@ public class UploadService {
             case "asScript":
                 return scriptPublish(editorMode, title, content, original, picUrl, articleId, request);
             default:
-                ResultInfo resultInfo = new ResultInfo();
-                resultInfo.setCode(300);
-                resultInfo.setMsg("参数错误");
-                return resultInfo;
+                return new ResultInfo(300,"参数错误");
         }
     }
 }

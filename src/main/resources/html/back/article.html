@@ -22,7 +22,6 @@
 <div class="header" th:include="component/component::header"></div>
 <div class="shell" th:include="component/component::shell"></div>
 <div class="whole">
-    
     <div class="Article" th:each="article:${myArticles}">
         <div class="img">
             <img alt="" src=""
@@ -39,20 +38,19 @@
     </div>
     
     <script>
+        // 新建
         
         var deleteBtn = document.getElementsByClassName('delete');
         
         for (let i = 0; i < deleteBtn.length; i++) {
             deleteBtn[i].onclick = function () {
                 Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
+                    title: '要删除这篇文章吗?',
+                    text: "删除之后就恢复不了啊!",
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonColor: '#275585',
-                    cancelButtonColor: '#851f1f',
-                    confirmButtonText: 'Delete it!',
-                    cancelButtonText: 'Just a error!'
+                    confirmButtonText: '确认',
+                    cancelButtonText: '取消'
                 }).then((result) => {
                     if (result.value) {
                         // 利用xhr进行异步请求
@@ -72,9 +70,9 @@
                             if (code === 200) {
                                 // 获取删除按钮的父节点
                                 Swal.fire({
-                                    title: '删除成功',
+                                    title: msg,
                                     icon: 'success',
-                                    confirmButtonText: 'OK'
+                                    confirmButtonText: '确认'
                                 }).then(function () {
                                         window.location.reload();
                                 });
@@ -82,7 +80,7 @@
                                 Swal.fire({
                                     title: msg,
                                     icon: 'error',
-                                    confirmButtonText: 'OK'
+                                    confirmButtonText: '确认'
                                 });
                             }
                             

@@ -1,7 +1,10 @@
 package com.chen.LeoBlog.dao;
 
 import com.chen.LeoBlog.po.User;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 
 /**
@@ -21,5 +24,7 @@ public interface UserDao {
     User getUserById(Integer userId);
 
     Integer updateUser(User user);
+
+    List<User> getChatUserList(@Param("userId") Integer userId);
 
 }

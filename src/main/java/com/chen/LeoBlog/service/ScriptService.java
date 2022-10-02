@@ -46,25 +46,23 @@ public class ScriptService {
     public ModelAndView showMyScripts(ModelAndView modelAndView, Integer userId, HttpSession session) {
         ArrayList<Script> scripts = scriptDao.getScriptByUserId(userId);
         modelAndView.addObject("myScripts", scripts);
-        modelAndView.setViewName("back/script");
+        modelAndView.setViewName("/back/script");
         return modelAndView;
     }
 
     public ResultInfo deleteScript(Integer scriptId, HttpServletRequest request) {
-        ResultInfo resultInfo = new ResultInfo();
         Script script = getScriptById(scriptId);
         AssertUtil.isTrue(script == null, "该草稿不存在");
         Integer integer = deleteScriptById(script.getScriptId());
         AssertUtil.isTrue(integer < 1, "删除草稿失败");
-        resultInfo.setCode(200);
-        resultInfo.setMsg("删除草稿成功");
-        return resultInfo;
+
+        return new ResultInfo(200,"删除草稿成功");
     }
 
 
     public ModelAndView editor(ModelAndView modelAndView, Integer scriptId, String editorMode, HttpSession session) {
         if ("new".equals(editorMode)) {
-            modelAndView.setViewName("back/newEditor");
+            modelAndView.setViewName("/back/newEditor");
             return modelAndView;
         }
         Script script = getScriptById(scriptId);
@@ -80,13 +78,13 @@ public class ScriptService {
         modelAndView.addObject("article", article);
         modelAndView.addObject("editorMode", editorMode);
         if ("change".equals(editorMode)) {
-            modelAndView.setViewName("back/changeEditor");
+            modelAndView.setViewName("/back/changeEditor");
         }
         return modelAndView;
     }
 
     public ResultInfo articlePublish(Integer scriptId, HttpSession session) {
-        ResultInfo resultInfo = new ResultInfo();
+
         Script script = getScriptById(scriptId);
         Article article = new Article();
 
@@ -103,8 +101,7 @@ public class ScriptService {
         AssertUtil.isTrue(i == 0, "发布失败");
         Integer integer = deleteScriptById(scriptId);
         AssertUtil.isTrue(integer == 0, "删除原草稿失败");
-        resultInfo.setCode(200);
-        resultInfo.setMsg("发布成功");
-        return resultInfo;
+
+        return new ResultInfo(200,"发布成功");
     }
 }

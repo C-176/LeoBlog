@@ -6,11 +6,13 @@
     box-shadow: 1px 3px 11px #869d9d;
     border-radius: 5px;
     margin-left: 30px;
-    width: 360px;
-    position:fixed;
+    width: 330px;
+    position:
+    fixed;
     top:55px;
     right:5%;
-    float:none;
+    float:
+    none;
     margin-top:0
 }
 
@@ -18,15 +20,11 @@
 .rightSelf .script {
     width: 100%;
     height: 30px;
-    /*background-color: #ff6700;*/
     margin: 5px;
     position: relative;
-    /*left: 260px;*/
     line-height: 30px;
-    font-size: 20px;
+    font-size: 13px;
     font-weight: 600;
-
-
 }
 
 .rightSelf .script a {
@@ -40,7 +38,7 @@
 }
 
 .rightSelf .user {
-    height: 140px;
+    height: 120px;
     width: 100%;
     /*background: #fff;*/
     padding: 20px 10px;
@@ -49,17 +47,15 @@
 
 .user img {
 
-    height: 100px;
+height: 85px;
 
-    width: 100px;
+width: 85px;
 
-    border-radius: 5px;
+border-radius: 5px;
 
-    float: left;
+float: left;
 
-    margin-right: 20px;
-
-    /* border: 7px solid #fff; */
+margin-right: 15px;
 }
 
 .rightSelf .creat {
@@ -72,27 +68,28 @@
 
 .intro {
     float: left;
-    width: 62%;
-    /*background: #f64534;*/
+    width: 60%;
     height: 120px;
     line-height: 40px;
+    text-align: left;
 }
 
 .intro .name {
     height: 40px;
     width: 100%;
     color: #134857;
-    font-size: 25px;
+    font-size: 20px;
     font-weight: 600;
     line-height: 40px;
 }
 
 .intro .intro1 {
-    height: 70px;
+    height: 60px;
     width: 100%;
     color: #134857;
-    font-size: 20px;
+    font-size: 15px;
     font-weight: 600;
+    text-align: left;
 }
 
 .creat > span {
@@ -131,7 +128,7 @@
 }
 
 .read {
-    height: 100px;
+    height: 80px;
     width: 100%;
     /* background-color: rgba(216, 227, 231, 0.39); */
     color: black;
@@ -146,31 +143,61 @@
     width: 100%;
     /*background-color: #ff6700;*/
     color: black;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
     padding: 10px;
-    line-height: 30px;
+    line-height: 27px;
     border-top: 1px solid #7f859061;
 }
 
 .go {
     margin: 20px auto 20px auto;
-    width: 60%;
-    height: 50px;
-    line-height: 50px;
+    width: 50%;
+    height: 40px;
+    line-height: 40px;
     background-color: rgba(134, 157, 157, 0.19);
     border-radius: 5px;
     border: 0px solid #134857;
     box-shadow: 1px 1px 5px #134857;
+    outline: none;
+    /*border: none;*/
+        position: relative;
+
 }
+
+.go:hover {
+    cursor: pointer;
+}
+
+.go::before {
+    content: '';
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border: 2px solid rgba(134, 157, 157, 0.19);
+    transform-origin: center;
+    transform: scale(1);
+}
+
+.go:hover::before {
+    transition: all 0.75s ease-in-out;
+    transform-origin: center;
+    transform: scale(1.75);
+    opacity: 0;
+}
+
+
+
 
 .go a {
     display: block;
     height: 100%;
     width: 100%;
-
     color: #134857;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 600;
 }
 
@@ -183,11 +210,11 @@
     float: left;
     height: 100%;
     width: 45%;
-    font-size: 20px;
+    font-size: 16px;
     color: #134857;
     border-radius: 10px;
     background: #f0f4f6;
-    line-height: 35px;
+    line-height: 29px;
 }
 
 .read .comSum {

@@ -4,34 +4,23 @@
     <meta charset="UTF-8">
     <title>LeoBlog</title>
     <link href="css/LR.css" rel="stylesheet">
-    <!--    <link href="css/index1.css" rel="stylesheet">-->
     <link href="css/daemon.css" rel="stylesheet">
     <link href="source/images/favicon.ico" rel="shortcut icon"/>
+    <script src="https://cdn.bootcss.com/limonte-sweetalert2/8.11.8/sweetalert2.min.js"></script>
+    <link href="https://cdn.bootcss.com/limonte-sweetalert2/8.11.8/sweetalert2.min.css" rel="stylesheet">
     
-    <script src="js/sweetalert2.all.min.js"></script>
-    <script src="js/sweetalert2.min.js"></script>
+<!--    <script src="js/sweetalert2/dist/sweetalert2.all.min.js"></script>-->
+    <script src="js/tools.js"></script>
+
+
 
 </head>
 <body id="your-element-selector">
 <script src="js/dynamicBg/three.r119.min.js"></script>
 <script src="js/dynamicBg/vanta.globe.min.js"></script>
 <script src="js/dynamicBg/vanta.rings.min.js"></script>
+<!--动态3d背景-->
 <script>
-    
-    // VANTA.GLOBE({
-    //     el: "#your-element-selector",
-    //     mouseControls: true,
-    //     touchControls: true,
-    //     gyroControls: false,
-    //     minHeight: 600.00,
-    //     minWidth: 200.00,
-    //     scale: 1.00,
-    //     scaleMobile: 1.00,
-    //     color: 0x134857,
-    //     color2: 0xfa0028,
-    //     size: 0.80,
-    //     backgroundColor: 0xd8e3e7
-    // })
     VANTA.RINGS({
         el: "#your-element-selector",
         mouseControls: true,
@@ -59,6 +48,7 @@
     <div id="cyber">LeoBlog</div>
 </div>
 <div id="whole">
+<!--    登录窗口-->
     <div class="main">
         <div class="right">
             <form action="javascript:void(0)" method="post">
@@ -71,34 +61,109 @@
                     <input autocomplete="new-password" name="userPassword" placeholder="" required type="password"
                            value="111">
                 </label>
-                <h3>记住密码</h3>
+                <h3>验证码</h3>
                 <label>
-                    <input  name="rememberMe" placeholder="" required type="checkbox" value=0>
+                    <input  name="captcha" placeholder="" required type="text"
+                           value="" autocomplete="off">
                 </label>
+                <img src="/LeoBlog/getCaptcha" id="codeImg"  style="margin-top: 10px" alt="" onclick="refresh()">
+                <script>
+                    /* 刷新验证码 */
+                    function refresh() {
+                        document.getElementById("codeImg").src = "/LeoBlog/getCaptcha?time=" + new Date().getTime();
+                    }
+                </script>
+                
+                <div id="login">
+                    <input  name="rememberMe" placeholder="" required type="checkbox" value=0>
+                    <span>记住密码</span>
+                    
+                    <div class="changePwd">修改密码</div>
+                </div>
                 <button class="login1" name="mode" type="submit" value="login">登陆</button>
+                <style>
+                    #login{
+                        position: relative;
+                        padding: 10px 35px 0 35px;
+                        height: 40px;
+                        width: 100%;
+                        /* padding-left: 35px; */
+                        text-align: center;
+                        margin: 0 auto;
+                    }
+                    #login input{
+                        float: left;
+                        display: inline-block;
+                        height: 20px;
+                        line-height: 40px;
+                        width: 40px;
+                        margin-top: 10px;
+                    }
+                    .login1,.register1{
+                        position: absolute;
+                        float: left;
+                        /*margin: 0 33px;*/
+                        left: 0;
+                        right: 0;
+                        margin: auto;
+                        margin-top: 10px;
+                        
+                        
+                    }
+                    #login span{
+                        float: left;
+                        display: inline-block;
+                        height: 40px;
+                        width: 80px;
+                        line-height: 40px;
+                        margin-left: -15px;
+                    }
+                    
+                    #login .changePwd:hover {
+                        background-color: #7c929c;
+                        transition: background-color 0.2s;
+                    }
+                    #login .changePwd{
+                        /* padding-top: 10px; */
+                        width: 110px;
+                        height: 40px;
+                        margin-left: 210px;
+                        line-height: 40px;
+                        border-radius: 10px;
+                    }
+                    
+                    
+                </style>
+
+                
             </form>
         </div>
     
     </div>
+<!--    注册窗口-->
     <div class="main" style="display: none">
         <div class="right" style="    padding-top: 0;">
             <form action="javascript:void(0)" method="post">
                 <h3>用户名</h3>
                 <label>
-                    <input autocomplete="off" autofocus  name="userName" placeholder="" required type="text">
+                    <input autocomplete="off" autofocus  name="userName" placeholder="" value="test" required type="text">
                 </label>
                 <h3>邮箱</h3>
                 <label>
-                    <input autocomplete="off"  name="userEmail" placeholder="" required type="email">
+                    <input autocomplete="off" id="userEmail"   name="userEmail" placeholder="" value="leejez@youxiang.dev" required type="email">
+                </label>
+                <label >
+                    <input style="display: none" id="emailConfirm" autocomplete="off"  name="emailConfirm" placeholder=""  type="text">
                 </label>
                 <h3>密码</h3>
                 <label>
-                    <input autocomplete="new-password" id="userPassword" name="userPassword" required type="password">
+                    <input autocomplete="new-password" id="userPassword" name="userPassword" value="111111" required type="password">
                 </label>
                 <h3>确认密码</h3>
                 <label>
-                    <input autocomplete="new-password" id="reUserPassword" required type="password">
+                    <input autocomplete="new-password" id="reUserPassword" required value="111111" type="password">
                 </label>
+
                 <button class="register1" name="mode" value="register">注册</button>
             </form>
         </div>
@@ -106,11 +171,8 @@
     </div>
 </div>
 
-
-<script src="js/crypto-js.js">
-    </script>
-<script type="module">
-    // import CryptoJS from './js/crypto-js.js';
+<!--切换登陆注册模式-->
+<script >
     
     //切换登陆注册的按键
     var modeBtu = document.getElementById('mode');
@@ -125,10 +187,13 @@
             modeBtu.innerHTML='登陆';
             loginForm.style.display='none';
             registerForm.style.display='block';
+            simpleToast('可以注册了！','success')
         }else{
             modeBtu.innerHTML='注册';
             loginForm.style.display='block';
             registerForm.style.display='none';
+            simpleToast('可以登陆了！','success')
+    
         }
     }
     // 获得地址栏的mode参数，方便判定要转入的界面模式
@@ -137,6 +202,9 @@
     if(mode==='register'){
         modeBtu.click();
     }
+</script>
+<!--点击登陆按键-->
+<script>
     //登录键
     var login = document.getElementsByClassName('login1')[0];
     login.onclick = function () {
@@ -145,10 +213,11 @@
         var formData = new FormData();
         formData.set("userPassword", document.getElementsByName('userPassword')[0].value);
         formData.set("userName", document.getElementsByName('userName')[0].value);
+        formData.set("captcha", document.getElementsByName('captcha')[0].value);
         xhr.send(formData);
         var rememberMe = document.getElementsByName('rememberMe')[0];
         if (rememberMe.checked){
-            
+        
         //
         //     var userName = document.getElementsByName('userName')[0].value;
         //     var userPassword = document.getElementsByName('userPassword')[0].value;
@@ -175,72 +244,159 @@
         //     document.cookie = unameStr+"="+uname+";path=/;expires="+new Date(new Date().getTime()+2*60*60*1000).toGMTString();
         //     document.cookie = upwdStr+"="+upwd+";path=/;expires="+new Date(new Date().getTime()+2*60*60*1000).toGMTString();
         }
+        //发送ajax请求
+        
         xhr.onreadystatechange = function () {
             var result = xhr.responseText;
             result = JSON.parse(result);
             var code = result.code;
             var msg = result.msg;
             if (code === 200) {
-
                 window.location.href = "/LeoBlog/ToIndex";
             } else {
-                Swal.fire({
-                    title: msg,
-                    icon: 'error',
-                    showCancelButton: false,
-                    confirmButtonText: 'OK'
-                })
+                
+                errorAlert(msg);
+                refresh();
             }
         }
     }
+</script>
+
+<!--点击注册按键-->
+<script>
+    
     //注册键
     var register = document.getElementsByClassName('register1')[0];
     register.onclick = function () {
         var userPassword = document.getElementById("userPassword").value;
         var reUserPassword = document.getElementById("reUserPassword").value;
         if (userPassword !== reUserPassword) {
-            Swal.fire({
-                title: '两次密码不一致',
-                text: '请重新输入密码',
-                icon: 'error',
-                showCancelButton: false,
-                confirmButtonText: 'OK'
-            })
+            errorAlert("两次密码不一样")
             return;
         }
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', "/LeoBlog/register");
-        var formData = new FormData();
-        formData.set("userPassword", document.getElementsByName("userPassword")[1].value);
-        formData.set("userName", document.getElementsByName("userName")[1].value);
-        formData.set("userEmail", document.getElementsByName("userEmail")[0].value);
-        xhr.send(formData);
-        xhr.onreadystatechange = function () {
-            var result = xhr.responseText;
-            result = JSON.parse(result);
-            var code = result.code;
-            var msg = result.msg;
-            if (code === 200) {
-                Swal.fire({
-                    title: msg,
-                    text: '点击确认键去登陆',
-                    icon: 'success',
-                    showCancelButton: false,
-                    confirmButtonText: 'OK',
-                }).then((result) => {
-                    if (result.value) {
-                        modeBtu.click();
-                    }
-                })
-            } else {
-                Swal.fire({
-                    title: msg,
-                    icon: 'error',
-                    showCancelButton: false,
-                    confirmButtonText: 'OK'
-                })
-            }
+        if (userPassword.length<6) {
+            errorAlert("密码长度不可小于6位")
+            return;
         }
+        
+        var email = document.getElementsByName("userEmail")[0].value;
+        //验证邮箱
+        ajaxReq('Get', "/LeoBlog/emailSend/"+email);
+    
+        let timerInterval
+        Swal.fire({
+            title: '正在向 '+email+' 发送验证邮件',
+            html: '将在 <strong></strong> 毫秒内发送完成',
+            timer: 3000,
+            onBeforeOpen: () => {
+                Swal.showLoading()
+                timerInterval = setInterval(() => {
+                    Swal.getContent().querySelector('strong')
+                            .textContent = Swal.getTimerLeft()
+                }, 20)
+            },
+            onClose: () => {
+                clearInterval(timerInterval)
+                emailConfirm()
+            }
+        })
+        
+        function emailConfirm() {
+            
+            Swal.fire({
+                title: "验证邮件已发送，请查收",
+                input: 'text',
+                inputAttributes: {
+                    autocapitalize: 'off'
+                },
+                confirmButtonText: '验证',
+                showCancelButton: true,
+                cancelButtonText: '取消',
+                showLoaderOnConfirm: true,
+                allowOutsideClick: false,
+                preConfirm: (code) => {
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', "/LeoBlog/emailConfirm/" + email + "/" + code);
+                    xhr.send();
+                    xhr.onreadystatechange = function () {
+                        var result = xhr.responseText;
+                        result = JSON.parse(result);
+                        var code = result.code;
+                        var msg = result.msg;
+                        if (code !== 200) {
+                            Swal.fire({
+                                title: msg,
+                                icon: 'error',
+                                showCancelButton: false,
+                                confirmButtonText: '好的'
+                            }).then(()=>{
+                                emailConfirm();
+                            })
+                            
+                            
+                        } else {
+                            // simpleToast('邮箱验证成功，正在注册。')
+                            
+                            xhr.open('POST', "/LeoBlog/register");
+                            var formData = new FormData();
+                            formData.set("userPassword", document.getElementsByName("userPassword")[1].value);
+                            formData.set("userName", document.getElementsByName("userName")[1].value);
+                            formData.set("userEmail", document.getElementsByName("userEmail")[0].value);
+                            xhr.send(formData);
+                            xhr.onreadystatechange = function () {
+                                var result = xhr.responseText;
+                                result = JSON.parse(result);
+                                var code = result.code;
+                                var msg = result.msg;
+                                if (code === 200) {
+                                    Swal.fire({
+                                        title: msg,
+                                        text: '点击确认键去登陆',
+                                        icon: 'success',
+                                        showCancelButton: false,
+                                        confirmButtonText: 'OK',
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            modeBtu.click();
+                                        }
+                                    })
+                                } else {
+                                    errorAlert(msg);
+                                    
+                                }
+                            }
+                        }
+                    }
+                }
+    
+    
+            })
+        }
+
+    }
+</script>
+
+<!--修改密码-->
+<script>
+    //修改密码
+    var changePwd = document.getElementsByClassName('changePwd')[0];
+    changePwd.onclick= function () {
+        // 忘记密码
+        // console.log("忘记密码，正在去修改密码。")
+        // 转到相关页面，需要把拦截器关了
+        Swal.fire({
+            title: '忘记密码了？',
+            text: '点击将转向找回密码页面',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: '好的',
+            cancelButtonText:'手滑'
+        }).then((result) => {
+            if (result.value) {
+                window.location.href = '/LeoBlog/security/';
+            }
+        })
+        
     }
 </script>
 </body>

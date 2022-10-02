@@ -65,10 +65,8 @@ body > audio {
     width: 95%;
     height: 434px;
     transition: .3s;
-    background-size: cover;
-    border-radius: 10px 5px 5px 10px;
-    margin-left: 10px;
-    box-shadow: 1px 3px 11px #134857;
+    background-size: cover;border-radius: 10px 5px 5px 10px;
+    margin-left: 10px;box-shadow: 1px 3px 11px #134857;
 }
 
 .c {
@@ -148,10 +146,10 @@ body > audio {
     /*height: 50px;*/
     width: 100%;
     line-height: 25px;
-    font-size: 18px;
+    font-size: 15px;
     text-align: left;
     padding-left: 15px;
-    text-shadow: 1px 0px #1348574a;
+    text-shadow: 1px 0 #1348574a;
 }
 
 .right .at a {
@@ -170,13 +168,13 @@ body > audio {
     color: #7f8590;
     text-align: left;
     margin-left: 15px;
-    padding-top: 6px;
+    /*padding-top: 6px;*/
 }
 
 .right .comment {
     height: 110px;
     width: 100%;
-    font-size: 15px;
+    font-size: 13px;
     text-align: left;
     padding: 5px;
     color: #7f8590;
@@ -188,5 +186,4 @@ body > audio {
     /*white-space:wrap;*/
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 4;
 }

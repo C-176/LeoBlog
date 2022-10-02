@@ -103,8 +103,9 @@
             }).then((result) => {
                 if (result.value) {
                     // 获取父节点的最后一个子节点
-                    var commentId = this.nextSibling.value;
-                    // console.log(this.parentNode.childNodes[7]);
+                    var commentId = this.nextSibling.nextSibling.value;
+                    // console.log(this.nextSibling.nextSibling);
+                    // console.log(this.nextSibling.nextSibling.value);
                     var xhr = new XMLHttpRequest();
                     xhr.open("DELETE", "/LeoBlog/comment/" + commentId);
                     var formData = new FormData();

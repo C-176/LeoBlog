@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> <!--约束文件-->
+
+
+<mapper namespace="com.chen.LeoBlog.dao.EmailDao">
+
+<!--    <select id="getConfirmCode" resultType="Integer">-->
+<!--        select confirmCode from leoblog.emailconfirm where userEmail=#{userEmail} limit 1;-->
+<!--    </select>-->
+<!--    <select id="getConfirmCodeLen" resultType="Integer">-->
+<!--        select count(confirmCode) from leoblog.emailconfirm where userEmail=#{userEmail} ;-->
+<!--    </select>-->
+<!--    <insert id="sendConfirmCode">-->
+<!--        insert into leoblog.emailconfirm values (#{id},#{userId},#{userEmail},#{confirmCode},#{confirmDate},#{confirmTime})-->
+<!--    </insert>-->
+<!--    <update id="updateCode">-->
+<!--        update leoblog.emailconfirm set confirmCode = #{confirmCode},confirmDate=#{confirmDate},confirmTime=#{confirmTime} where userEmail=#{userEmail} limit 1;-->
+<!--    </update>-->
+<!--    <delete id="deleteCode">-->
+<!--        delete from leoblog.emailconfirm where userEmail=#{userEmail} limit 1;-->
+<!--    </delete>-->
+</mapper>

@@ -6,37 +6,37 @@
 
 <mapper namespace="com.chen.LeoBlog.dao.ScriptDao">
 
-    <select id="getScriptById" resultType="com.chen.LeoBlog.po.Script">
-        select *
-        from leoblog.script
-        where scriptId = #{scriptId}
-    </select>
-    <select id="getScriptByUserId" resultType="com.chen.LeoBlog.po.Script">
-        select *
-        from leoblog.script
-        where userId = #{userId}
-        order by changedTime desc
-    </select>
+<!--    <select id="getScriptById" resultType="com.chen.LeoBlog.po.Script">-->
+<!--        select *-->
+<!--        from leoblog.script-->
+<!--        where scriptId = #{scriptId}-->
+<!--    </select>-->
+<!--    <select id="getScriptByUserId" resultType="com.chen.LeoBlog.po.Script">-->
+<!--        select *-->
+<!--        from leoblog.script-->
+<!--        where userId = #{userId}-->
+<!--        order by changedTime desc-->
+<!--    </select>-->
 
-    <insert id="insertScript">
-        INSERT INTO leoblog.script(scriptId, comment, changedTime, userId, title, picUrl, scriptUrl, original, author)
-        VALUES (#{scriptId}, #{comment}, #{changedTime}, #{userId}, #{title}, #{picUrl}, #{scriptUrl}, #{original},
-                #{author});
-    </insert>
-    <delete id="deleteScriptById">
-        DELETE
-        FROM leoblog.script
-        WHERE scriptId = #{scriptId}
-        limit 1
-    </delete>
-    <update id="changeScript">
-        UPDATE leoblog.script
-        SET changedTime = #{changedTime},
-            comment     = #{comment},
-            title=#{title},
-            picUrl=#{picUrl},
-            original=#{original}
-        WHERE scriptId = #{scriptId}
-        limit 1
-    </update>
+<!--    <insert id="insertScript">-->
+<!--        INSERT INTO leoblog.script(scriptId, comment, changedTime, userId, title, picUrl, scriptUrl, original, author)-->
+<!--        VALUES (#{scriptId}, #{comment}, #{changedTime}, #{userId}, #{title}, #{picUrl}, #{scriptUrl}, #{original},-->
+<!--                #{author});-->
+<!--    </insert>-->
+<!--    <delete id="deleteScriptById">-->
+<!--        DELETE-->
+<!--        FROM leoblog.script-->
+<!--        WHERE scriptId = #{scriptId}-->
+<!--        limit 1-->
+<!--    </delete>-->
+<!--    <update id="changeScript">-->
+<!--        UPDATE leoblog.script-->
+<!--        SET changedTime = #{changedTime},-->
+<!--            comment     = #{comment},-->
+<!--            title=#{title},-->
+<!--            picUrl=#{picUrl},-->
+<!--            original=#{original}-->
+<!--        WHERE scriptId = #{scriptId}-->
+<!--        limit 1-->
+<!--    </update>-->
 </mapper>

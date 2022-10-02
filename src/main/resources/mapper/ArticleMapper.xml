@@ -45,7 +45,7 @@
         UPDATE leoblog.article
         SET changedTime = #{changedTime},
             articleUrl=#{articleUrl},
-            comment     = #{comment},
+            comment = #{comment},
             picUrl= #{picUrl},
             title=#{title},
             author=#{author},

@@ -21,12 +21,12 @@
         from leoblog.userinfo
         where userId = #{userId}
     </select>
-    <select id="deleteUserByUserId">
+    <delete id="deleteUserByUserId" >
         DELETE
         FROM leoblog.userinfo
         WHERE userId = #{userId}
         limit 1
-    </select>
+    </delete>
     <!--    <select id="" resultType="">-->
     <!--        select sql语句-->
     <!--    </select>-->
@@ -54,5 +54,13 @@
         WHERE userId = #{userId}
         limit 1
     </update>
+
+    <select id="getChatUserList" resultType="com.chen.LeoBlog.po.User">
+        select *
+        from leoblog.userinfo u
+                 right JOIN leoblog.chat_connection c
+                            on (u.userId=c.userId1 or u.userId = c.userId2)
+        where (c.userId2=#{userId} or c.userId1=#{userId}) and userId!=#{userId}  order by c.last_time desc;
+    </select>
 
 </mapper>

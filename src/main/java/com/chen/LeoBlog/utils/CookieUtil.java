@@ -1,5 +1,6 @@
 package com.chen.LeoBlog.utils;
 
+import cn.hutool.core.util.StrUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.Cookie;
@@ -17,15 +18,13 @@ public class CookieUtil {
      *
      * @param key      Cookie名称
      * @param value    Cookie Value
-     * @param domain
-     * @param response
      */
     public static void setCookie(String key, String value, String domain,
                                  HttpServletResponse response) {
 
         try {
             value = URLEncoder.encode(value, "UTF-8");
-            if (StringUtils.isNotBlank(value)) {
+            if (StrUtil.isNotBlank(value)) {
                 value = value.replaceAll("\\+", "%20");
             }
             Cookie cookie = new Cookie(key, value);
@@ -43,8 +42,6 @@ public class CookieUtil {
      *
      * @param key      Cookie名称
      * @param value    Cookie Value
-     * @param domain
-     * @param response
      */
     public static void setCookieNoEncode(String key, String value, String domain,
                                          HttpServletResponse response) {

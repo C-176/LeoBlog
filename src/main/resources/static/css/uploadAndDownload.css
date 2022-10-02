@@ -1,13 +1,3 @@
-@font-face {
-    font-family: 'ruixian';
-    src: url('../js/fonts/RuiZiRuiXianNuFangHeiJian1-0-1.ttf');
-}
-
-@font-face {
-    font-family: 'iconfont';
-    src: url('../iconfont/iconfont.ttf?t=1635858700112') format('truetype');
-}
-
 * {
     margin: 0;
     padding: 0;
@@ -23,7 +13,7 @@
 }
 
 body {
-    font-family: ruixian;
+
     margin: 0 auto;
     background-image: linear-gradient(to top, #f43b47 0%, #453a94 100%);
 }

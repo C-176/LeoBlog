@@ -1,8 +1,9 @@
+/* CDN 服务仅供平台体验和调试使用，平台不承诺服务的稳定性，企业客户需下载字体包自行发布使用并做好备份。 */
 @font-face {
     font-family: 'iconfont';  /* Project id 3270950 */
-    src: url('//at.alicdn.com/t/font_3270950_to6cfsktjgh.woff2?t=1651589680272') format('woff2'),
-    url('//at.alicdn.com/t/font_3270950_to6cfsktjgh.woff?t=1651589680272') format('woff'),
-    url('//at.alicdn.com/t/font_3270950_to6cfsktjgh.ttf?t=1651589680272') format('truetype');
+    src: url('//at.alicdn.com/t/c/font_3270950_xfj17xz48l.woff2?t=1663120049076') format('woff2'),
+    url('//at.alicdn.com/t/c/font_3270950_xfj17xz48l.woff?t=1663120049076') format('woff'),
+    url('//at.alicdn.com/t/c/font_3270950_xfj17xz48l.ttf?t=1663120049076') format('truetype');
 }
 
 .iconfont {
@@ -34,7 +35,7 @@
 }
 
 body {
-    cursor: url("../source/images/cursor.png"), auto;
+    /*cursor: url("../source/images/cursor.png"), auto;*/
     font-family: "Arial", "PingFang SC", sans-serif;
     /*font-weight: 600 !important;*/
     background: #d8e3e7;
@@ -63,9 +64,21 @@ body {
 }
 
 ::-webkit-scrollbar-thumb:window-inactive {
-    background: rgba(255, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.5);
 }
 
 * i {
     font-style: normal;
+}
+::selection{
+    background:#869d9d;
+    color:#134857;
+}
+::-moz-selection{
+    background:#869d9d;
+    color:#134857;
+}
+p::-webkit-selection {
+    background:#869d9d;
+    color:#134857;
 }

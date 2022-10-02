@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> <!--约束文件-->
+
+
+<mapper namespace="com.chen.LeoBlog.dao.ChatDao">
+
+<!--    <select id="getRecordsBySenderIdOrReceiverId" resultType="com.chen.LeoBlog.po.ChatRecord">-->
+<!--        select * from leoblog.chat_record where (senderId=#{senderId} and receiverId=#{receiverId}) or (receiverId=#{senderId} and senderId=#{receiverId}) order by create_datetime desc limit 50;-->
+<!--    </select>-->
+<!--    <select id="getConnection" resultType="int">-->
+<!--        select count(*) from leoblog.chat_connection where (userId1=#{userId1} and userId2=#{userId2}) or (userId1=#{userId2} and userId2=#{userId1});-->
+<!--    </select>-->
+<!--    <insert id="insertRecord">-->
+<!--        insert into leoblog.chat_record (senderId,receiverId,content,create_datetime) values (#{senderId},#{receiverId},#{content},#{create_datetime})-->
+<!--    </insert>-->
+<!--    <insert id="insertChatConnection">-->
+<!--        insert into leoblog.chat_connection( userId1, userId2, last_time) values (#{userId1},#{userId2},#{last_time});-->
+<!--    </insert>-->
+<!--    <update id="updateLastTime">-->
+<!--    update leoblog.chat_connection set last_time = #{last_time} where (userId1=#{userId1} and userId2=#{userId2}) or (userId1=#{userId2} and userId2=#{userId1}) limit 1;-->
+<!--    </update>-->
+<!--    <delete id="deleteRecordById">-->
+<!--        delete from leoblog.chat_record where id=#{id} limit 1;-->
+<!--    </delete>-->
+<!--    <delete id="deleteRecord">-->
+<!--        delete from leoblog.chat_record where (senderId=#{senderId} and receiverId=#{receiverId}) or (receiverId=#{senderId} and senderId=#{receiverId}) order by create_datetime desc limit 50;-->
+<!--    </delete>-->
+</mapper>

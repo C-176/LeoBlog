@@ -1,10 +1,13 @@
 package com.chen.LeoBlog.service;
 
+import cn.hutool.captcha.CaptchaUtil;
+import cn.hutool.captcha.LineCaptcha;
+import cn.hutool.captcha.ShearCaptcha;
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.StrUtil;
 import com.chen.LeoBlog.base.ResultInfo;
-import com.chen.LeoBlog.po.Article;
-import com.chen.LeoBlog.po.Comment;
-import com.chen.LeoBlog.po.Script;
-import com.chen.LeoBlog.po.User;
+import com.chen.LeoBlog.controller.LRController;
+import com.chen.LeoBlog.po.*;
 import com.chen.LeoBlog.utils.AssertUtil;
 import com.chen.LeoBlog.utils.UserIDBase64;
 import com.chen.LeoBlog.utils.Util;
@@ -18,8 +21,13 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Random;
+import java.util.stream.Stream;
 
 @Service
 public class LRService {
@@ -32,28 +40,22 @@ public class LRService {
     private CommentService commentService;
     @Autowired
     private ScriptService scriptService;
+    @Autowired
+    private MailService mailService;
+
 //    @Autowired
 //    private SimpleOrderManger simpleOrderManger;
 
+
     /**
      * 注册功能
-     *
-     * @param userName
-     * @param userEmail
-     * @param userPassword
-     * @param request
-     * @return
      */
     public ResultInfo register(String userName, String userEmail, String userPassword, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        System.out.println("userName:" + userName);
-        System.out.println("userEmail:" + userEmail);
-        System.out.println("userPassword:" + userPassword);
-
         HttpSession session = request.getSession();
-        AssertUtil.isTrue(StringUtils.isBlank(userName), "用户名不可为空！");
-        AssertUtil.isTrue(StringUtils.isBlank(userEmail), "邮箱不可为空！");
-        AssertUtil.isTrue(StringUtils.isBlank(userPassword), "密码不可为空！");
+        AssertUtil.isTrue(StrUtil.isBlank(userName), "用户名不可为空！");
+        AssertUtil.isTrue(StrUtil.isBlank(userEmail), "邮箱不可为空！");
+        AssertUtil.isTrue(StrUtil.isBlank(userPassword), "密码不可为空！");
         AssertUtil.isTrue(userName.length()<3,"用户名长度不能小于3位！");
         AssertUtil.isTrue(userPassword.length()<6,"密码长度不能小于6位！");
         AssertUtil.isTrue(null != userService.getUserByEmail(userEmail), "该邮箱已被注册！");
@@ -69,36 +71,30 @@ public class LRService {
         User newUser = userService.getUserByEmail(userEmail);
         session.setAttribute("user", newUser);
 
-        ResultInfo resultInfo = new ResultInfo();
-        resultInfo.setCode(200);
-        resultInfo.setMsg("注册成功！");
-        return resultInfo;
+        return new ResultInfo(200,"注册成功！");
     }
 
     /**
      * 登录功能
-     *
-     * @return
      */
-    public ResultInfo login(String userName, String userPassword, HttpServletRequest request, HttpServletResponse response) {
+    public ResultInfo login(String userName, String userPassword,String captcha, LineCaptcha lineCaptcha,HttpServletRequest request, HttpServletResponse response) {
 //        先校验一下前端过来的数据合法否
-        AssertUtil.isTrue(StringUtils.isBlank(userName), "用户名不可为空！");
-        AssertUtil.isTrue(StringUtils.isBlank(userPassword), "用户密码不可为空！");
+        AssertUtil.isTrue(StrUtil.isBlank(userName), "用户名不可为空！");
+        AssertUtil.isTrue(StrUtil.isBlank(userPassword), "用户密码不可为空！");
 
-        //应该是个接口，供前端调用。
-        ResultInfo resultInfo = new ResultInfo();
+        AssertUtil.isTrue(!lineCaptcha.verify(captcha),"验证码错误");
         User user;
         //判断userName是否是邮箱格式,根据格式查询user。
-        if (userName.contains("@")) {
+        if (StrUtil.contains(userName,"@")) {
             user = userService.getUserByEmail(userName);
         } else {
             user = userService.getUserByName(userName);
         }
         AssertUtil.isTrue(null == user, "账号还未注册");
 
+        assert user != null;
         if (!user.getUserPassword().equals(userPassword)) {
-            resultInfo.setCode(300);
-            resultInfo.setMsg("密码错误！");
+            return new ResultInfo(300,"密码错误");
         } else {
             // 写入cookie
             String s = UserIDBase64.encoderUserID(user.getUserId());
@@ -107,7 +103,7 @@ public class LRService {
             cookie.setPath("/");
             response.addCookie(cookie);
         }
-        return resultInfo;
+        return new ResultInfo(200,"操作成功");
     }
 
     //    去登陆
@@ -127,12 +123,9 @@ public class LRService {
         ArrayList<Script> scriptByUserId = scriptService.getScriptByUserId(user.getUserId());
         modelAndView.addObject("myScriptsSize", scriptByUserId.size());
         //获取一个5个1到167之间随机整数的整数数组
-        int[] random = new int[5];
-        for (int i = 0; i < random.length; i++) {
-            random[i] = (int) (Math.random() * 167) + 1;
-        }
+        Integer[] random = Stream.generate(Math::random).limit(5).map(s-> (int) (s * 167+1)).toArray(Integer[]::new);
         modelAndView.addObject("randomList", random);
-        modelAndView.setViewName("forward/index");
+        modelAndView.setViewName("/forward/index");
     }
 
     /**
@@ -155,5 +148,38 @@ public class LRService {
 //        CookieUtil.deleteCookie("loginOrRegister",request,response);
 //        CookieUtil.deleteCookie("user",request,response);
         response.sendRedirect("index.html");
+    }
+
+
+    public ResultInfo sendAndConfirm(String to){
+        ResultInfo resultInfo = new ResultInfo();
+
+        String subject = "LeoBlog 邮箱验证信息";
+        String content = Util.getConfirmCode()+"";
+        try{
+            mailService.sendSimpleMail(to,subject,content);
+
+            int userId = Util.getId();
+            int confirmCode = Util.getConfirmCode();
+            String s = DateUtil.formatDateTime(new Date());
+
+            EmailConfirm emailConfirm = new EmailConfirm(Util.getId(), userId, confirmCode, to, s.substring(0, 10), s.substring(11));
+            if(mailService.getConfirmCodeLen(to) != 0) {
+                int i = mailService.deleteCode(emailConfirm);
+                AssertUtil.isTrue(i==0,"验证码删除失败");
+            }
+            int changeNumber = mailService.sendConfirmCode(emailConfirm);
+            if(changeNumber==0) return new ResultInfo(300,"插入数据失败");
+
+            resultInfo.setMsg("验证码已发送，请查收。");
+            resultInfo.setCode(200);
+
+        }catch (Exception e) {
+            resultInfo.setCode(300);
+            resultInfo.setMsg("验证码发送失败，请稍后重试。");
+        }
+
+
+        return resultInfo;
     }
 }

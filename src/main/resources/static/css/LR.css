@@ -23,7 +23,7 @@ background: #d8e3e7;}
 
 .header #cyber {
     float: left;
-    color: #132c33;
+
     color: #134857;
     height: 50px;
     width: 140px;
@@ -101,7 +101,8 @@ z-index: 4;/* display: none; */}
 }
 
 .right form input {
-    color: #d8e3e7;height: 35px;
+    color: #d8e3e7;
+    height: 35px;
     margin-top: 10px;
     width: 330px;
     border-radius: 5px;
@@ -110,24 +111,26 @@ z-index: 4;/* display: none; */}
     border-width: 0;
     font-weight: 600;
     border-bottom: #5cb3cc57 solid 5px;
-    transition: background-color 0.6s;
-/* background: #134857; */background: #11334475;}
+    transition: background-color 0.2s;
+    /* background: #134857; */
+    background: #11334475;
+    }
 
-.right form input:hover, input:focus {
+.right form input:hover {
     background-color: rgb(43 86 113);
-    transition: all 0.6s;
+    transition: all 0.2s;
     outline: none;
 }
 
-button {
+.login1,.register1 {
     position: relative;
-    bottom: -35px;
-    right: -162px;
+    /* bottom: -35px; */
+    /* right: -162px; */
     display: block;
     height: 40px;
     width: 70px;
     background-color: #134857;
-    font-size: 25px;
+
     /* font-family: 'ruixian'; */
     border-width: 0;
     /* box-shadow: #813a79 0 0 20px; */

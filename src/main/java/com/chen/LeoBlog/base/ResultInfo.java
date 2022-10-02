@@ -4,6 +4,14 @@ public class ResultInfo {
     private Integer code = 200;
     private String msg = "success";
 
+    public ResultInfo(Integer code, String msg) {
+        this.code = code;
+        this.msg = msg;
+    }
+
+    public ResultInfo() {
+    }
+
     private Object result;
 
     public Object getResult() {

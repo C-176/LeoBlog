@@ -27,31 +27,43 @@ spring:
       additional-paths: src/main/java
 
   datasource:
-#    type:
-    url: jdbc:mysql://localhost:3306/leoblog?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=True
+#    type: com.mchange.v2.c3p0.ComboPooledDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/leoblog?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=True
+    url: jdbc:mysql://localhost:3306/leoblog
     username: root
     password: chenle123
-    driver-class-name: com.mysql.cj.jdbc.Driver
-
 
   servlet:
     multipart:
       max-file-size: 2MB #单个文件最大为20M
-      max-request-size: 2MB #单次请求文件总数大小为20M
+      max-request-size: 20MB #单次请求文件总数大小为20M
+  mail:
+    host: smtp.163.com
+    username: RTG1999@163.com
+    password: YAYNKXZAKXTNWOAB
+    default-encoding: UTF-8
+    protocol: smtp
+    jndi-name: LeoBlog
 
 mybatis:
   mapper-locations: classpath:/mapper/*.xml
+  type-aliases-package: com.chen.LeoBlog.po
+
   #      下划线转驼峰配置
   #    configuration:map-underscore-to-camel-case:true
 
 
 
-  logging:
-    level:
-      com:
-        chen:
-          LeoBlog: dao:debug
+
+
+
+logging:
+  level:
+    com.chen.LeoBlog.dao:
+      debug
 
 
 pagehelper:
   helper-dialect: mysql
+

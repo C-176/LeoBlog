@@ -39,7 +39,7 @@
 div#comment {
     margin-top: 10px;
     margin-left: 0;
-    height: 140px;
+    height: 100px;
 /* width: 35%; */}
 
 .change a, .delete a, .submit a {

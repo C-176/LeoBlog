@@ -25,22 +25,15 @@ public class UploadController {
 
     /**
      * ajax后台图片上传，返回图片路径。
-     * @param uploadFile
-     * @param request
-     * @return
      */
     @PostMapping("/articlePicUpload")
     @ResponseBody
     public String articlePicUpload(@RequestParam("picUrl") MultipartFile uploadFile, HttpServletRequest request) {
-        System.out.println("进入articlePicUpload");
         return uploadService.articlePicUpload(uploadFile, request);
     }
 
     /**
      * 图片上传，返回图片地址信息。
-     * @param file
-     * @param request
-     * @return
      */
     @RequestMapping("/imageUpload")
     @ResponseBody
@@ -50,16 +43,6 @@ public class UploadController {
 
     /**
      * 文档上传功能，对于修改而言，传入修改过的项，没有修改过的项为null；对于新建，传入所有参数。
-     * @param articleId
-     * @param content
-     * @param submitMode
-     * @param editorMode
-     * @param picUrl
-     * @param original
-     * @param title
-     * @param request
-     * @param response
-     * @return
      */
     @PostMapping("/contentUpload")
     @ResponseBody

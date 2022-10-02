@@ -22,11 +22,6 @@ public class ScriptController {
 
     /**
      * 查看用户所有的草稿
-     *
-     * @param modelAndView
-     * @param userId
-     * @param session
-     * @return
      */
     @GetMapping("/scripts/mine/{userId}")
     public ModelAndView showMyScripts(ModelAndView modelAndView, @PathVariable Integer userId, HttpSession session) {
@@ -35,22 +30,14 @@ public class ScriptController {
 
     /**
      * 跳转到草稿页面，查看草稿详情
-     *
-     * @param modelAndView
-     * @param scriptId
-     * @return
      */
     @GetMapping("/script/{scriptId}")
-    public ModelAndView showArticle(ModelAndView modelAndView, @PathVariable Integer scriptId, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
-        return articleService.showArticle(modelAndView, scriptId, session, request, response);
+    public ModelAndView showArticle(ModelAndView modelAndView, @PathVariable Integer scriptId) {
+        return articleService.showArticle(modelAndView, scriptId);
     }
 
     /**
      * 删除草稿
-     *
-     * @param scriptId
-     * @param request
-     * @return
      */
     @DeleteMapping("/script/{scriptId}")
     @ResponseBody
@@ -60,10 +47,6 @@ public class ScriptController {
 
     /**
      * 将草稿转化为文章，提交。
-     *
-     * @param scriptId
-     * @param session
-     * @return
      */
     @PostMapping("/script/submit/{scriptId}")
     @ResponseBody
@@ -73,12 +56,6 @@ public class ScriptController {
 
     /**
      * 更改或新新建草稿
-     *
-     * @param modelAndView
-     * @param scriptId
-     * @param editorMode
-     * @param session
-     * @return
      */
     @GetMapping("/script/{scriptId}/{editorMode}")
     public ModelAndView editor(ModelAndView modelAndView, @PathVariable Integer scriptId, @PathVariable String editorMode, HttpSession session) {

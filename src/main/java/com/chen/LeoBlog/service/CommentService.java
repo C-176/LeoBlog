@@ -93,10 +93,8 @@ public class CommentService {
 
         modelAndView.addObject("myComments", comments);
 
-        System.out.println(comments.size()+"=========================================");
-        System.out.println(articles.size()+"=========================================");
         modelAndView.addObject("articlesForComments", articles);
-        modelAndView.setViewName("back/comment");
+        modelAndView.setViewName("/back/comment");
         return modelAndView;
     }
 }

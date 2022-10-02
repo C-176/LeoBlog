@@ -14,11 +14,12 @@
     <link rel="stylesheet" th:href="@{/css/whole_article.css}">
     <script th:src="@{/js/sweetalert2.all.min.js}"></script>
     <script th:src="@{/js/sweetalert2.min.js}"></script>
+
     <link rel="stylesheet" th:href="@{/js/sweetalert2.min.css}">
     <title>LeoBlog--article</title>
     <style>
         .whole {
-            /*margin: 3380px 0 0 0px;*/
+            margin-top: 0;
             width: 80%;
         }
         
@@ -81,7 +82,7 @@
             text-align: left;
         }
         
-        .whole .headBg {
+        .headBg {
             /*background: #134857;*/
             /*height: calc(100% - 60px);*/
             /*width: calc(60%);*/
@@ -90,15 +91,20 @@
             /*font-weight: 600;*/
             text-align: center;
             background-color: #d8e3e7;
-            /*宽度为图片宽度的一半*/
-            width: calc(60%);
+            /*!*宽度为图片宽度的一半*!*/
+            /*width: calc(60%);*/
             /*高度为图片高度的一半*/
             height: calc(60%);
-            margin: 0 auto;
+            width: 60%;
+            
+            
+            margin:50px auto 0 auto;
         }
         
         .headBg img {
             border-radius: 5px;
+            width: 100%;
+            height: 100%;
             /*margin: 10px auto 10px auto;*/
 
             
@@ -151,7 +157,7 @@
             language: 'zh_CN',//注意大小写
             menubar: false,
             plugins: 'wordcount pagebreak autoresize', //字符串方式
-            width: 1100,
+            width: '100%',
             height: 532,
             resize: false,
             // statusbar: false,  // 状态栏显示
@@ -292,12 +298,12 @@
 <body>
 <div class="musicbox" th:include="component/component::musicbox"></div>
 <div class="header" th:include="component/component::header"></div>
-
+<div class="headBg">
+    <img alt="" src="" id="bg"
+         th:src="@{${article.getPicUrl().startsWith('h')?article.getPicUrl():'/'+article.getPicUrl()}}"/>
+</div>
 <div class="whole" style="margin-left: 150px">
-    <div class="headBg">
-        <img alt="" src="" id="bg"
-             th:src="@{${article.getPicUrl().startsWith('h')?article.getPicUrl():'/'+article.getPicUrl()}}"/>
-    </div>
+
     <div class="title" th:inline="text"><span class="iconfont">&#xe630;</span> [[${article.getTitle()}]]
     </div>
     <div class="author" th:inline="text"><span class="iconfont">&#xe6b3;</span> [[${article.getAuthor()}]]
@@ -307,6 +313,21 @@
     <div class="content">
         <textarea id="mytextarea" name="content1" th:utext="${article.getComment()}"></textarea>
     </div>
+<!--    <style>-->
+<!--        .content #mytextarea{-->
+<!--            width: 100%;-->
+<!--            /*height: 100%;*/-->
+<!--            border: 0;-->
+<!--            padding: 0;-->
+<!--            margin: 0;-->
+<!--            overflow: auto;-->
+<!--            /*background: #f5f5f5;*/-->
+<!--            font-size: 16px;-->
+<!--            line-height: 27px;-->
+<!--            color: #134857;-->
+<!--            /*font-family: "Microsoft YaHei";*/-->
+<!--        }-->
+<!--    </style>-->
     
     <form class="createComment" action="javascript:void(0)" style="width: 100%;height: 180px;">
         <div class="head">在此写下你的评论吧...</div>
@@ -387,7 +408,7 @@
                         icon: 'success',
                         confirmButtonText: '确定'
                     }).then(function () {
-                        // tinymce.get('mycomment').setContent('');
+                        tinymce.get('mycomment').setContent('');
                         window.location.reload();
                     })
                 }else{
@@ -462,7 +483,8 @@
                 console.log(btu);
                 //取消readonly属性
                 // 设置属性
-                btu.setAttribute("contenteditable","plaintext-only");
+                btu.setAttribute("plaintext-only","contenteditable");
+                btu.setAttribute("contenteditable",'true');
                 btu.focus();
                 var save = this.parentNode.childNodes[1];
                 save.innerHTML="<span class=\"iconfont\">&#xe8c8;</span></div>";
@@ -574,10 +596,12 @@
                 parentNode.parentNode.insertBefore(replyTemp,parentNode.nextSibling);
                 parentNode.nextSibling.style.display="block";
                 var replyEditor =parentNode.nextSibling.childNodes[1];
-                // console.log(replyEditor);
+                replyEditor.setAttribute("contenteditable",'true');
+                console.log(replyEditor);
                 replyEditor.focus();
                 var delete2 = document.getElementsByClassName("delete2")[0];
                 delete2.onclick=function () {
+                    
                     this.parentNode.parentNode.style.display="none";
                 }
                 var save2 = document.getElementsByClassName("save2")[0];

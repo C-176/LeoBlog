@@ -8,6 +8,8 @@
     <link rel="shortcut icon" th:href="@{/source/images/favicon.ico}"/>
     <link rel="stylesheet" th:href="@{/css/home.css}">
     <link rel="stylesheet" th:href="@{/css/daemon.css}">
+    <script src="https://unpkg.com/cropperjs@next"></script>
+
     
     
     <title>LeoBlog--info</title>
@@ -39,6 +41,9 @@
 </head>
 
 <body>
+
+<!--<img id="image" src="" alt="Picture">-->
+
 <div class="musicbox" th:include="component/component::musicbox"></div>
 <div class="header" th:include="component/component::header"></div>
 <div class="shell" th:include="component/component::shell"></div>
@@ -47,7 +52,12 @@
     <div class="pic">
         <img alt="" src="" th:src="@{/source/images/index/109.jpg}">
         
-        <div class="head"><img alt="" src="" th:src="@{'/'+${#session.getAttribute('user').getUserPic()}}"></div>
+        <div class="head"><img th:id="image"  alt="" src="" th:src="@{'/'+${#session.getAttribute('user').getUserPic()}}"></div>
+        <script>
+            import Cropper from 'cropperjs';
+            const cropper = new Cropper('#image');
+    
+        </script>
         <div class="head" style="display: none">
             <label class="UploadPicture-wrapper css-1kx6s1g">
                 <input accept=".jpeg, .jpg, .png" class="UploadPicture-input" id="picUrl" style="display: none"
@@ -177,9 +187,7 @@
     var changeBtu = document.getElementsByClassName("change")[0];
     
     var modeChange = function (mode) {
-        console.log("modeChange");
         if (changeBtu.textContent=="修改"){
-            console.log("修改");
             changeBtu.textContent="保存";
             var inputs = document.getElementsByTagName("input");
             for (let i = 0; i < inputs.length; i++) {

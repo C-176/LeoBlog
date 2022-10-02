@@ -1,5 +1,6 @@
 package com.chen.LeoBlog.utils;
 
+import cn.hutool.core.util.StrUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Base64;
@@ -14,7 +15,7 @@ public class UserIDBase64 {
      * @return
      */
     public static Integer decoderUserID(String encodedUserID) {
-        if (StringUtils.isBlank(encodedUserID)) {
+        if (StrUtil.isBlank(encodedUserID)) {
             return null;
         }
         try {

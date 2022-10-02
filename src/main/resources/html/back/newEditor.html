@@ -25,7 +25,7 @@
         <input name="articleId" th:value=0 type="hidden">
         
         <label th:if="${article==null}">
-            <input class="title" name="title" placeholder="标题" required type="text" autocomplete="off">
+            <input class="title" name="title" placeholder="标题" required type="text" autocomplete="off" autofocus>
             <input checked class="radio" name="original" type="radio" value="1">原创
             <input class="radio" name="original" type="radio" value="0">搬运
         </label>
@@ -102,37 +102,14 @@
                         autosave_retention: "10m",
                         pagebreak_split_block: true,
                         autoresize_on_init: false,
-                        autoresize_overflow_padding: 5,
+                        autoresize_overflow_padding: 10,
                         // statusbar: false,  // 状态栏显示
                         content_css_cors: true,
                         content_css: '/LeoBlog/css/editor_font.css',
                         convert_urls: false,
                         images_upload_url: '/LeoBlog/imageUpload',  // 此参数用于指定一个接受上传文件的后端处理程序地址
-                        // images_upload_base_path: '/LeoBlog/', // 如果返回的地址是相对路径，还有一个参数images_upload_base_path，可以给相对路径指定它所相对的基本路径。
-                        // images_upload_handler: function (blobInfo, succFun, failFun) {
-                        //     var xhr, formData;
-                        //     var file = blobInfo.blob();//转化为易于理解的file对象
-                        //     xhr = new XMLHttpRequest();
-                        //     xhr.withCredentials = false;
-                        //     xhr.open('POST', '/demo/upimg.php');
-                        //     xhr.onload = function() {
-                        //         var json;
-                        //         if (xhr.status != 200) {
-                        //             failFun('HTTP Error: ' + xhr.status);
-                        //             return;
-                        //         }
-                        //         json = JSON.parse(xhr.responseText);
-                        //         if (!json || typeof json.location != 'string') {
-                        //             failFun('Invalid JSON: ' + xhr.responseText);
-                        //             return;
-                        //         }
-                        //         succFun(json.location);
-                        //     };
-                        //     formData = new FormData();
-                        //     formData.set('file', file, file.name );//此处与源文档不一样
-                        //     xhr.send(formData);
-                        // },
-                        placeholder: '请输入内容',
+                        
+                        placeholder: '',
                         images_reuse_filename: true,
                         auto_focus: true,
                         contextmenu_never_use_native: true,

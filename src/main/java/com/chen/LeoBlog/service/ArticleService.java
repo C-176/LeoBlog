@@ -1,5 +1,6 @@
 package com.chen.LeoBlog.service;
 
+import cn.hutool.core.date.DateUtil;
 import com.chen.LeoBlog.dao.ArticleDao;
 import com.chen.LeoBlog.po.Article;
 import com.chen.LeoBlog.po.Comment;
@@ -8,14 +9,19 @@ import com.chen.LeoBlog.po.User;
 import com.chen.LeoBlog.utils.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
+//@Transactional
 public class ArticleService {
     @Autowired
     private ArticleDao articleDao;
@@ -57,8 +63,7 @@ public class ArticleService {
     public ModelAndView showAllArticles(ModelAndView modelAndView) {
         ArrayList<Article> allArticle = getAllArticle();
         modelAndView.addObject("articleList", allArticle);
-//        modelAndView.addObject("user", session.getAttribute("user"));
-        modelAndView.setViewName("forward/article");
+        modelAndView.setViewName("/forward/article");
         return modelAndView;
     }
 
@@ -67,7 +72,7 @@ public class ArticleService {
         ArrayList<Article> allArticle = getArticleByUserId(userId);
         modelAndView.addObject("myArticles", allArticle);
 
-        modelAndView.setViewName("back/article");
+        modelAndView.setViewName("/back/article");
         return modelAndView;
     }
 
@@ -77,59 +82,56 @@ public class ArticleService {
         modelAndView.addObject("articleList", articleByKeyword);
         modelAndView.addObject("user", session.getAttribute("user"));
 
-        modelAndView.setViewName("forward/article");
+        modelAndView.setViewName("/forward/article");
         return modelAndView;
     }
 
-    public ModelAndView showArticle(ModelAndView modelAndView, Integer articleId, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView showArticle(ModelAndView modelAndView, Integer articleId) {
 
         Article article = getArticleById(articleId);
         Script script = scriptService.getScriptById(articleId);
         if (article == null && script != null) {
-            String format = Util.timeFormat(script.getChangedTime());
+            String format = DateUtil.formatDateTime(script.getChangedTime());
+//            String format = Util.timeFormat(script.getChangedTime());
             modelAndView.addObject("article", script);
             modelAndView.addObject("user", userService.getUserById(script.getUserId()));
             modelAndView.addObject("timeFormat", format);
         } else if (article != null) {
-            String format = Util.timeFormat(article.getChangedTime());
+            String format = DateUtil.formatDateTime(article.getChangedTime());
             modelAndView.addObject("article", article);
             modelAndView.addObject("user", userService.getUserById(article.getUserId()));
             modelAndView.addObject("timeFormat", format);
         }
-        System.out.println("===================article=======================");
         //一级评论
         ArrayList<Comment> oneLevelComments = commentService.getOneLevelCommentsByArticleId(articleId);
         //一级评论者
-        ArrayList<User> oneLevelSenders = new ArrayList<>();
-        for (Comment comment1 : oneLevelComments) {
-            oneLevelSenders.add(userService.getUserById(comment1.getSenderId()));
-        }
+        List<User> oneLevelSenders = oneLevelComments.stream().map(s -> userService.getUserById(s.getSenderId())).collect(Collectors.toList());
+
         //二级评论
-        ArrayList<ArrayList<Comment>> twoLevelComments = new ArrayList<>(oneLevelComments.size());
-        ArrayList<ArrayList<User>> twoLevelSenders = new ArrayList<>(oneLevelComments.size());
+        ArrayList<List<Comment>> twoLevelComments = new ArrayList<>(oneLevelComments.size());
+        ArrayList<List<User>> twoLevelSenders = new ArrayList<>(oneLevelComments.size());
         for (Comment comment:oneLevelComments){
             //根据一级标题的id获取二级评论
-            ArrayList<Comment> commentsByToId = commentService.getCommentsByToId(comment.getCommentId());
+            List<Comment> commentsByToId = commentService.getCommentsByToId(comment.getCommentId());
             //二级评论者
-            ArrayList<User> sendersByToId = new ArrayList<>();
-            for (Comment comment1 : commentsByToId) {
-                sendersByToId.add(userService.getUserById(comment1.getSenderId()));
-            }
-            twoLevelSenders.add(sendersByToId);
+            List<User> sendersByToId = commentsByToId.stream().map(s -> userService.getUserById(s.getSenderId())).collect(Collectors.toList());
 
-            if (commentsByToId.size()!=0){
-                twoLevelComments.add(commentsByToId);
-            }else{
-                twoLevelComments.add(new ArrayList<>());
-            }
+            twoLevelSenders.add(sendersByToId);
+            twoLevelComments.add(commentsByToId.size() == 0 ? new ArrayList<>() : commentsByToId);
+
         }
-        System.out.println("===================comment=======================");
+
         modelAndView.addObject("oneLevelComments", oneLevelComments);
         modelAndView.addObject("oneLevelSenders", oneLevelSenders);
         modelAndView.addObject("twoLevelComments", twoLevelComments);
         modelAndView.addObject("twoLevelSenders", twoLevelSenders);
-        System.out.println(oneLevelComments.size()+" "+oneLevelSenders.size()+" "+twoLevelComments.size()+" "+twoLevelSenders.size());
-        modelAndView.setViewName("forward/showArticle");
+//        System.out.println(oneLevelComments.size()+" "+oneLevelSenders.size()+" "+twoLevelComments.size()+" "+twoLevelSenders.size());
+        modelAndView.setViewName("/forward/showArticle");
+
+
+
+
+
         return modelAndView;
     }
 }

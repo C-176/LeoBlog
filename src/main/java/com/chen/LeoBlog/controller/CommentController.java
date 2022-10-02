@@ -50,45 +50,28 @@ public class CommentController {
         int i = commentService.insertComment(comment);
         AssertUtil.isTrue(i==0,"评论失败");
 
-        resultInfo.setMsg("评论成功");
-        resultInfo.setCode(200);
-        return resultInfo;
+
+        return new ResultInfo(200,"评论成功");
 
 
-    }
-
-    @RequestMapping("/getOneLevelCommentsByArticleId0")
-    @ResponseBody
-    public Comment get1(int articleId) {
-        Comment comment = commentService.getOneLevelCommentsByArticleId0(articleId).get(0);
-        return comment;
-    }
-
-    @RequestMapping("/getOneLevelCommentsByArticleId")
-    @ResponseBody
-    public Comment get(int articleId) {
-        Comment comment = commentService.getOneLevelCommentsByArticleId(articleId).get(0);
-        return comment;
     }
 
     @DeleteMapping("/comment/{commentId}")
     @ResponseBody
     public ResultInfo deleteComment(@PathVariable int commentId,HttpServletRequest request) {
-        ResultInfo resultInfo = new ResultInfo();
+
         int i = commentService.deleteComment(commentId);
         AssertUtil.isTrue(i==0,"删除失败");
-        resultInfo.setMsg("删除成功");
-        resultInfo.setCode(200);
-        return resultInfo;
+
+        return new ResultInfo(200,"删除成功");
     }
     @PutMapping("/comment/{commentId}/change")
     @ResponseBody
     public ResultInfo changeComment(@PathVariable Integer commentId,String commentContent){
-        ResultInfo resultInfo = new ResultInfo();
+
         int i = commentService.changeComment(commentContent,commentId,new Date());
-        AssertUtil.isTrue(i==0,"评论修改失败");
-        resultInfo.setCode(200);
-        resultInfo.setMsg("评论修改成功");
-        return resultInfo;
+        AssertUtil.isTrue(i==0,"修改失败");
+
+        return new ResultInfo(200,"修改成功");
     }
 }

@@ -60,7 +60,7 @@
 </script>
 
 <!--header-->
-<div class="headerInsert" th:insert="component/component::header"></div>
+<div class="header" th:include="component/component::header"></div>
 <!--whole-->
 <div class="whole">
     <!--      头部滚动图-->
@@ -76,6 +76,28 @@
     </div>
     <!--      文章展示-->
     <div class="Article" th:each="article:${articleList}">
+<!--        <script th:inline="javascript">-->
+<!--            var article = document.getElementsByClassName("Article")[0];-->
+<!--            article.onclick = function(){-->
+<!--                var xhr = new XMLHttpRequest();-->
+<!--                xhr.open("GET", "/LeoBlog/article/654064440");-->
+<!--                xhr.send();-->
+<!--                xhr.onreadystatechange = function () {-->
+<!--                    var response = xhr.responseText;-->
+<!--                    // var code = response.code-->
+<!--                    // var msg = response.msg;-->
+<!--                    if (xhr.readyState == 4 && xhr.status == 200) {-->
+<!--                        // 将response中的body替换到页面-->
+<!--                        var body = document.getElementsByTagName("body")[0];-->
+<!--                        body.innerHTML = response;-->
+<!--                        -->
+<!--                        -->
+<!--                        -->
+<!--                    }-->
+<!--                }-->
+<!--            }-->
+<!--            -->
+<!--        </script>-->
         <div class="img">
             <img alt="" src=""
                  th:src="@{${article.getPicUrl().startsWith('h')?article.getPicUrl():'/'+article.getPicUrl()}}"/>
@@ -95,7 +117,7 @@
 <script th:inline="javascript">
     
     const random = [[${randomList}]];
-    console.log(random);
+    // console.log(random);
     let b = document.querySelector(".b")
     let d = document.getElementsByClassName("d")
     
@@ -150,7 +172,7 @@
             
             Toast.fire({
                 icon: 'success',
-                title: 'Signed in successfully'
+                title: '登陆成功'
             })
             // 写入path为/的cookie
             document.cookie = "loginOrRegister=true;path=/";
@@ -160,9 +182,9 @@
     }
 </script>
 
-<div class="musicInsert" th:insert="component/component::musicbox"></div>
-<div class="rightInsert" th:insert="component/component::rightSelf"></div>
-<div class="footInsert" th:insert="component/component::foot"></div>
+<div class="musicbox" th:include="component/component::musicbox"></div>
+<div class="rightSelf" th:include="component/component::rightSelf"></div>
+<div class="foot" th:include="component/component::foot"></div>
 
 </body>
 

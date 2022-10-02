@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<!--    <script src="https://unpkg.com/cropperjs@next"></script>-->
+    <link rel="stylesheet" href="https://unpkg.com/cropperjs/dist/cropper.css">
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+    <script src="https://unpkg.com/cropperjs/dist/cropper.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            max-width: 750px;
+            margin: 0 auto;
+        }
+        .upload-box {
+            width: 100%;
+            overflow: hidden;
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+        }
+        .upload-img-box {
+            width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .upload-img-box img {
+            width: 100%;
+        }
+        .upload-btn {
+            width: 80%;
+            margin: 0 auto;
+            overflow: hidden;
+            text-align: center;
+        }
+        .btn-box {
+            width: 120px;
+            background: #2DCEC2;
+            line-height: 35px;
+            text-align: center;
+            color: #fff;
+            border-radius:5px;
+            border:none;
+            outline-style: none;
+        }
+        .module-cropper {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0,0,0,.8);
+        }
+        #cropperImg {
+            max-width: 100%;
+        }
+        .module-cropper-content {
+            width: 90%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+        }
+        .module-cropper-bg {
+            width: 100%;
+            height: 80vh;
+            overflow: hidden;
+            position: relative;
+        }
+        .cropper-img-box {
+            position: relative;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            /* width: 100%; */
+        }
+        .module-cropper-btn {
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 5vh;
+        }
+        .module-cropper-btn span {
+            color: #fff;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+<script>
+    
+    // 调起input（相机图片）事件
+    $(".btn-box").click(function(){
+        $('#select-box').click()
+    })
+    // input事件
+    $('#select-box').on('change',function(e){
+        let file = e.target.files[0];
+        let reader = new FileReader();
+        reader.onload = function(evt) {
+            let replaceSrc = evt.target.result;
+            // 更换cropper的图片
+            cropper.replace(replaceSrc, false);
+        }
+        reader.readAsDataURL(file);
+        $(".module-cropper").show();
+    })
+    
+    // 取消弹窗
+    function cancelCropper(){
+        $(".module-cropper").hide();
+    }
+    // 旋转图片
+    function rotateCropper(){
+        cropper.rotate(90);
+    }
+    // 图片选择完成
+    function cropperSucess(){
+        let baseSrc = cropper.getCroppedCanvas().toDataURL('d.jpeg', 0.7);
+        //console.log(baseSrc); // base64格式
+        $(".module-cropper").hide();
+        $(".upload-img-box").find("img").attr("src",baseSrc)
+    }
+    
+    const image = document.getElementById('cropperImg');// 包装图像或画布元素
+    let options = {
+    aspectRatio: 16 / 9, // 裁剪框的宽高比,默认NAN,可以随意改变裁剪框的宽高比
+    viewMode:0,  // 0,1,2,3
+    dragMode:'move', // 'crop': 可以产生一个新的裁剪框 'move': 只可以移动 'none': 什么也不处理
+    // preview:".small",  // 添加额外的元素(容器)以供预览
+    responsive:true, //在调整窗口大小的时候重新渲染cropper,默认为true
+    restore:true, // 调整窗口大小后恢复裁剪的区域。
+    checkCrossOrigin:true, //检查当前图像是否为跨域图像,默认为true
+    modal:true, // 显示图片上方的黑色模态并在裁剪框下面，默认为true
+    guides:false, // 显示在裁剪框里面的虚线，默认为true
+    center:true, // 裁剪框在图片正中心，默认为true
+    highlight:true, // 在裁剪框上方显示白色的区域,默认为true
+    background:false, // 显示容器的网格背景(即马赛克背景)，默认为true，若为false，这不显示
+    autoCrop:true, // 当初始化时，显示裁剪框，改成false裁剪框消失需要你重绘裁剪区域，默认为true
+    autoCropArea:0.8, // 定义自动裁剪面积大小(百分比)和图片进行对比，默认为0.8
+    movable:true, // 是否允许可以移动后面的图片，默认为true（但是如果dragMode为crop，由于和重绘裁剪框冲突，所以移动图片会失效）
+    rotatable:true, // 是否允许旋转图像,默认为true
+    scalable:true, // 是否允许缩放图像，默认为true
+    zoomable:true, // 是否允许放大图像，默认为true
+    zoomOnTouch:true, // 是否可以通过拖动触摸来放大图像，默认为true
+    wheelZoomRatio:0.1, // 用鼠标移动图像时，定义缩放比例,默认0.1
+    cropBoxMovable:true, // 是否通过拖拽来移动剪裁框，默认为true
+    cropBoxResizable:true, // 是否通过拖动来调整剪裁框的大小，默认为true
+    toggleDragModeOnDblclick:true, // 当点击两次时可以在“crop”和“move”之间切换拖拽模式，默认为true
+    crop: function(event) {
+    
+    }
+    }
+    let cropper = new Cropper(image,options); // 初始化cropper对象
+</script>
+    <div class="upload-box">
+        <!-- 回显上传图片 -->
+        <div class="upload-img-box">
+            <img src="dogBg.jpeg" alt="">
+        </div>
+        <div class="upload-btn">
+            <button type="button" class="btn-box">相机(图片)</button>
+            <input id="select-box" type="file" style="display: none;" />
+        </div>
+    </div>
+    <!-- 裁剪图片弹窗 -->
+    <div class="module-cropper" style="display: none;">
+        <div class="module-cropper-content">
+            <div class="module-cropper-bg">
+                <!-- 包装图像或画布元素 -->
+                <div class="cropper-img-box">
+                    <img id="cropperImg" src="dogBg.jpeg" />
+                </div>
+            </div>
+            <div class="module-cropper-btn">
+                <span onclick="cancelCropper()">取消</span>
+                <span onclick="rotateCropper()">旋转</span>
+                <span onclick="cropperSucess()">完成</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

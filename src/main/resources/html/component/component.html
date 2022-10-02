@@ -16,12 +16,12 @@
     <a href="https://www.volf.club/"><span class="iconfont">&#xec46;</span> 导航</a>
     <div class="msg">
         <a th:href="@{/msg}"><span class="iconfont">&#xe607;</span></a>
-        <a th:href="@{/comment}"><span class="iconfont">&#xe6ff;</span></a>
+        <a th:href="@{'/chat/'+${#session.getAttribute('user').getUserId()}}"><span class="iconfont">&#xe6ff;</span></a>
     </div>
     
     <div class="search">
         <form action="javascript:void(0)">
-            <input class="searchInput" name="keywords" type="text" autocomplete="off">
+            <input class="searchInput" name="keywords" type="text" autocomplete="off" value="  ">
             <button class="searchImg">
                 <span class="iconfont">&#xe644;</span>
             </button>
@@ -37,7 +37,7 @@
         var form = document.querySelector('.search form');
         var searchInput = document.getElementsByClassName("searchInput")[0];
         searchBtu.onclick = function () {
-            window.location.href = "/LeoBlog/articles/publish/" + searchInput.value;
+            window.location.href = "/LeoBlog/articles/publish/" + searchInput.value.trim();
         }
         
         
@@ -478,8 +478,8 @@
     <a class="box" th:href="@{'/pictures/mine/'+${#session.getAttribute('user').getUserId()}}"><i class="iconfont"><span
             class="iconfont">&#xe8d3;</span></i><span>图片</span></a>
     <a class="box" href="#"><i class="iconfont"><span class="iconfont">&#xe642;</span></i><span>QR码</span></a>
-    <a class="box" href="#"><i class="iconfont"><span class="iconfont">&#xe642;</span></i><span>安全</span></a>
-    <a class="box" href="#"><i class="iconfont"><span class="iconfont">&#xe642;</span></i><span>导航</span></a>
+    <a class="box" th:href="@{'/security/'+${#session.getAttribute('user').getUserId()}}"><i class="iconfont"><span class="iconfont">&#xe603;</span></i><span>安全</span></a>
+    <a class="box" href="#"><i class="iconfont"><span class="iconfont">&#xe636;</span></i><span>后台</span></a>
 </div>
 
 <!--foot-->
